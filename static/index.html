@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SMRITI - Heritage Capture</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <main class="container">
+        <h1>SMRITI</h1>
+
+        <p class="subtitle">
+            The Living Heritage Network
+        </p>
+
+        <h2>Capture a Tradition</h2>
+
+        <p>
+            Upload an audio recording of an artisan
+            or storyteller to generate a transcript.
+        </p>
+
+        <input
+            type="file"
+            id="audio"
+            accept=".mp3,.wav,.webm,.m4a,.mp4"
+        >
+
+        <button id="uploadBtn">
+            Transcribe Recording
+        </button>
+
+        <p id="status"></p>
+
+        <section class="result">
+            <h3>Transcript</h3>
+            <p id="transcript">
+                Your transcript will appear here.
+            </p>
+        </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

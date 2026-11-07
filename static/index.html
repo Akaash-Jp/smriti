@@ -31,9 +31,10 @@
 
         <nav class="site-nav" id="siteNav" aria-label="Main navigation">
             <a class="nav-link active" href="#home">Home</a>
-            <a class="nav-link" href="#explore">Explore</a>
+            <a class="nav-link" href="/explore">Explore</a>
             <a class="nav-link" href="#contribute">Contribute</a>
-            <a class="nav-link nav-cta" href="#explore">Begin the journey <span aria-hidden="true">→</span></a>
+            <a class="nav-link" href="/contributions">My contributions</a>
+            <a class="nav-link nav-cta" id="accountNav" href="/account">Sign in <span aria-hidden="true">→</span></a>
         </nav>
     </header>
 
@@ -143,7 +144,7 @@
                             <h3>Traditional Medicine</h3>
                             <p>Ayurveda, Siddha, Unani, and community knowledge.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Traditional Medicine" aria-label="Explore Traditional Medicine">→</button>
+                        <a class="round-link" href="/explore/techniques" aria-label="Explore Traditional Medicine">→</a>
                     </div>
                 </article>
 
@@ -155,7 +156,7 @@
                             <h3>Monuments</h3>
                             <p>Temples, forts, palaces, and architectural wonders.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Monuments" aria-label="Explore Monuments">→</button>
+                        <a class="round-link" href="/explore/architecture" aria-label="Explore Monuments">→</a>
                     </div>
                 </article>
 
@@ -167,7 +168,7 @@
                             <h3>Ancient Texts</h3>
                             <p>Manuscripts, inscriptions, philosophies, and oral knowledge.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Ancient Texts" aria-label="Explore Ancient Texts">→</button>
+                        <a class="round-link" href="/explore/languages" aria-label="Explore Ancient Texts">→</a>
                     </div>
                 </article>
 
@@ -179,7 +180,7 @@
                             <h3>Culture</h3>
                             <p>Festivals, music, dance, theatre, craft, and ritual.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Culture" aria-label="Explore Culture">→</button>
+                        <a class="round-link" href="/explore/festivals" aria-label="Explore Culture">→</a>
                     </div>
                 </article>
 
@@ -191,7 +192,7 @@
                             <h3>Lifestyle</h3>
                             <p>Food, clothing, village life, occupations, and everyday practice.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Lifestyle" aria-label="Explore Lifestyle">→</button>
+                        <a class="round-link" href="/explore/food" aria-label="Explore Lifestyle">→</a>
                     </div>
                 </article>
 
@@ -203,7 +204,7 @@
                             <h3>Civilisations</h3>
                             <p>People, ideas, dynasties, trade routes, and shared histories.</p>
                         </div>
-                        <button class="round-link" type="button" data-category="Civilisations" aria-label="Explore Civilisations">→</button>
+                        <a class="round-link" href="/explore/history" aria-label="Explore Civilisations">→</a>
                     </div>
                 </article>
             </div>
@@ -276,7 +277,23 @@
 
                     <section class="transcript-result" id="resultPanel" aria-labelledby="transcriptTitle">
                         <h3 id="transcriptTitle">Transcript</h3>
-                        <p id="transcript">Your transcript will appear here.</p>
+                        <textarea id="transcript" rows="7" placeholder="Your transcript will appear here."></textarea>
+                        <button class="button button-secondary guide-button" id="generateGuideBtn" type="button">Generate step-by-step guide</button>
+                        <p class="ai-note">AI-generated content may contain errors. Review and correct the guide before submitting.</p>
+                        <div class="guide-editor" id="guideEditor" hidden>
+                            <p class="account-note" id="accountNote">Sign in before saving so this guide belongs to you.</p>
+                            <label>Guide title<input id="guideTitle" type="text"></label>
+                            <label>Introduction<textarea id="guideIntroduction" rows="3"></textarea></label>
+                            <div class="guide-fields"><label>Topic<select id="guideTopic"></select></label><label>Region<input id="guideRegion" type="text"></label></div>
+                            <div class="guide-fields"><label>Materials (one per line)<textarea id="guideMaterials" rows="4" placeholder="Silk thread — 2 bundles"></textarea></label><label>Tools (one per line)<textarea id="guideTools" rows="4" placeholder="Handloom"></textarea></label></div>
+                            <label>Cultural significance<textarea id="guideSignificance" rows="3"></textarea></label>
+                            <h4>Steps</h4><div id="guideSteps"></div>
+                            <button class="button button-secondary" id="addStepBtn" type="button">Add step</button>
+                            <div class="guide-fields"><label>Attribution name<input id="guideAttribution" type="text"></label><label><input id="guideConsent" type="checkbox"> I have permission to publish this contribution</label></div>
+                            <button class="button button-primary" id="saveGuideBtn" type="button">Save draft</button>
+                            <button class="button button-primary" id="submitGuideBtn" type="button">Submit for review</button>
+                            <p class="status-text" id="guideStatus" aria-live="polite"></p>
+                        </div>
                     </section>
                 </div>
             </div>

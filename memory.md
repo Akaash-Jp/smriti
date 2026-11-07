@@ -62,3 +62,26 @@ This file records the major project changes and decisions so future work stays c
 - Replaced the Taj Mahal on the Civilisations card with Hampi architecture to better match the category's ancient-history focus.
 - Kept all images inside `static/assets` so the website still works without loading photographs from external websites.
 - Added clear photographer and licence credits in the footer for Unsplash and Wikimedia Commons sources.
+
+## 7 November 2026 — Working Contribution and Approval Journey
+
+- Connected the previously separate API pieces to real visitor-facing pages.
+- Added contributor registration and sign-in at `/account` using Flask's signed session cookie instead of an editable user-ID cookie.
+- Added `/contributions` so contributors can see drafts, pending reviews, requested changes, administrator feedback, and published work.
+- Added reopening and updating for drafts and guides returned with requested changes.
+- Added all 10 required data-driven topic pages with separate Curated and Community tabs.
+- Kept Curated honest and empty; only administrator-approved Community guides are shown publicly.
+- Added `/admin` with a protected review queue, approval, required change feedback, and review-history records.
+- Added public guide pages that include materials, tools, steps, context, cultural significance, and optional attribution.
+- Added same-origin protection for browser requests that change data and escaped community text before displaying it.
+- Fixed submission so a failed approval request is shown as an error rather than incorrectly claiming success.
+- Added an automated end-to-end workflow test using a temporary SQLite database.
+
+## 7 November 2026 — Simplified Local Admin and Explore Navigation
+
+- Added a localhost-only administrator shortcut: enter `admin` as the account name and leave the password empty.
+- Kept the shortcut unavailable to other computers, even if the development server is visible on a local network.
+- Renamed visitor-facing Topics navigation to Explore while keeping old `/topics` links working for compatibility.
+- Connected every landing-page heritage card to a real Explore collection and made each full card clickable.
+- Reorganized Explore around the six landing groups: Traditional Medicine, Monuments, Ancient Texts, Culture, Lifestyle, and Civilisations.
+- Nested the 10 detailed database collections under those six familiar groups so the archive remains precise without feeling confusing.

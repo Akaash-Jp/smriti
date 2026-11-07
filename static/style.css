@@ -574,6 +574,7 @@ label:focus-within {
 }
 
 .heritage-card {
+    position: relative;
     overflow: hidden;
     background: #161c18;
     border: 1px solid var(--line);
@@ -644,6 +645,13 @@ label:focus-within {
     border-radius: 50%;
     cursor: pointer;
     transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+/* The arrow is visible, but this invisible area makes the whole card clickable. */
+.round-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
 }
 
 .round-link:hover {
@@ -1017,6 +1025,27 @@ label:focus-within {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+#transcript,
+.guide-editor input,
+.guide-editor textarea,
+.guide-editor select {
+    width: 100%;
+    padding: 12px;
+    color: var(--cream);
+    background: rgba(5, 8, 6, 0.72);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+.guide-button { margin-top: 16px; }
+.ai-note { color: var(--cream-muted); font-size: 12px; }
+.guide-editor { display: grid; gap: 14px; margin-top: 18px; }
+.guide-editor label { display: grid; gap: 6px; color: var(--cream-muted); font-size: 12px; }
+.guide-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.guide-editor h4 { margin: 6px 0 0; color: var(--gold); font-family: Georgia, serif; }
+.guide-step { padding: 12px; border: 1px solid var(--line); border-radius: 10px; display: grid; gap: 8px; margin-bottom: 10px; }
+.guide-step button { width: fit-content; color: #ffb1a8; background: transparent; border: 0; cursor: pointer; }
 
 /* --------------------------------------------------
    8. Footer and small feedback message

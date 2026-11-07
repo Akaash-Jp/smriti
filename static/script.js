@@ -18,6 +18,25 @@ const fileLabel = document.getElementById("fileLabel");
 const statusText = document.getElementById("status");
 const resultPanel = document.getElementById("resultPanel");
 const transcriptText = document.getElementById("transcript");
+const generateGuideBtn = document.getElementById("generateGuideBtn");
+const guideEditor = document.getElementById("guideEditor");
+const guideStatus = document.getElementById("guideStatus");
+const guideTitle = document.getElementById("guideTitle");
+const guideIntroduction = document.getElementById("guideIntroduction");
+const guideTopic = document.getElementById("guideTopic");
+const guideRegion = document.getElementById("guideRegion");
+const guideMaterials = document.getElementById("guideMaterials");
+const guideTools = document.getElementById("guideTools");
+const guideSignificance = document.getElementById("guideSignificance");
+const guideSteps = document.getElementById("guideSteps");
+const addStepBtn = document.getElementById("addStepBtn");
+const guideAttribution = document.getElementById("guideAttribution");
+const guideConsent = document.getElementById("guideConsent");
+const saveGuideBtn = document.getElementById("saveGuideBtn");
+const submitGuideBtn = document.getElementById("submitGuideBtn");
+let currentGuide = null;
+let currentContributionId = null;
+let signedInUser = null;
 
 const recordButton = document.getElementById("recordButton");
 const stopButton = document.getElementById("stopButton");
@@ -445,7 +464,7 @@ uploadBtn.addEventListener("click", async () => {
             throw new Error(data.error || "The request could not be completed.");
         }
 
-        transcriptText.textContent = data.transcript;
+        transcriptText.value = data.transcript;
         statusText.textContent = "Transcription complete.";
         resultPanel.classList.add("visible");
     } catch (error) {
@@ -454,6 +473,64 @@ uploadBtn.addEventListener("click", async () => {
         uploadBtn.disabled = false;
     }
 });
+
+async function loadTopics() {
+    const response = await fetch("/api/topics");
+    const data = await response.json();
+    guideTopic.innerHTML = data.topics.map((topic) => `<option value="${topic.slug}">${topic.name}</option>`).join("");
+}
+
+function renderGuideSteps() {
+    // Build form fields as elements so transcript text can never become executable HTML.
+    guideSteps.replaceChildren();
+    (currentGuide.steps || []).forEach((step, index) => {
+        const box = document.createElement("div"); box.className = "guide-step";
+        const heading = document.createElement("strong"); heading.textContent = `Step ${index + 1}`;
+        const title = document.createElement("input"); title.dataset.field = "title"; title.value = step.title || "";
+        const description = document.createElement("textarea"); description.dataset.field = "description"; description.rows = 3; description.value = step.description || "";
+        const tip = document.createElement("input"); tip.dataset.field = "tip"; tip.placeholder = "Tip (optional)"; tip.value = step.tip || "";
+        const remove = document.createElement("button"); remove.type = "button"; remove.dataset.removeStep = index; remove.textContent = "Remove step";
+        box.append(heading, title, description, tip, remove); guideSteps.append(box);
+    });
+    guideSteps.querySelectorAll("[data-remove-step]").forEach((button) => button.addEventListener("click", () => { currentGuide.steps.splice(Number(button.dataset.removeStep), 1); renderGuideSteps(); }));
+}
+
+generateGuideBtn.addEventListener("click", async () => {
+    generateGuideBtn.disabled = true; guideStatus.textContent = "Generating guide…";
+    try {
+        const response = await fetch("/api/generate-guide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript: transcriptText.value }) });
+        const data = await response.json(); if (!response.ok) throw new Error(data.error);
+        currentGuide = data.guide; guideEditor.hidden = false; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(item => `${item.name || ""}${item.quantity ? ` — ${item.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; await loadTopics(); guideTopic.value = currentGuide.suggested_topic_slug || "food"; renderGuideSteps(); guideStatus.textContent = "Guide ready for review.";
+    } catch (error) { guideStatus.textContent = error.message; } finally { generateGuideBtn.disabled = false; }
+});
+
+addStepBtn.addEventListener("click", () => { currentGuide.steps.push({ title: "", description: "", tip: "", warning: "" }); renderGuideSteps(); });
+
+function collectGuide() {
+    currentGuide.title = guideTitle.value.trim(); currentGuide.introduction = guideIntroduction.value.trim(); currentGuide.region = guideRegion.value.trim(); currentGuide.materials = guideMaterials.value.split("\n").map(line => line.trim()).filter(Boolean).map(line => { const parts = line.split(/\s+[—-]\s+/); return { name: parts[0], quantity: parts.slice(1).join(" — ") }; }); currentGuide.tools = guideTools.value.split("\n").map(line => line.trim()).filter(Boolean); currentGuide.cultural_significance = guideSignificance.value.trim(); currentGuide.steps = [...guideSteps.querySelectorAll(".guide-step")].map((box, index) => ({ number: index + 1, title: box.querySelector('[data-field="title"]').value, description: box.querySelector('[data-field="description"]').value, tip: box.querySelector('[data-field="tip"]').value, warning: "" }));
+    return currentGuide;
+}
+
+async function saveGuide(submit = false) {
+    collectGuide(); guideStatus.textContent = submit ? "Submitting…" : "Saving draft…";
+    try {
+        if (!signedInUser) { location.href = `/account?next=${encodeURIComponent(location.pathname + location.search + "#contribute")}`; return; }
+        const payload = { title: currentGuide.title, guide: currentGuide, transcript: transcriptText.value, topic_slug: guideTopic.value, attribution: guideAttribution.value, consent: guideConsent.checked };
+        const saveUrl = currentContributionId ? `/api/contributions/${currentContributionId}` : "/api/contributions";
+        const response = await fetch(saveUrl, { method: currentContributionId ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const saved = await response.json(); if (!response.ok) throw new Error(saved.error);
+        currentContributionId = saved.id;
+        if (submit) {
+            const submitResponse = await fetch(`/api/contributions/${saved.id}/submit`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+            const submitted = await submitResponse.json();
+            if (!submitResponse.ok) throw new Error(submitted.error);
+        }
+        guideStatus.textContent = submit ? "Submitted for administrator review." : "Draft saved.";
+        if (submit) setTimeout(() => { location.href = "/contributions"; }, 900);
+    } catch (error) { guideStatus.textContent = error.message; }
+}
+
+saveGuideBtn.addEventListener("click", () => saveGuide(false)); submitGuideBtn.addEventListener("click", () => saveGuide(true));
 
 // --------------------------------------------------
 // 10. Stop microphone access if the visitor leaves while recording.
@@ -466,6 +543,29 @@ window.addEventListener("beforeunload", stopMicrophoneStream);
 checkRecorderAvailability();
 
 // --------------------------------------------------
-// 12. Keep the footer year current without manual editing.
+// 12. Show account state and reopen an editable draft when requested.
+// --------------------------------------------------
+async function prepareContributionAccount() {
+    try {
+        const response = await fetch("/api/auth/me");
+        const data = await response.json(); signedInUser = data.user;
+        const accountNav = document.getElementById("accountNav");
+        const accountNote = document.getElementById("accountNote");
+        if (signedInUser) { accountNav.textContent = "My archive →"; accountNav.href = "/contributions"; accountNote.textContent = `Signed in as ${signedInUser.email}`; }
+        const editId = new URLSearchParams(location.search).get("edit");
+        if (!editId) return;
+        if (!signedInUser) { location.href = `/account?next=${encodeURIComponent(location.pathname + location.search + "#contribute")}`; return; }
+        const editResponse = await fetch(`/api/contributions/${editId}`); const editData = await editResponse.json();
+        if (!editResponse.ok) throw new Error(editData.error);
+        const item = editData.contribution; currentContributionId = item.id; currentGuide = item.guide;
+        transcriptText.value = item.transcript; guideTitle.value = item.title; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = item.attribution || ""; guideConsent.checked = item.consent;
+        await loadTopics(); guideTopic.value = item.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; guideStatus.textContent = item.admin_feedback || "Draft reopened for editing.";
+        document.getElementById("contribute").scrollIntoView();
+    } catch (error) { guideStatus.textContent = error.message; }
+}
+prepareContributionAccount();
+
+// --------------------------------------------------
+// 13. Keep the footer year current without manual editing.
 // --------------------------------------------------
 document.getElementById("currentYear").textContent = new Date().getFullYear();

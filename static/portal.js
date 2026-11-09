@@ -55,7 +55,24 @@ async function startContributionsPage() {
     try {
         const { contributions } = await api("/api/contributions/mine");
         if (!contributions.length) { list.innerHTML = '<div class="empty-state">You have not saved a contribution yet.<br><br><a class="primary-action" href="/#contribute">Create your first guide</a></div>'; return; }
-        list.innerHTML = contributions.map(item => `<article class="portal-card"><span class="status-badge">${escapeHtml(item.status.replaceAll("_", " "))}</span><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.topic_name)} · Updated ${friendlyDate(item.updated_at)}</p>${item.admin_feedback ? `<p class="feedback"><strong>Reviewer note:</strong> ${escapeHtml(item.admin_feedback)}</p>` : ""}<div class="card-actions">${item.status === "published" ? `<a class="secondary-action" href="/guides/${item.id}">View published guide</a><a class="secondary-action" href="/explore/${item.topic_slug}">Explore collection</a>` : ""}${["draft","needs_changes"].includes(item.status) ? `<a class="primary-action" href="/?edit=${item.id}#contribute">Edit guide</a>` : ""}</div></article>`).join("");
+        list.innerHTML = contributions.map(item => `<article class="portal-card" data-contribution="${item.id}"><span class="status-badge">${escapeHtml(item.status.replaceAll("_", " "))}</span><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.topic_name)} · Updated ${friendlyDate(item.updated_at)}</p>${item.admin_feedback ? `<p class="feedback"><strong>Reviewer note:</strong> ${escapeHtml(item.admin_feedback)}</p>` : ""}<div class="card-actions">${item.status === "published" ? `<a class="secondary-action" href="/guides/${item.id}">View published guide</a><a class="secondary-action" href="/explore/${item.topic_slug}">Explore collection</a>` : ""}${["draft","needs_changes"].includes(item.status) ? `<a class="primary-action" href="/?edit=${item.id}#contribute">Edit guide</a>` : ""}<button class="secondary-action danger-action" type="button" data-delete-contribution="${item.id}">Delete</button></div><p class="status-message" data-delete-status></p></article>`).join("");
+
+        // Deletion is owner-only on the server and also asks for a clear browser confirmation.
+        list.querySelectorAll("[data-delete-contribution]").forEach((button) => {
+            button.addEventListener("click", async () => {
+                const card = button.closest("[data-contribution]");
+                const status = card.querySelector("[data-delete-status]");
+                const title = card.querySelector("h2").textContent;
+                const confirmed = window.confirm(`Delete “${title}” permanently? Published guides will also disappear from Explore.`);
+                if (!confirmed) return;
+                button.disabled = true; status.textContent = "Deleting contribution…";
+                try {
+                    await api(`/api/contributions/${button.dataset.deleteContribution}`, { method: "DELETE" });
+                    card.remove();
+                    if (!list.querySelector("[data-contribution]")) list.innerHTML = '<div class="empty-state">You have no saved contributions.<br><br><a class="primary-action" href="/#contribute">Create a guide</a></div>';
+                } catch (error) { status.textContent = error.message; button.disabled = false; }
+            });
+        });
     } catch (error) { list.innerHTML = `<p class="feedback">${escapeHtml(error.message)}</p>`; }
 }
 

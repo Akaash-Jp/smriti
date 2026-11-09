@@ -108,3 +108,6 @@ This file records the major project changes and decisions so future work stays c
 - Changed Whisper Large V3 to Groq's audio translation endpoint so non-English recordings become English transcripts before GPT-OSS creates the tutorial.
 - Added a connected dark step-card preview based on the approved visual reference and reused it on published guide pages.
 - Fixed unsigned draft saves by carrying the tutorial through sign-in, saving it after authentication, and opening My Contributions so the new draft is immediately visible.
+- Added `openai/gpt-oss-120b` as a separate transcript-review stage between Whisper and tutorial generation. It removes chatter, organizes productive content, suggests safe missing steps, and visibly records every AI-added detail and unresolved question.
+- Fixed long saved guides staying invisible on Edit: restored editors now bypass the scroll-reveal threshold and scroll directly to the editable transcript.
+- Added owner-only contribution deletion with confirmation, including clean removal of review history and immediate removal of published guides from Explore.

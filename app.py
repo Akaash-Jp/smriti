@@ -140,6 +140,7 @@ def admin_required(route):
 groq_api_key = os.environ.get("GROQ_API_KEY", "").strip()
 groq_client = Groq(api_key=groq_api_key) if groq_api_key else None
 TRANSCRIPTION_MODEL = os.environ.get("SMRITI_TRANSCRIPTION_MODEL", "whisper-large-v3")
+TRANSCRIPT_REVIEW_MODEL = os.environ.get("SMRITI_REVIEW_MODEL", "openai/gpt-oss-120b")
 GUIDE_MODEL = os.environ.get("SMRITI_GUIDE_MODEL", "openai/gpt-oss-20b")
 ALLOWED_AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", ".ogg", ".wav", ".webm"}
 
@@ -370,6 +371,114 @@ SOURCE TRANSCRIPT
 END SOURCE TRANSCRIPT"""
 
 
+def transcript_review_prompt(transcript):
+    """Ask a separate model to turn spoken notes into useful working material."""
+    return f"""Review the English heritage transcript below before tutorial generation.
+
+Your jobs:
+- Remove greetings, repetition, false starts, unrelated stories, filler, and conversational chatter.
+- Preserve productive cultural details, regional words, quantities, timings, materials, warnings, and the speaker's useful experience.
+- Put the practical information into a clear, logical order.
+- Use general knowledge to add small, necessary steps that a beginner would otherwise be unable to complete.
+- Record every added detail separately in added_steps. Never pretend an added detail came from the speaker.
+- Do not invent a person's identity, attribution, historical claim, sacred meaning, or community-specific custom.
+- For medical, edible, chemical, fire, structural, sacred, or otherwise risky details, do not guess. Put the missing detail in review_questions instead.
+- The practical_transcript must contain only productive material and may include safe additions. Write it as concise English working notes for the next AI.
+
+ORIGINAL ENGLISH TRANSCRIPT
+---
+{transcript}
+---
+END ORIGINAL TRANSCRIPT"""
+
+
+# The reviewer returns its cleaned text and a visible audit of anything it added.
+TRANSCRIPT_REVIEW_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "practical_transcript": {"type": "string"},
+        "productive_summary": {"type": "string"},
+        "added_steps": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "detail": {"type": "string"},
+                    "why_needed": {"type": "string"},
+                    "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+                },
+                "required": ["detail", "why_needed", "confidence"],
+                "additionalProperties": False,
+            },
+        },
+        "removed_content_summary": {"type": "array", "items": {"type": "string"}},
+        "review_questions": {"type": "array", "items": {"type": "string"}},
+        "risk_level": {"type": "string", "enum": ["low", "medium", "high"]},
+    },
+    "required": ["practical_transcript", "productive_summary", "added_steps", "removed_content_summary", "review_questions", "risk_level"],
+    "additionalProperties": False,
+}
+
+
+def clean_transcript_review(review):
+    """Reject incomplete reviewer output before it can influence the tutorial."""
+    if not isinstance(review, dict):
+        raise ValueError("Transcript review is not an object")
+    for field in ("practical_transcript", "productive_summary", "risk_level"):
+        if not isinstance(review.get(field), str):
+            raise ValueError(f"Transcript review field {field} is not text")
+        review[field] = review[field].strip()
+    if not review["practical_transcript"] or not review["productive_summary"]:
+        raise ValueError("Transcript review is missing useful content")
+    for field in ("added_steps", "removed_content_summary", "review_questions"):
+        if not isinstance(review.get(field), list):
+            raise ValueError(f"Transcript review field {field} is not a list")
+    for addition in review["added_steps"]:
+        required = ("detail", "why_needed", "confidence")
+        if not isinstance(addition, dict) or any(not isinstance(addition.get(field), str) for field in required):
+            raise ValueError("A reviewer addition is incomplete")
+        for field in required:
+            addition[field] = addition[field].strip()
+    return review
+
+
+@app.post("/api/review-transcript")
+def review_transcript():
+    """Clean the transcript and make safe, clearly disclosed practical additions."""
+    data = request.get_json(silent=True) or {}
+    transcript = str(data.get("transcript", "")).strip()
+    if not transcript:
+        return jsonify({"error": "Add a transcript before reviewing it."}), 400
+    if len(transcript) > 30000:
+        return jsonify({"error": "This transcript is too long. Please shorten it to 30,000 characters."}), 413
+    if not groq_client:
+        return jsonify({"error": "Add GROQ_API_KEY to the .env file before reviewing a transcript."}), 503
+    try:
+        result = groq_client.chat.completions.create(
+            model=TRANSCRIPT_REVIEW_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a careful practical editor. Separate speaker facts from your additions, remove chatter, and never guess about risky or community-specific details. Return the requested JSON only."},
+                {"role": "user", "content": transcript_review_prompt(transcript)},
+            ],
+            response_format={
+                "type": "json_schema",
+                "json_schema": {"name": "transcript_review", "strict": True, "schema": TRANSCRIPT_REVIEW_SCHEMA},
+            },
+            temperature=0.2,
+            reasoning_effort="medium",
+        )
+        content = result.choices[0].message.content
+        if not isinstance(content, str) or not content.strip():
+            raise ValueError("Transcript review response is empty")
+        review = clean_transcript_review(json.loads(content))
+        return jsonify({"review": review, "model": TRANSCRIPT_REVIEW_MODEL})
+    except json.JSONDecodeError:
+        return jsonify({"error": "The transcript reviewer returned unreadable text. Please try again."}), 502
+    except Exception:
+        app.logger.exception("Transcript review failed")
+        return jsonify({"error": "Transcript review failed. Check the server log or try again."}), 502
+
+
 # Groq's structured-output schema guarantees the editor receives every field it needs.
 GUIDE_SCHEMA = {
     "type": "object",
@@ -423,9 +532,6 @@ def clean_generated_guide(guide):
         if not isinstance(guide.get(field), str):
             raise ValueError(f"Guide field {field} is not text")
         guide[field] = guide[field].strip()
-    if not guide["title"] or not guide["introduction"]:
-        raise ValueError("Guide output is missing its title or introduction")
-
     # Lists and nested records are checked before JavaScript tries to display them.
     for field in ("materials", "tools", "steps", "regional_terms", "review_questions"):
         if not isinstance(guide.get(field), list):
@@ -444,6 +550,13 @@ def clean_generated_guide(guide):
         if not step["title"] or not step["description"]:
             raise ValueError("A guide step is missing its title or explanation")
         step["number"] = index
+
+    # A model can occasionally return empty but schema-valid headings.
+    # Generic fallbacks preserve the useful steps without inventing source facts.
+    if not guide["title"]:
+        guide["title"] = "Practical Heritage Tutorial"
+    if not guide["introduction"]:
+        guide["introduction"] = "A practical step-by-step guide prepared from the reviewed community transcript."
     return guide
 
 
@@ -570,6 +683,28 @@ def update_contribution(contribution_id):
     connection.commit()
     connection.close()
     return jsonify({"id": contribution_id, "status": owned["status"]})
+
+
+@app.delete("/api/contributions/<int:contribution_id>")
+@login_required
+def delete_contribution(contribution_id):
+    """Let a contributor permanently remove their own draft or published guide."""
+    user = current_user()
+    connection = db()
+    owned = connection.execute(
+        "SELECT id FROM contributions WHERE id=? AND owner_id=?",
+        (contribution_id, user["id"]),
+    ).fetchone()
+    if not owned:
+        connection.close()
+        return jsonify({"error": "Contribution not found."}), 404
+
+    # Review records are removed first so no orphaned history remains.
+    connection.execute("DELETE FROM review_history WHERE contribution_id=?", (contribution_id,))
+    connection.execute("DELETE FROM contributions WHERE id=? AND owner_id=?", (contribution_id, user["id"]))
+    connection.commit()
+    connection.close()
+    return jsonify({"success": True, "id": contribution_id})
 
 
 @app.post("/api/contributions/<int:contribution_id>/submit")

@@ -14,10 +14,15 @@ const toast = document.getElementById("toast");
 const uploadBtn = document.getElementById("uploadBtn");
 const audioInput = document.getElementById("audio");
 const fileDrop = document.querySelector(".file-drop");
+const uploadPanel = document.querySelector(".upload-panel");
 const fileLabel = document.getElementById("fileLabel");
 const statusText = document.getElementById("status");
 const resultPanel = document.getElementById("resultPanel");
 const transcriptText = document.getElementById("transcript");
+const transcriptReview = document.getElementById("transcriptReview");
+const reviewSummary = document.getElementById("reviewSummary");
+const reviewAdditions = document.getElementById("reviewAdditions");
+const reviewQuestions = document.getElementById("reviewQuestions");
 const generateGuideBtn = document.getElementById("generateGuideBtn");
 const guideEditor = document.getElementById("guideEditor");
 const guideStatus = document.getElementById("guideStatus");
@@ -36,6 +41,7 @@ const saveGuideBtn = document.getElementById("saveGuideBtn");
 const submitGuideBtn = document.getElementById("submitGuideBtn");
 const tutorialPreview = document.getElementById("tutorialPreview");
 let currentGuide = null;
+let currentTranscriptReview = null;
 let currentContributionId = null;
 let signedInUser = null;
 const pendingDraftKey = "smritiPendingContribution";
@@ -55,10 +61,40 @@ async function readApiResponse(response) {
 // A new recording or transcript must never reuse an older generated tutorial.
 function resetGuideEditor() {
     currentGuide = null;
+    currentTranscriptReview = null;
     currentContributionId = null;
     guideEditor.hidden = true;
+    transcriptReview.hidden = true;
+    reviewSummary.textContent = "";
+    reviewAdditions.replaceChildren();
+    reviewQuestions.replaceChildren();
     guideSteps.replaceChildren();
     guideStatus.textContent = "";
+}
+
+// Show exactly what the reviewer added and what still needs a human answer.
+function renderTranscriptReview(review) {
+    currentTranscriptReview = review;
+    reviewSummary.textContent = review.productive_summary;
+    reviewAdditions.replaceChildren(); reviewQuestions.replaceChildren();
+
+    if (review.added_steps.length) {
+        const heading = document.createElement("strong"); heading.textContent = "AI-added practical details";
+        const list = document.createElement("ul");
+        review.added_steps.forEach((addition) => {
+            const item = document.createElement("li");
+            item.textContent = `${addition.detail} — ${addition.why_needed} (${addition.confidence} confidence)`;
+            list.append(item);
+        });
+        reviewAdditions.append(heading, list);
+    }
+    if (review.review_questions.length) {
+        const heading = document.createElement("strong"); heading.textContent = "Please verify before publishing";
+        const list = document.createElement("ul");
+        review.review_questions.forEach((question) => { const item = document.createElement("li"); item.textContent = question; list.append(item); });
+        reviewQuestions.append(heading, list);
+    }
+    transcriptReview.hidden = false;
 }
 
 const recordButton = document.getElementById("recordButton");
@@ -568,16 +604,23 @@ function renderGuideSteps() {
 }
 
 generateGuideBtn.addEventListener("click", async () => {
-    const transcript = transcriptText.value.trim();
-    if (!transcript) {
+    const originalTranscript = transcriptText.value.trim();
+    if (!originalTranscript) {
         guideStatus.textContent = "Add or transcribe some words before generating a tutorial.";
         return;
     }
-    generateGuideBtn.disabled = true; guideStatus.textContent = "Generating guide…";
+    generateGuideBtn.disabled = true; guideStatus.textContent = "Reviewing the transcript and finding missing practical steps…";
     try {
-        const response = await fetch("/api/generate-guide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript }) });
+        // The stronger reviewer cleans the speech before the tutorial model sees it.
+        const reviewResponse = await fetch("/api/review-transcript", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript: originalTranscript }) });
+        const reviewData = await readApiResponse(reviewResponse);
+        renderTranscriptReview(reviewData.review);
+        transcriptText.value = reviewData.review.practical_transcript;
+        guideStatus.textContent = "Practical transcript ready. Building the step-by-step tutorial…";
+
+        const response = await fetch("/api/generate-guide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript: reviewData.review.practical_transcript }) });
         const data = await readApiResponse(response);
-        currentGuide = data.guide; currentContributionId = null; guideEditor.hidden = false; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(item => `${item.name || ""}${item.quantity ? ` — ${item.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; await loadTopics(); guideTopic.value = currentGuide.suggested_topic_slug || "techniques"; renderGuideSteps(); guideStatus.textContent = "Tutorial ready. Please review every step before saving.";
+        currentGuide = data.guide; currentGuide.transcript_review = currentTranscriptReview; currentContributionId = null; guideEditor.hidden = false; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(item => `${item.name || ""}${item.quantity ? ` — ${item.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; await loadTopics(); guideTopic.value = currentGuide.suggested_topic_slug || "techniques"; renderGuideSteps(); guideStatus.textContent = "Tutorial ready. Check the AI additions and every step before saving.";
     } catch (error) { guideStatus.textContent = error.message; } finally { generateGuideBtn.disabled = false; }
 });
 
@@ -649,8 +692,8 @@ async function prepareContributionAccount() {
         const pending = sessionStorage.getItem(pendingDraftKey);
         if (signedInUser && new URLSearchParams(location.search).get("resume") === "pending" && pending) {
             const savedState = JSON.parse(pending); const payload = savedState.payload;
-            currentGuide = payload.guide; transcriptText.value = payload.transcript; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = payload.attribution || ""; guideConsent.checked = Boolean(payload.consent);
-            await loadTopics(); guideTopic.value = payload.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; guideStatus.textContent = "Signed in. Saving your recovered draft…";
+            currentGuide = payload.guide; currentTranscriptReview = currentGuide.transcript_review || null; transcriptText.value = payload.transcript; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = payload.attribution || ""; guideConsent.checked = Boolean(payload.consent); if (currentTranscriptReview) renderTranscriptReview(currentTranscriptReview);
+            await loadTopics(); guideTopic.value = payload.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; uploadPanel.classList.add("visible"); guideStatus.textContent = "Signed in. Saving your recovered draft…";
             await saveGuide(Boolean(savedState.submit)); return;
         }
         const editId = new URLSearchParams(location.search).get("edit");
@@ -658,10 +701,13 @@ async function prepareContributionAccount() {
         if (!signedInUser) { location.href = `/account?next=${encodeURIComponent(location.pathname + location.search + "#contribute")}`; return; }
         const editResponse = await fetch(`/api/contributions/${editId}`); const editData = await editResponse.json();
         if (!editResponse.ok) throw new Error(editData.error);
-        const item = editData.contribution; currentContributionId = item.id; currentGuide = item.guide;
+        const item = editData.contribution; currentContributionId = item.id; currentGuide = item.guide; currentTranscriptReview = currentGuide.transcript_review || null; if (currentTranscriptReview) renderTranscriptReview(currentTranscriptReview);
         transcriptText.value = item.transcript; guideTitle.value = item.title; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = item.attribution || ""; guideConsent.checked = item.consent;
-        await loadTopics(); guideTopic.value = item.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; guideStatus.textContent = item.admin_feedback || "Draft reopened for editing.";
-        document.getElementById("contribute").scrollIntoView();
+        await loadTopics(); guideTopic.value = item.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false;
+        // A long restored editor may never satisfy the reveal animation threshold.
+        // Reveal it directly and scroll to the actual editable content instead.
+        uploadPanel.classList.add("visible"); guideStatus.textContent = item.admin_feedback || "Draft reopened for editing.";
+        resultPanel.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (error) { guideStatus.textContent = error.message; }
 }
 prepareContributionAccount();

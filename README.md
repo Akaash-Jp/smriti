@@ -39,7 +39,7 @@ After a recording reaches Flask, it is sent to Groq's accuracy-focused multiling
 
 ## Heritage guide workflow
 
-The English transcript has **Generate step-by-step tutorial**. It sends only the editable transcript to Groq's `openai/gpt-oss-20b` structured-output model, validates every returned field, then displays a polished connected-step preview with editable fields. A contributor selects a topic, adds attribution and publication consent, and saves a draft or submits it for review.
+The English transcript has **Review transcript & generate tutorial**. Groq's `openai/gpt-oss-120b` first removes chatter, organizes useful details, and makes clearly disclosed practical additions. The reviewed transcript then goes to `openai/gpt-oss-20b`, which creates the structured tutorial and polished connected-step preview. A contributor can inspect the additions, correct every field, add attribution and consent, then save a draft or submit it for review.
 
 The new workflow uses SQLite in `smriti.db`, created automatically on startup. Authentication endpoints are available at `/api/auth/register`, `/api/auth/login`, and `/api/auth/logout`. Create the first administrator with:
 
@@ -57,6 +57,8 @@ The visible workflow pages are:
 - `/guides/1` — read a published community guide (replace `1` with its ID).
 
 Published contributions only appear through public topic pages after administrator approval. The Curated tab is intentionally an honest empty state.
+
+Contributors can edit drafts and guides returned for changes. They can also permanently delete any contribution they own; deleting published work immediately removes it from public Explore pages.
 
 ## Test the workflow
 

@@ -86,6 +86,22 @@ class ContributionWorkflowTest(unittest.TestCase):
         self.assertEqual(len(mine.get_json()["contributions"]), 1)
         self.assertEqual(mine.get_json()["contributions"][0]["status"], "draft")
 
+    def test_owner_can_delete_contribution_but_another_user_cannot(self):
+        """Deletion removes an owner's guide without exposing it to another account."""
+        owner = smriti.app.test_client()
+        owner.post("/api/auth/register", json={"email": "owner@example.com", "password": "strong-pass"})
+        contribution_id = owner.post("/api/contributions", json=self.guide_payload()).get_json()["id"]
+
+        stranger = smriti.app.test_client()
+        stranger.post("/api/auth/register", json={"email": "stranger@example.com", "password": "strong-pass"})
+        denied = stranger.delete(f"/api/contributions/{contribution_id}")
+        self.assertEqual(denied.status_code, 404)
+
+        deleted = owner.delete(f"/api/contributions/{contribution_id}")
+        self.assertEqual(deleted.status_code, 200)
+        self.assertEqual(owner.get("/api/contributions/mine").get_json()["contributions"], [])
+        self.assertEqual(owner.get(f"/api/contributions/{contribution_id}").status_code, 404)
+
     def test_unapproved_guide_is_not_public(self):
         """A saved draft must stay private until an administrator approves it."""
         contributor = smriti.app.test_client()
@@ -187,6 +203,33 @@ class ContributionWorkflowTest(unittest.TestCase):
         finally:
             smriti.groq_client = original_client
 
+    def test_transcript_reviewer_cleans_and_enriches_source(self):
+        """The middle AI returns practical text and discloses every addition."""
+        review = {
+            "practical_transcript": "1. Prepare the clay. 2. Shape the lamp. 3. Let it dry fully.",
+            "productive_summary": "A short clay-lamp process with one missing drying step restored.",
+            "added_steps": [{"detail": "Let the shaped lamp dry fully.", "why_needed": "Wet clay cannot be fired safely.", "confidence": "high"}],
+            "removed_content_summary": ["Greeting and repeated family story"],
+            "review_questions": ["Ask the contributor for the correct firing temperature."],
+            "risk_level": "medium",
+        }
+        original_client = smriti.groq_client
+        fake_create = Mock(return_value=SimpleNamespace(
+            choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(review)))]
+        ))
+        smriti.groq_client = SimpleNamespace(
+            chat=SimpleNamespace(completions=SimpleNamespace(create=fake_create))
+        )
+        try:
+            response = smriti.app.test_client().post("/api/review-transcript", json={"transcript": "Hello, we shape clay, you know..."})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("Let it dry", response.get_json()["review"]["practical_transcript"])
+            self.assertEqual(response.get_json()["review"]["risk_level"], "medium")
+            self.assertEqual(fake_create.call_args.kwargs["model"], "openai/gpt-oss-120b")
+            self.assertEqual(fake_create.call_args.kwargs["response_format"]["type"], "json_schema")
+        finally:
+            smriti.groq_client = original_client
+
     def test_incomplete_ai_guide_is_rejected(self):
         """Broken AI output must not reach the tutorial editor as if it were valid."""
         original_client = smriti.groq_client
@@ -200,6 +243,31 @@ class ContributionWorkflowTest(unittest.TestCase):
             response = smriti.app.test_client().post("/api/generate-guide", json={"transcript": "A short source."})
             self.assertEqual(response.status_code, 502)
             self.assertIn("Guide generation failed", response.get_json()["error"])
+        finally:
+            smriti.groq_client = original_client
+
+    def test_empty_ai_headings_receive_safe_fallbacks(self):
+        """Useful steps survive when the model returns empty schema-valid headings."""
+        guide = self.guide_payload()["guide"] | {
+            "title": "",
+            "introduction": "",
+            "suggested_topic_slug": "crafts",
+            "region": "",
+            "guide_type": "procedural",
+            "regional_terms": [],
+            "review_questions": [],
+        }
+        original_client = smriti.groq_client
+        smriti.groq_client = SimpleNamespace(
+            chat=SimpleNamespace(completions=SimpleNamespace(create=Mock(return_value=SimpleNamespace(
+                choices=[SimpleNamespace(message=SimpleNamespace(content=json.dumps(guide)))]
+            ))))
+        )
+        try:
+            response = smriti.app.test_client().post("/api/generate-guide", json={"transcript": "Prepare and weave the thread."})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.get_json()["guide"]["title"], "Practical Heritage Tutorial")
+            self.assertTrue(response.get_json()["guide"]["introduction"])
         finally:
             smriti.groq_client = original_client
 

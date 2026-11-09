@@ -1047,6 +1047,33 @@ label:focus-within {
 .guide-step { padding: 12px; border: 1px solid var(--line); border-radius: 10px; display: grid; gap: 8px; margin-bottom: 10px; }
 .guide-step button { width: fit-content; color: #ffb1a8; background: transparent; border: 0; cursor: pointer; }
 
+/* The generated tutorial mirrors the connected dark cards in the visual reference. */
+.tutorial-preview { margin: 6px 0 22px; color: #f3f1ed; }
+.tutorial-shell { padding: clamp(18px, 3vw, 30px); background: #050605; border: 1px solid #343734; border-radius: 18px; }
+.tutorial-header { padding: 0 12px 25px; text-align: center; }
+.tutorial-main-icon { display: block; margin-bottom: 8px; color: var(--gold-light); font-size: 22px; }
+.tutorial-header h3 { margin: 0; color: #f5f2ec; font: 700 clamp(20px, 3vw, 27px)/1.2 Arial, sans-serif; }
+.tutorial-header p { margin: 7px 0 0; color: #bbbdb8; font-size: 13px; }
+.tutorial-needs { padding: 0 0 20px; }
+.tutorial-needs h4 { margin: 0 0 10px; color: #f5f2ec; font: 700 16px Arial, sans-serif; }
+.tutorial-needs p { margin: 0; color: #f1efea; line-height: 1.6; }
+.tutorial-needs .tutorial-tools { margin-top: 7px; color: #b9bbb6; font-size: 13px; }
+.tutorial-sequence { display: grid; }
+.tutorial-step { padding: 13px 14px; background: #070807; border: 1px solid #343734; border-radius: 13px; }
+.tutorial-step-heading { display: flex; align-items: center; gap: 12px; }
+.tutorial-step-icon { display: grid; place-items: center; flex: 0 0 42px; height: 42px; background: #232523; border-radius: 9px; color: #fff; }
+.tutorial-step-number { display: block; margin-bottom: 3px; color: #9da09b; font-size: 9px; letter-spacing: .04em; }
+.tutorial-step h4 { margin: 0; color: #f5f2ec; font: 700 15px Arial, sans-serif; }
+.tutorial-step > p { margin: 10px 0 0; color: #e1e0dc; font-size: 13px; line-height: 1.55; }
+.tutorial-step .tutorial-tip { color: #c9d8bf; }
+.tutorial-step .tutorial-warning { color: #f0c49e; }
+.tutorial-arrow { padding: 4px 0; color: #aeb1ac; text-align: center; font-size: 18px; }
+.tutorial-finish { padding: 20px 10px 0; text-align: center; }
+.tutorial-finish > span { display: block; width: 18px; height: 18px; margin: 0 auto 10px; color: #041308; background: #22d96e; border-radius: 50%; font-size: 12px; line-height: 18px; }
+.tutorial-finish strong { display: block; color: #f5f2ec; }
+.tutorial-finish p { margin: 6px auto 0; max-width: 520px; color: #b9bbb6; font-size: 12px; line-height: 1.5; }
+.editor-heading { padding-top: 18px; border-top: 1px solid var(--line); }
+
 /* --------------------------------------------------
    8. Footer and small feedback message
 -------------------------------------------------- */
@@ -1383,5 +1410,1069 @@ label:focus-within {
     .reveal {
         opacity: 1;
         transform: none;
+    }
+}
+
+/* --------------------------------------------------
+   12. Interactive India Heritage Map page
+   Upper Half = Full-Screen Royal Cartographic Map Stage
+   Lower Half = Scrollable Monument "More Info" Dossier
+-------------------------------------------------- */
+.view-section[hidden] {
+    display: none !important;
+}
+
+.map-page-section {
+    background: var(--ink);
+    color: var(--cream);
+}
+
+/* UPPER HALF: Full-viewport Map Stage */
+.map-upper-viewport {
+    position: relative;
+    min-height: 100svh;
+    padding: 86px 0 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        radial-gradient(circle at 50% 42%, rgba(22, 60, 48, 0.36), rgba(9, 12, 11, 0.98) 70%),
+        var(--ink);
+    border-bottom: 1px solid rgba(233, 174, 93, 0.28);
+}
+
+.map-upper-inner {
+    width: min(calc(100% - 36px), 1380px);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+}
+
+/* Compact top bar above the map canvas */
+.map-top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 18px;
+    background: rgba(17, 24, 20, 0.88);
+    border: 1px solid rgba(233, 174, 93, 0.32);
+    border-radius: 18px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(14px);
+}
+
+.map-title-cluster {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.map-title-cluster h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(22px, 2.3vw, 30px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.map-title-cluster h1 em {
+    color: var(--gold);
+    font-weight: 400;
+}
+
+.map-subtitle-pill {
+    padding: 4px 11px;
+    background: rgba(22, 60, 48, 0.65);
+    border: 1px solid rgba(233, 174, 93, 0.35);
+    border-radius: 999px;
+    color: var(--gold-light);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+}
+
+.map-controls-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-search-box {
+    position: relative;
+    width: 240px;
+}
+
+.map-search-input {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 14px 6px 32px;
+    color: var(--cream);
+    background: rgba(9, 12, 11, 0.9);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12.5px;
+    transition: border-color 160ms ease;
+}
+
+.map-search-input:focus {
+    border-color: var(--gold);
+    outline: none;
+}
+
+.map-search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.map-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-chip {
+    min-height: 32px;
+    padding: 5px 12px;
+    color: var(--cream-muted);
+    background: rgba(9, 12, 11, 0.72);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 11.5px;
+    transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.filter-chip:hover {
+    color: var(--cream);
+    border-color: rgba(233, 174, 93, 0.55);
+}
+
+.filter-chip.active {
+    color: var(--ink);
+    background: var(--gold);
+    border-color: var(--gold);
+    font-weight: 700;
+}
+
+/* Fancy Royal Cartographic Atlas Stage */
+.india-map-stage {
+    position: relative;
+    flex: 1;
+    min-height: 560px;
+    padding: 16px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        radial-gradient(circle at 48% 48%, rgba(28, 78, 61, 0.32) 0%, rgba(13, 22, 18, 0.94) 58%, #070a09 100%);
+    border: 1px solid rgba(233, 174, 93, 0.42);
+    border-radius: 24px;
+    box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.65),
+        inset 0 0 0 1px rgba(255, 216, 146, 0.12),
+        inset 0 0 60px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+}
+
+/* Decorative corner cartographic brackets */
+.india-map-stage::before,
+.india-map-stage::after {
+    content: "";
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border-color: rgba(233, 174, 93, 0.48);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.india-map-stage::before {
+    top: 10px;
+    left: 10px;
+    border-width: 2px 0 0 2px;
+    border-top-left-radius: 14px;
+}
+
+.india-map-stage::after {
+    bottom: 10px;
+    right: 10px;
+    border-width: 0 2px 2px 0;
+    border-bottom-right-radius: 14px;
+}
+
+.map-stage-top {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.map-instruction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(9, 13, 11, 0.84);
+    border: 1px solid rgba(233, 174, 93, 0.4);
+    border-radius: 999px;
+    color: var(--cream);
+    font-size: 12.5px;
+    backdrop-filter: blur(8px);
+}
+
+.map-instruction-badge strong {
+    color: var(--gold-light);
+}
+
+.map-stage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.map-tool-btn {
+    min-height: 34px;
+    padding: 6px 14px;
+    color: var(--cream);
+    background: rgba(9, 13, 11, 0.84);
+    border: 1px solid rgba(233, 174, 93, 0.35);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.map-tool-btn:hover,
+.map-tool-btn.active {
+    color: var(--ink);
+    background: var(--gold);
+    border-color: var(--gold);
+    font-weight: 700;
+}
+
+/* Map SVG Container — Full-width & zoomed in by default so states and miniatures are large and clear */
+.map-svg-container {
+    position: relative;
+    width: 100%;
+    max-width: 1320px;
+    margin: 8px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.india-political-svg {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 720 / 820;
+    display: block;
+    user-select: none;
+}
+
+/* Cartographic graticule lines, Tropic of Cancer, and sea labels */
+.map-graticule-line {
+    stroke: rgba(233, 174, 93, 0.08);
+    stroke-width: 0.8;
+    fill: none;
+    pointer-events: none;
+}
+
+.map-tropic-line {
+    stroke: rgba(233, 174, 93, 0.24);
+    stroke-width: 1;
+    stroke-dasharray: 6 5;
+    fill: none;
+    pointer-events: none;
+}
+
+.map-graticule-label {
+    fill: rgba(200, 192, 178, 0.38);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 8.5px;
+    font-style: italic;
+    pointer-events: none;
+}
+
+.map-sea-label {
+    fill: rgba(233, 174, 93, 0.22);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.38em;
+    text-anchor: middle;
+    pointer-events: none;
+}
+
+/* Multi-tone state fills for a rich, professional political map */
+.state-path {
+    stroke: rgba(247, 240, 227, 0.42);
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+        transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        fill 220ms ease,
+        stroke 220ms ease,
+        stroke-width 220ms ease,
+        opacity 220ms ease;
+}
+
+.state-path.tone-1 { fill: #163c30; }
+.state-path.tone-2 { fill: #1c4739; }
+.state-path.tone-3 { fill: #133328; }
+.state-path.tone-4 { fill: #204f3f; }
+.state-path.tone-5 { fill: #183f32; }
+
+/* Slight zoom on mouse hover over any state */
+.state-path:hover,
+.state-path:focus-visible {
+    fill: #2c6b55;
+    stroke: var(--gold-light);
+    stroke-width: 2;
+    transform: scale(1.035);
+    outline: none;
+}
+
+/* Unmistakable golden-emerald highlight when a state is clicked on the map */
+.state-path.selected {
+    fill: url(#selectedStateGrad);
+    stroke: var(--gold-light);
+    stroke-width: 2.6;
+    filter: url(#stateGoldGlow);
+    opacity: 1 !important;
+}
+
+.state-path.dimmed {
+    opacity: 0.68;
+}
+
+.state-path.dimmed:hover {
+    opacity: 1;
+}
+
+/* Full State Name labels on the zoomed-in political map */
+.state-abbr-label {
+    fill: rgba(247, 240, 227, 0.86);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: rgba(7, 10, 9, 0.88);
+    stroke-width: 2.8px;
+    stroke-linejoin: round;
+    transition: fill 180ms ease, font-size 180ms ease;
+}
+
+.state-abbr-label.active-label {
+    fill: var(--gold-light);
+    font-size: 11px;
+    stroke: rgba(7, 10, 9, 0.98);
+    stroke-width: 3.4px;
+}
+
+/* ZERO-FLICKER Miniature Monument Icons on the SVG Map:
+   - Outer .monument-marker never moves or scales.
+   - Only .monument-hit-area receives pointer events (fixed radius).
+   - .monument-visual handles the smooth scale & miniature rendering with pointer-events: none. */
+.monument-marker {
+    cursor: pointer;
+    outline: none;
+}
+
+.monument-hit-area {
+    fill: transparent;
+    stroke: none;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.monument-visual {
+    pointer-events: none;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    animation: miniature-pop 340ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+@keyframes miniature-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.monument-marker:hover .monument-visual,
+.monument-marker:focus-visible .monument-visual,
+.monument-marker.active-pin .monument-visual {
+    transform: scale(1.26);
+}
+
+.miniature-halo {
+    fill: rgba(233, 174, 93, 0.16);
+    stroke: rgba(255, 216, 146, 0.55);
+    stroke-width: 1;
+    pointer-events: none;
+}
+
+.miniature-pedestal {
+    fill: #0d1512;
+    stroke: var(--gold);
+    stroke-width: 1.8;
+    pointer-events: none;
+    transition: fill 180ms ease, stroke 180ms ease;
+}
+
+.monument-marker:hover .miniature-pedestal,
+.monument-marker:focus-visible .miniature-pedestal,
+.monument-marker.active-pin .miniature-pedestal {
+    fill: #1b4638;
+    stroke: #fff;
+    stroke-width: 2.2;
+}
+
+.miniature-art {
+    pointer-events: none;
+}
+
+.miniature-name-tag {
+    fill: var(--gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: rgba(7, 10, 9, 0.96);
+    stroke-width: 3.4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+/* Floating state badge in bottom-left of map */
+.state-hover-pill {
+    position: absolute;
+    z-index: 20;
+    left: 18px;
+    bottom: 16px;
+    padding: 10px 16px;
+    background: rgba(9, 13, 11, 0.92);
+    border: 1px solid rgba(233, 174, 93, 0.48);
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    pointer-events: none;
+}
+
+.state-hover-pill strong {
+    display: block;
+    color: var(--gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+}
+
+.state-hover-pill span {
+    color: var(--cream-muted);
+    font-size: 12px;
+}
+
+/* Interactive Monument Popup Card on the Map (with "Show more info" button) */
+.monument-hover-card {
+    position: absolute;
+    z-index: 45;
+    width: min(335px, calc(100% - 28px));
+    padding: 16px;
+    background: rgba(10, 14, 12, 0.97);
+    border: 1.5px solid var(--gold);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.monument-hover-card.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.hover-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.hover-card-badge {
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 3px 9px;
+    background: var(--green);
+    color: var(--gold-light);
+    border: 1px solid rgba(233, 174, 93, 0.3);
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.hover-card-close {
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--cream-muted);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.hover-card-close:hover {
+    color: #fff;
+    border-color: var(--gold);
+}
+
+.monument-hover-card h3 {
+    margin: 0 0 3px;
+    color: var(--cream);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+}
+
+.hover-card-meta {
+    margin: 0 0 8px;
+    color: var(--gold-light);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12.5px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.monument-hover-card p {
+    margin: 0 0 10px;
+    color: var(--cream-muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+
+.hover-card-detail {
+    padding: 8px 0 12px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--cream);
+}
+
+.hover-card-detail strong {
+    color: var(--gold-light);
+}
+
+.show-more-info-btn {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--ink);
+    background: var(--gold);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 700;
+    transition: background 160ms ease, transform 160ms ease;
+}
+
+.show-more-info-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+/* Bottom bar of the upper map stage with legend and scroll cue */
+.map-stage-bottom {
+    position: relative;
+    z-index: 10;
+    padding-top: 10px;
+    border-top: 1px solid rgba(242, 223, 189, 0.14);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--cream-muted);
+    font-size: 11.5px;
+}
+
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.swatch-state {
+    background: #1c4739;
+    border: 1px solid rgba(247, 240, 227, 0.5);
+}
+
+.swatch-selected {
+    background: var(--gold);
+    border: 1.5px solid #fff;
+}
+
+.swatch-pin {
+    background: #163c30;
+    border: 1.5px solid var(--gold-light);
+}
+
+.scroll-to-details-btn {
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--gold-light);
+    background: rgba(22, 60, 48, 0.45);
+    border: 1px solid rgba(233, 174, 93, 0.38);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.scroll-to-details-btn:hover {
+    color: var(--ink);
+    background: var(--gold);
+    transform: translateY(2px);
+}
+
+/* ==================================================
+   LOWER HALF: Scrollable "More Info" & Audio Guide Section
+   ================================================== */
+.map-lower-details {
+    padding: 72px 0 96px;
+    background:
+        radial-gradient(circle at 14% 20%, rgba(22, 60, 48, 0.24), transparent 32%),
+        radial-gradient(circle at 88% 80%, rgba(233, 174, 93, 0.08), transparent 30%),
+        var(--ink-soft);
+}
+
+.details-section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+}
+
+.details-section-header h2 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500;
+}
+
+.details-section-header h2 em {
+    color: var(--gold);
+    font-weight: 400;
+}
+
+.back-to-map-btn {
+    min-height: 42px;
+    padding: 9px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cream);
+    background: rgba(9, 12, 11, 0.75);
+    border: 1px solid rgba(233, 174, 93, 0.45);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.back-to-map-btn:hover {
+    background: rgba(233, 174, 93, 0.14);
+    border-color: var(--gold);
+}
+
+.monument-story-panel {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    align-items: start;
+    gap: 28px;
+}
+
+.selected-state-card,
+.monument-detail-card {
+    padding: 28px;
+    background: var(--ink-card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+}
+
+.monument-detail-card.pulse-highlight {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(233, 174, 93, 0.25), var(--shadow);
+    transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.selected-state-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.selected-state-header h3 {
+    margin: 4px 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.state-type-tag {
+    padding: 5px 12px;
+    background: var(--green);
+    color: var(--gold-light);
+    border: 1px solid rgba(233, 174, 93, 0.35);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.state-tagline {
+    margin: 0 0 18px;
+    color: var(--cream-muted);
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 14.5px;
+    line-height: 1.55;
+}
+
+.state-monument-list {
+    display: grid;
+    gap: 10px;
+}
+
+.state-monument-btn {
+    width: 100%;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    color: var(--cream);
+    background: rgba(9, 12, 11, 0.65);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.state-monument-btn:hover,
+.state-monument-btn.active {
+    background: rgba(22, 60, 48, 0.55);
+    border-color: var(--gold);
+    transform: translateX(3px);
+}
+
+.state-monument-btn strong {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+}
+
+.state-monument-btn span {
+    color: var(--cream-muted);
+    font-size: 12px;
+}
+
+.monument-pin-badge {
+    padding: 4px 10px;
+    background: rgba(233, 174, 93, 0.14);
+    color: var(--gold-light);
+    border-radius: 999px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.monument-photo-frame {
+    position: relative;
+    height: 240px;
+    margin: -28px -28px 22px;
+    overflow: hidden;
+    border-radius: 22px 22px 0 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.monument-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.monument-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(23, 28, 24, 0.96) 0%, rgba(23, 28, 24, 0.15) 65%);
+}
+
+.monument-photo-caption {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.monument-recognition-tag {
+    padding: 4px 11px;
+    background: var(--gold);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.monument-coords-tag {
+    padding: 4px 10px;
+    background: rgba(9, 12, 11, 0.82);
+    color: var(--cream-muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+.monument-detail-card h3 {
+    margin: 0 0 4px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.monument-period-line {
+    margin: 0 0 14px;
+    color: var(--gold-light);
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+}
+
+.monument-summary-text {
+    margin: 0 0 20px;
+    color: var(--cream);
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.monument-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.monument-info-item {
+    padding: 14px;
+    background: rgba(9, 12, 11, 0.58);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.monument-info-item span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.monument-info-item p {
+    margin: 0;
+    color: var(--cream-muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.knowledge-chain-box {
+    padding: 16px;
+    margin-bottom: 20px;
+    background: linear-gradient(145deg, rgba(22, 60, 48, 0.28), rgba(233, 174, 93, 0.07));
+    border: 1px solid rgba(233, 174, 93, 0.3);
+    border-radius: 16px;
+}
+
+.knowledge-chain-title {
+    margin: 0 0 10px;
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.knowledge-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.knowledge-node {
+    padding: 5px 10px;
+    background: rgba(9, 12, 11, 0.78);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--cream);
+}
+
+.knowledge-arrow {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.monument-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.audio-guide-btn {
+    min-height: 44px;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--ink);
+    background: var(--gold);
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 700;
+    transition: background 160ms ease, transform 160ms ease;
+}
+
+.audio-guide-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+.source-doc-link {
+    color: var(--gold-light);
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.source-doc-link:hover {
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .monument-story-panel,
+    .monument-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .map-upper-viewport {
+        padding-top: 76px;
+    }
+
+    .map-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .map-search-box {
+        width: 100%;
+    }
+
+    .india-map-stage {
+        padding: 12px;
+    }
+
+    .map-svg-container {
+        height: 56svh;
+        min-height: 380px;
+    }
+
+    .selected-state-card,
+    .monument-detail-card {
+        padding: 18px;
+    }
+
+    .monument-photo-frame {
+        margin: -18px -18px 16px;
+        height: 190px;
     }
 }

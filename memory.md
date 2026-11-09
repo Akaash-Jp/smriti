@@ -85,3 +85,26 @@ This file records the major project changes and decisions so future work stays c
 - Connected every landing-page heritage card to a real Explore collection and made each full card clickable.
 - Reorganized Explore around the six landing groups: Traditional Medicine, Monuments, Ancient Texts, Culture, Lifestyle, and Civilisations.
 - Nested the 10 detailed database collections under those six familiar groups so the archive remains precise without feeling confusing.
+
+## 7 November 2026 — Interactive Map and Groq AI Services
+
+- Imported only `map.html`, `map.js`, and the isolated map CSS section from the supplied `smriti (3).zip` archive.
+- Preserved the newer homepage, Explore organization, authentication, contributions, and administrator workflow instead of replacing files with older ZIP versions.
+- Added `/map` and connected it to the navigation across the existing pages.
+- Replaced Gemini Flash audio transcription with Groq `whisper-large-v3-turbo` while keeping the same recorder and upload interface.
+- Replaced the broken guide-generation call with Groq structured output using `openai/gpt-oss-20b` and a strict heritage-guide JSON schema.
+- Upgraded the Groq Python library requirement to `groq>=1.7.0` because the previously installed 0.11 client was incompatible with the current HTTP library.
+- Added automated tests for the map route, Groq transcription response, and Groq guide response.
+- Verified both Groq services with real requests using a short sample transcript and a one-second WAV test.
+
+## 9 November 2026 — Reliable Whisper V3 and Tutorial Generation
+
+- Switched the default transcription model from the faster Turbo variant to Groq `whisper-large-v3` for stronger multilingual accuracy.
+- Preserved each recording's filename and media type when sending it to Groq, and added clear checks for empty audio and recordings with no detected speech.
+- Reworked the tutorial prompt so practical recordings become ordered instructions while stories and histories become honest learning sequences without invented actions.
+- Added server-side validation for every generated tutorial field before the editor opens.
+- Fixed the browser so a new recording cannot accidentally reuse an older AI guide, upload errors stay readable, and step warnings remain editable instead of disappearing.
+- Added automated checks for the exact Whisper model, silent transcripts, reasoning settings, and incomplete AI output.
+- Changed Whisper Large V3 to Groq's audio translation endpoint so non-English recordings become English transcripts before GPT-OSS creates the tutorial.
+- Added a connected dark step-card preview based on the approved visual reference and reused it on published guide pages.
+- Fixed unsigned draft saves by carrying the tutorial through sign-in, saving it after authentication, and opening My Contributions so the new draft is immediately visible.

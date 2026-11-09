@@ -34,9 +34,32 @@ const guideAttribution = document.getElementById("guideAttribution");
 const guideConsent = document.getElementById("guideConsent");
 const saveGuideBtn = document.getElementById("saveGuideBtn");
 const submitGuideBtn = document.getElementById("submitGuideBtn");
+const tutorialPreview = document.getElementById("tutorialPreview");
 let currentGuide = null;
 let currentContributionId = null;
 let signedInUser = null;
+const pendingDraftKey = "smritiPendingContribution";
+
+// Read JSON safely even when Flask returns a size-limit or server error page.
+async function readApiResponse(response) {
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        const fallback = response.status === 413
+            ? "This recording is larger than 20 MB. Choose a smaller file."
+            : "Smriti could not complete this request. Please try again.";
+        throw new Error(data.error || fallback);
+    }
+    return data;
+}
+
+// A new recording or transcript must never reuse an older generated tutorial.
+function resetGuideEditor() {
+    currentGuide = null;
+    currentContributionId = null;
+    guideEditor.hidden = true;
+    guideSteps.replaceChildren();
+    guideStatus.textContent = "";
+}
 
 const recordButton = document.getElementById("recordButton");
 const stopButton = document.getElementById("stopButton");
@@ -373,6 +396,9 @@ function showSelectedFile() {
     fileLabel.textContent = file ? file.name : "Choose an audio recording";
 
     if (file) {
+        resetGuideEditor();
+        resultPanel.classList.remove("visible");
+        transcriptText.value = "";
         recordingPreview.hidden = true;
         setRecorderMessage("Uploaded file selected. It is ready to transcribe.", "success");
     }
@@ -458,14 +484,11 @@ uploadBtn.addEventListener("click", async () => {
             body: formData
         });
 
-        const data = await response.json();
+        const data = await readApiResponse(response);
 
-        if (!response.ok) {
-            throw new Error(data.error || "The request could not be completed.");
-        }
-
+        resetGuideEditor();
         transcriptText.value = data.transcript;
-        statusText.textContent = "Transcription complete.";
+        statusText.textContent = "English transcript complete with Groq Whisper Large V3.";
         resultPanel.classList.add("visible");
     } catch (error) {
         statusText.textContent = `Error: ${error.message}`;
@@ -480,57 +503,128 @@ async function loadTopics() {
     guideTopic.innerHTML = data.topics.map((topic) => `<option value="${topic.slug}">${topic.name}</option>`).join("");
 }
 
+// Build the finished tutorial as safe page elements instead of inserting AI text as HTML.
+function renderTutorialPreview(guide = currentGuide) {
+    tutorialPreview.replaceChildren();
+    if (!guide) return;
+
+    const shell = document.createElement("div"); shell.className = "tutorial-shell";
+    const header = document.createElement("header"); header.className = "tutorial-header";
+    const mainIcon = document.createElement("span"); mainIcon.className = "tutorial-main-icon"; mainIcon.textContent = "✦";
+    const title = document.createElement("h3"); title.textContent = guide.title || "Untitled heritage tutorial";
+    const introduction = document.createElement("p"); introduction.textContent = guide.introduction || "A step-by-step heritage guide";
+    header.append(mainIcon, title, introduction); shell.append(header);
+
+    // Materials and tools appear as a compact preparation block like the reference.
+    const needs = document.createElement("section"); needs.className = "tutorial-needs";
+    const needsTitle = document.createElement("h4"); needsTitle.textContent = "Materials needed";
+    const materials = document.createElement("p");
+    materials.textContent = (guide.materials || []).map((item) => `${item.name}${item.quantity ? ` (${item.quantity})` : ""}`).join("  ·  ") || "No materials listed";
+    const tools = document.createElement("p"); tools.className = "tutorial-tools";
+    tools.textContent = (guide.tools || []).length ? `Also required: ${(guide.tools || []).join(" · ")}` : "No additional tools listed";
+    needs.append(needsTitle, materials, tools); shell.append(needs);
+
+    // Connected cards turn each AI step into one easy-to-follow action.
+    const icons = ["◉", "◇", "⌁", "☼", "♨", "◌", "✦"];
+    const sequence = document.createElement("section"); sequence.className = "tutorial-sequence";
+    (guide.steps || []).forEach((step, index) => {
+        const card = document.createElement("article"); card.className = "tutorial-step";
+        const heading = document.createElement("div"); heading.className = "tutorial-step-heading";
+        const icon = document.createElement("span"); icon.className = "tutorial-step-icon"; icon.textContent = icons[index % icons.length];
+        const words = document.createElement("div");
+        const number = document.createElement("span"); number.className = "tutorial-step-number"; number.textContent = `STEP ${String(index + 1).padStart(2, "0")}`;
+        const stepTitle = document.createElement("h4"); stepTitle.textContent = step.title || "Untitled step";
+        const description = document.createElement("p"); description.textContent = step.description || "Add an explanation for this step.";
+        words.append(number, stepTitle); heading.append(icon, words); card.append(heading, description);
+        if (step.tip) { const tip = document.createElement("p"); tip.className = "tutorial-tip"; tip.textContent = `Tip: ${step.tip}`; card.append(tip); }
+        if (step.warning) { const warning = document.createElement("p"); warning.className = "tutorial-warning"; warning.textContent = `Take care: ${step.warning}`; card.append(warning); }
+        sequence.append(card);
+        if (index < guide.steps.length - 1) { const arrow = document.createElement("span"); arrow.className = "tutorial-arrow"; arrow.textContent = "↓"; sequence.append(arrow); }
+    });
+    shell.append(sequence);
+
+    const finish = document.createElement("footer"); finish.className = "tutorial-finish";
+    const check = document.createElement("span"); check.textContent = "✓";
+    const finishTitle = document.createElement("strong"); finishTitle.textContent = "Tutorial ready to review";
+    const significance = document.createElement("p"); significance.textContent = guide.cultural_significance || "Check every detail with the contributor before publishing.";
+    finish.append(check, finishTitle, significance); shell.append(finish); tutorialPreview.append(shell);
+}
+
 function renderGuideSteps() {
     // Build form fields as elements so transcript text can never become executable HTML.
     guideSteps.replaceChildren();
-    (currentGuide.steps || []).forEach((step, index) => {
+    ((currentGuide && currentGuide.steps) || []).forEach((step, index) => {
         const box = document.createElement("div"); box.className = "guide-step";
         const heading = document.createElement("strong"); heading.textContent = `Step ${index + 1}`;
         const title = document.createElement("input"); title.dataset.field = "title"; title.value = step.title || "";
         const description = document.createElement("textarea"); description.dataset.field = "description"; description.rows = 3; description.value = step.description || "";
         const tip = document.createElement("input"); tip.dataset.field = "tip"; tip.placeholder = "Tip (optional)"; tip.value = step.tip || "";
+        const warning = document.createElement("input"); warning.dataset.field = "warning"; warning.placeholder = "Warning (optional)"; warning.value = step.warning || "";
         const remove = document.createElement("button"); remove.type = "button"; remove.dataset.removeStep = index; remove.textContent = "Remove step";
-        box.append(heading, title, description, tip, remove); guideSteps.append(box);
+        box.append(heading, title, description, tip, warning, remove); guideSteps.append(box);
     });
     guideSteps.querySelectorAll("[data-remove-step]").forEach((button) => button.addEventListener("click", () => { currentGuide.steps.splice(Number(button.dataset.removeStep), 1); renderGuideSteps(); }));
+    renderTutorialPreview();
 }
 
 generateGuideBtn.addEventListener("click", async () => {
+    const transcript = transcriptText.value.trim();
+    if (!transcript) {
+        guideStatus.textContent = "Add or transcribe some words before generating a tutorial.";
+        return;
+    }
     generateGuideBtn.disabled = true; guideStatus.textContent = "Generating guide…";
     try {
-        const response = await fetch("/api/generate-guide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript: transcriptText.value }) });
-        const data = await response.json(); if (!response.ok) throw new Error(data.error);
-        currentGuide = data.guide; guideEditor.hidden = false; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(item => `${item.name || ""}${item.quantity ? ` — ${item.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; await loadTopics(); guideTopic.value = currentGuide.suggested_topic_slug || "food"; renderGuideSteps(); guideStatus.textContent = "Guide ready for review.";
+        const response = await fetch("/api/generate-guide", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ transcript }) });
+        const data = await readApiResponse(response);
+        currentGuide = data.guide; currentContributionId = null; guideEditor.hidden = false; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(item => `${item.name || ""}${item.quantity ? ` — ${item.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; await loadTopics(); guideTopic.value = currentGuide.suggested_topic_slug || "techniques"; renderGuideSteps(); guideStatus.textContent = "Tutorial ready. Please review every step before saving.";
     } catch (error) { guideStatus.textContent = error.message; } finally { generateGuideBtn.disabled = false; }
 });
 
-addStepBtn.addEventListener("click", () => { currentGuide.steps.push({ title: "", description: "", tip: "", warning: "" }); renderGuideSteps(); });
+addStepBtn.addEventListener("click", () => { if (!currentGuide) return; currentGuide.steps.push({ title: "", description: "", tip: "", warning: "" }); renderGuideSteps(); });
 
 function collectGuide() {
-    currentGuide.title = guideTitle.value.trim(); currentGuide.introduction = guideIntroduction.value.trim(); currentGuide.region = guideRegion.value.trim(); currentGuide.materials = guideMaterials.value.split("\n").map(line => line.trim()).filter(Boolean).map(line => { const parts = line.split(/\s+[—-]\s+/); return { name: parts[0], quantity: parts.slice(1).join(" — ") }; }); currentGuide.tools = guideTools.value.split("\n").map(line => line.trim()).filter(Boolean); currentGuide.cultural_significance = guideSignificance.value.trim(); currentGuide.steps = [...guideSteps.querySelectorAll(".guide-step")].map((box, index) => ({ number: index + 1, title: box.querySelector('[data-field="title"]').value, description: box.querySelector('[data-field="description"]').value, tip: box.querySelector('[data-field="tip"]').value, warning: "" }));
+    currentGuide.title = guideTitle.value.trim(); currentGuide.introduction = guideIntroduction.value.trim(); currentGuide.region = guideRegion.value.trim(); currentGuide.materials = guideMaterials.value.split("\n").map(line => line.trim()).filter(Boolean).map(line => { const parts = line.split(/\s+[—-]\s+/); return { name: parts[0], quantity: parts.slice(1).join(" — ") }; }); currentGuide.tools = guideTools.value.split("\n").map(line => line.trim()).filter(Boolean); currentGuide.cultural_significance = guideSignificance.value.trim(); currentGuide.steps = [...guideSteps.querySelectorAll(".guide-step")].map((box, index) => ({ number: index + 1, title: box.querySelector('[data-field="title"]').value.trim(), description: box.querySelector('[data-field="description"]').value.trim(), tip: box.querySelector('[data-field="tip"]').value.trim(), warning: box.querySelector('[data-field="warning"]').value.trim() }));
+    currentGuide.suggested_topic_slug = guideTopic.value;
     return currentGuide;
 }
 
+// Package one contribution consistently for first saves, updates, and sign-in recovery.
+function buildContributionPayload() {
+    return { title: collectGuide().title, guide: currentGuide, transcript: transcriptText.value, topic_slug: guideTopic.value, attribution: guideAttribution.value, consent: guideConsent.checked };
+}
+
 async function saveGuide(submit = false) {
-    collectGuide(); guideStatus.textContent = submit ? "Submitting…" : "Saving draft…";
+    const payload = buildContributionPayload(); guideStatus.textContent = submit ? "Submitting…" : "Saving draft…";
     try {
-        if (!signedInUser) { location.href = `/account?next=${encodeURIComponent(location.pathname + location.search + "#contribute")}`; return; }
-        const payload = { title: currentGuide.title, guide: currentGuide, transcript: transcriptText.value, topic_slug: guideTopic.value, attribution: guideAttribution.value, consent: guideConsent.checked };
+        if (!signedInUser) {
+            // The save click is remembered through sign-in instead of losing the tutorial.
+            sessionStorage.setItem(pendingDraftKey, JSON.stringify({ payload, submit }));
+            location.href = `/account?next=${encodeURIComponent("/?resume=pending#contribute")}`;
+            return;
+        }
         const saveUrl = currentContributionId ? `/api/contributions/${currentContributionId}` : "/api/contributions";
         const response = await fetch(saveUrl, { method: currentContributionId ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-        const saved = await response.json(); if (!response.ok) throw new Error(saved.error);
+        const saved = await readApiResponse(response);
         currentContributionId = saved.id;
         if (submit) {
             const submitResponse = await fetch(`/api/contributions/${saved.id}/submit`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
             const submitted = await submitResponse.json();
             if (!submitResponse.ok) throw new Error(submitted.error);
         }
-        guideStatus.textContent = submit ? "Submitted for administrator review." : "Draft saved.";
-        if (submit) setTimeout(() => { location.href = "/contributions"; }, 900);
+        sessionStorage.removeItem(pendingDraftKey);
+        guideStatus.textContent = submit ? "Submitted for administrator review. Opening My Contributions…" : "Draft saved. Opening My Contributions…";
+        setTimeout(() => { location.href = "/contributions"; }, 700);
     } catch (error) { guideStatus.textContent = error.message; }
 }
 
 saveGuideBtn.addEventListener("click", () => saveGuide(false)); submitGuideBtn.addEventListener("click", () => saveGuide(true));
+
+// Keep the polished preview synchronized with every field the contributor edits.
+guideEditor.addEventListener("input", (event) => {
+    if (!currentGuide || !event.target.matches("input, textarea, select")) return;
+    collectGuide(); renderTutorialPreview();
+});
 
 // --------------------------------------------------
 // 10. Stop microphone access if the visitor leaves while recording.
@@ -552,6 +646,13 @@ async function prepareContributionAccount() {
         const accountNav = document.getElementById("accountNav");
         const accountNote = document.getElementById("accountNote");
         if (signedInUser) { accountNav.textContent = "My archive →"; accountNav.href = "/contributions"; accountNote.textContent = `Signed in as ${signedInUser.email}`; }
+        const pending = sessionStorage.getItem(pendingDraftKey);
+        if (signedInUser && new URLSearchParams(location.search).get("resume") === "pending" && pending) {
+            const savedState = JSON.parse(pending); const payload = savedState.payload;
+            currentGuide = payload.guide; transcriptText.value = payload.transcript; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = payload.attribution || ""; guideConsent.checked = Boolean(payload.consent);
+            await loadTopics(); guideTopic.value = payload.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; guideStatus.textContent = "Signed in. Saving your recovered draft…";
+            await saveGuide(Boolean(savedState.submit)); return;
+        }
         const editId = new URLSearchParams(location.search).get("edit");
         if (!editId) return;
         if (!signedInUser) { location.href = `/account?next=${encodeURIComponent(location.pathname + location.search + "#contribute")}`; return; }

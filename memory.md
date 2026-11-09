@@ -111,3 +111,12 @@ This file records the major project changes and decisions so future work stays c
 - Added `openai/gpt-oss-120b` as a separate transcript-review stage between Whisper and tutorial generation. It removes chatter, organizes productive content, suggests safe missing steps, and visibly records every AI-added detail and unresolved question.
 - Fixed long saved guides staying invisible on Edit: restored editors now bypass the scroll-reveal threshold and scroll directly to the editable transcript.
 - Added owner-only contribution deletion with confirmation, including clean removal of review history and immediate removal of published guides from Explore.
+
+## 10 November 2026 — Wikimedia Explore Rebuild
+
+- Removed the interactive map route, page, script, and every Map navigation link.
+- Rebuilt Explore around live Wikipedia and Wikimedia REST data without requiring an API key.
+- Added six curated starting collections: Ancient India, Living Cultures, Heritage Crafts, Traditional Food, Architecture, and Knowledge & Texts.
+- Added Wikipedia search, live summaries, Wikimedia thumbnails, direct source links, caching, retry states, and source attribution.
+- Kept administrator-approved Smriti community guides visible below the external knowledge collections.
+- Limited each Wikipedia card summary to three lines with an accessible Read more and Read less toggle.

@@ -76,35 +76,105 @@ async function startContributionsPage() {
     } catch (error) { list.innerHTML = `<p class="feedback">${escapeHtml(error.message)}</p>`; }
 }
 
-// Explore groups connect the six landing cards to the ten detailed database topics.
-const exploreGroups = [
-    { number: "01", name: "Traditional Medicine", description: "Healing practices and knowledge passed through communities.", topics: ["techniques"] },
-    { number: "02", name: "Monuments", description: "Temples, forts, palaces, and the stories held by places.", topics: ["architecture"] },
-    { number: "03", name: "Ancient Texts", description: "Languages, literature, manuscripts, and spoken memory.", topics: ["languages", "folklore"] },
-    { number: "04", name: "Culture", description: "Festivals, performance, craft, ritual, and celebration.", topics: ["festivals", "performing-arts", "crafts"] },
-    { number: "05", name: "Lifestyle", description: "Food, clothing, weaving, occupations, and daily practice.", topics: ["food", "textiles"] },
-    { number: "06", name: "Civilisations", description: "People, dynasties, trade routes, and shared histories.", topics: ["history"] },
-];
+// Older homepage and contribution links are redirected into the new Wikipedia collections.
+const legacyExploreLinks = {
+    food: "traditional-food", history: "ancient-india", crafts: "heritage-crafts",
+    festivals: "living-cultures", "performing-arts": "living-cultures", textiles: "heritage-crafts",
+    folklore: "knowledge-texts", techniques: "knowledge-texts", architecture: "architecture", languages: "knowledge-texts",
+};
 
-// Explore page: Curated is an honest empty state; Community reads approved database entries.
+// Only secure Wikimedia image addresses are allowed into an article card.
+function safeWikiImage(value) {
+    try { const url = new URL(value); return url.protocol === "https:" && url.hostname.endsWith("wikimedia.org") ? url.href : ""; }
+    catch (_error) { return ""; }
+}
+
+// Article buttons may link only to English Wikipedia over HTTPS.
+function safeWikiSource(value) {
+    try { const url = new URL(value); return url.protocol === "https:" && url.hostname === "en.wikipedia.org" ? url.href : "https://en.wikipedia.org/"; }
+    catch (_error) { return "https://en.wikipedia.org/"; }
+}
+
+// Render REST results with source attribution and a direct route to the full article.
+function renderWikiCards(articles, area) {
+    if (!articles.length) { area.innerHTML = '<div class="empty-state">No Wikipedia articles matched this search.</div>'; return; }
+    area.innerHTML = articles.map((article) => {
+        const image = safeWikiImage(article.image);
+        const source = safeWikiSource(article.source_url);
+        return `<article class="wiki-card">${image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy">` : '<div class="wiki-image-placeholder" aria-hidden="true">✦</div>'}<div class="wiki-card-body"><span class="wiki-source">Wikipedia</span><h3>${escapeHtml(article.title)}</h3><p class="wiki-description">${escapeHtml(article.description || "Heritage article")}</p><p class="wiki-extract">${escapeHtml(article.extract)}</p><button class="wiki-read-more" type="button" aria-expanded="false">Read more</button><a href="${source}" target="_blank" rel="noreferrer">Read the full Wikipedia article <span aria-hidden="true">↗</span></a></div></article>`;
+    }).join("");
+
+    // Summaries stay at three lines until the visitor asks to read the rest.
+    area.querySelectorAll(".wiki-read-more").forEach((button) => {
+        const extract = button.previousElementSibling;
+        if (extract.scrollHeight <= extract.clientHeight + 1) { button.hidden = true; return; }
+        button.addEventListener("click", () => {
+            const expanded = extract.classList.toggle("expanded");
+            button.setAttribute("aria-expanded", String(expanded));
+            button.textContent = expanded ? "Read less" : "Read more";
+        });
+    });
+}
+
+// Community contributions remain available underneath the live external knowledge.
+async function loadCommunityArchive() {
+    const area = document.querySelector("#communityGuides");
+    try {
+        const { topics } = await api("/api/topics");
+        const responses = await Promise.all(topics.map(topic => api(`/api/topics/${topic.slug}/contributions`)));
+        const guides = responses.flatMap(result => result.contributions);
+        area.innerHTML = guides.length ? guides.map(item => `<article class="portal-card"><span class="status-badge">Community</span><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.guide.introduction || "A reviewed community heritage guide.")}</p><a class="secondary-action" href="/guides/${item.id}">Open community guide</a></article>`).join("") : '<div class="empty-state">No community guides have been published yet.</div>';
+    } catch (error) { area.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`; }
+}
+
+// Explore combines curated starting points, live Wikipedia search, and Smriti guides.
 async function startTopicsPage() {
     await updateHeader();
-    const { topics } = await api("/api/topics");
-    const slug = location.pathname.split("/").filter(Boolean)[1] || topics[0].slug;
-    const topic = topics.find(item => item.slug === slug) || topics[0];
-    const bySlug = Object.fromEntries(topics.map(item => [item.slug, item]));
-    document.querySelector("#exploreGroups").innerHTML = exploreGroups.map(group => `<article class="collection-card"><span>${group.number}</span><h2>${escapeHtml(group.name)}</h2><p>${escapeHtml(group.description)}</p><div class="collection-links">${group.topics.map(topicSlug => `<a href="/explore/${topicSlug}">${escapeHtml(bySlug[topicSlug].name)} →</a>`).join("")}</div></article>`).join("");
-    document.querySelector("#topicTitle").textContent = topic.name;
-    document.querySelector("#topicPicker").innerHTML = topics.map(item => `<a class="topic-chip ${item.slug === topic.slug ? "active" : ""}" href="/explore/${item.slug}">${escapeHtml(item.name)}</a>`).join("");
-    const content = document.querySelector("#topicContent");
-    const showTab = async (tab) => {
-        document.querySelectorAll(".tab").forEach(button => button.classList.toggle("active", button.dataset.tab === tab));
-        if (tab === "curated") { content.innerHTML = '<div class="empty-state"><strong>Curated guides are being prepared.</strong><br>Approved community knowledge is available in the Community tab.</div>'; return; }
-        const { contributions } = await api(`/api/topics/${topic.slug}/contributions`);
-        content.innerHTML = contributions.length ? `<div class="card-grid">${contributions.map(item => `<article class="portal-card"><span class="status-badge">Community</span><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.guide.introduction || "A community-contributed heritage guide.")}</p><a class="secondary-action" href="/guides/${item.id}">Read guide</a></article>`).join("")}</div>` : '<div class="empty-state">No community guides have been approved for this topic yet.</div>';
+    const collectionNav = document.querySelector("#wikiCollections");
+    const results = document.querySelector("#wikiResults");
+    const title = document.querySelector("#wikiResultsTitle");
+    const description = document.querySelector("#wikiResultsDescription");
+    const kicker = document.querySelector("#wikiResultsKicker");
+    const retry = document.querySelector("#retryWiki");
+    let currentSlug = "ancient-india";
+
+    const loadCollection = async (slug, updateAddress = true) => {
+        currentSlug = slug; retry.hidden = true; kicker.textContent = "Wikipedia collection";
+        results.innerHTML = '<div class="empty-state">Loading current information from Wikipedia…</div>';
+        collectionNav.querySelectorAll("[data-wiki-collection]").forEach(button => button.classList.toggle("active", button.dataset.wikiCollection === slug));
+        try {
+            const data = await api(`/api/explore/articles/${encodeURIComponent(slug)}`);
+            title.textContent = data.collection.name; description.textContent = data.collection.description;
+            renderWikiCards(data.articles, results);
+            if (updateAddress) history.pushState({}, "", `/explore/${slug}`);
+        } catch (error) {
+            title.textContent = "Wikipedia is temporarily unavailable"; description.textContent = error.message;
+            results.innerHTML = '<div class="empty-state">The external source could not be reached. Your Smriti community guides are still available below.</div>';
+            retry.hidden = false;
+        }
     };
-    document.querySelectorAll(".tab").forEach(button => button.addEventListener("click", () => showTab(button.dataset.tab)));
-    showTab("community");
+
+    try {
+        const { collections } = await api("/api/explore/collections");
+        const requested = location.pathname.split("/").filter(Boolean)[1];
+        currentSlug = legacyExploreLinks[requested] || (collections.some(item => item.slug === requested) ? requested : collections[0].slug);
+        collectionNav.innerHTML = collections.map(item => `<button type="button" class="wiki-collection-chip" data-wiki-collection="${item.slug}"><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.description)}</span></button>`).join("");
+        collectionNav.querySelectorAll("[data-wiki-collection]").forEach(button => button.addEventListener("click", () => loadCollection(button.dataset.wikiCollection)));
+        await loadCollection(currentSlug, false);
+    } catch (error) { collectionNav.innerHTML = `<span class="empty-state">${escapeHtml(error.message)}</span>`; }
+
+    document.querySelector("#wikiSearchForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); retry.hidden = true;
+        const query = document.querySelector("#wikiSearchInput").value.trim();
+        results.innerHTML = '<div class="empty-state">Searching Wikipedia…</div>';
+        try {
+            const data = await api(`/api/explore/search?q=${encodeURIComponent(query)}`);
+            kicker.textContent = "Wikipedia search"; title.textContent = `Results for “${data.query}”`; description.textContent = "Search results are supplied live by Wikipedia.";
+            renderWikiCards(data.articles, results);
+        } catch (error) { title.textContent = "Search unavailable"; description.textContent = error.message; results.innerHTML = '<div class="empty-state">Please try another search in a moment.</div>'; }
+    });
+    retry.addEventListener("click", () => loadCollection(currentSlug, false));
+    loadCommunityArchive();
 }
 
 // Admin page: only the server decides who may read or change review data.

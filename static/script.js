@@ -7,7 +7,6 @@ const menuButton = document.getElementById("menuButton");
 const siteNav = document.getElementById("siteNav");
 const navLinks = document.querySelectorAll(".nav-link");
 const revealItems = document.querySelectorAll(".reveal");
-const categoryButtons = document.querySelectorAll(".round-link");
 const playPreview = document.getElementById("playPreview");
 const toast = document.getElementById("toast");
 
@@ -198,13 +197,6 @@ function showToast(message) {
 
 playPreview.addEventListener("click", () => {
     showToast("The full silk-weaving film will arrive with the story pages.");
-});
-
-categoryButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        const category = button.dataset.category;
-        showToast(`${category} will open as a dedicated collection in the next phase.`);
-    });
 });
 
 // --------------------------------------------------

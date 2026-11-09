@@ -9,7 +9,6 @@ Smriti is a simple heritage website for discovering, documenting, and learning a
 - `static/script.js` controls the menu, scroll effects, file selection, and transcription request.
 - `static/portal.js` controls sign-in, Explore collections, contribution status, public guides, and administrator review.
 - `static/portal.css` gives the workflow pages the same dark heritage style.
-- `static/map.html` and `static/map.js` contain the interactive India heritage atlas imported from the provided ZIP.
 - `static/assets/` contains the heritage photographs used by the page.
 - `app.py` runs the Flask web server and sends recordings to Groq Whisper for transcription.
 - `AGENTS.md` contains the coding and documentation rules for this project.
@@ -51,12 +50,13 @@ The visible workflow pages are:
 
 - `/account` — register or sign in.
 - `/contributions` — see drafts, review status, feedback, and published guides.
-- `/explore` or `/explore/textiles` — browse six familiar heritage groups and their 10 detailed collections.
-- `/map` — explore states, union territories, and monument records on the imported interactive atlas.
+- `/explore` — browse live Wikipedia heritage collections, search Wikipedia, and read approved Smriti community guides.
 - `/admin` — review submitted guides as an administrator.
 - `/guides/1` — read a published community guide (replace `1` with its ID).
 
-Published contributions only appear through public topic pages after administrator approval. The Curated tab is intentionally an honest empty state.
+Published contributions appear in the Smriti community section only after administrator approval.
+
+Explore uses the public Wikipedia and Wikimedia REST APIs, which do not require an API key. Smriti retrieves article summaries, thumbnails, descriptions, search results, and source links through its Flask backend and briefly caches responses.
 
 Contributors can edit drafts and guides returned for changes. They can also permanently delete any contribution they own; deleting published work immediately removes it from public Explore pages.
 

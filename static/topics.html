@@ -1,10 +1,70 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explore heritage — Smriti</title><link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/portal.css"></head><body class="portal-body" data-page="topics">
-<!-- Visitors can browse all approved knowledge without signing in. -->
-<header class="portal-header"><a class="portal-brand" href="/"><span>✦</span> SMRITI</a><nav class="portal-nav"><a href="/">Home</a><a href="/explore">Explore</a><a href="/map">Map</a><a href="/#contribute">Contribute</a><span class="portal-nav" data-account-link></span></nav></header>
-<main class="portal-main">
-<!-- Six familiar doorways match the cards visitors first see on the landing page. -->
-<header class="portal-hero"><p class="portal-kicker">Explore living knowledge</p><h1>Explore our heritage</h1><p>Begin with a familiar part of heritage, then choose a more detailed collection inside it.</p></header>
-<section class="explore-groups" id="exploreGroups" aria-label="Heritage collections"></section>
-<!-- The selected detailed collection controls the approved guides shown below. -->
-<section class="collection-browser"><p class="portal-kicker">Detailed collections</p><h2 id="topicTitle">Choose a collection</h2><nav class="topic-picker" id="topicPicker" aria-label="Detailed heritage collections"></nav><div class="tabs" role="tablist"><button class="tab" data-tab="curated" role="tab">Curated</button><button class="tab active" data-tab="community" role="tab">Community</button></div><section id="topicContent" aria-live="polite"><div class="empty-state">Loading approved guides…</div></section></section>
-</main><script src="/static/portal.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Explore stays lightweight while live knowledge comes from Wikimedia. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Explore Indian cultures, recipes, crafts, architecture, and ancient knowledge through Wikipedia and community contributions.">
+    <title>Explore living heritage — Smriti</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/portal.css">
+</head>
+<body class="portal-body" data-page="topics">
+    <!-- The map is removed; Explore is now the main discovery destination. -->
+    <header class="portal-header">
+        <a class="portal-brand" href="/"><span>✦</span> SMRITI</a>
+        <nav class="portal-nav">
+            <a href="/">Home</a>
+            <a href="/explore" aria-current="page">Explore</a>
+            <a href="/#contribute">Contribute</a>
+            <span class="portal-nav" data-account-link></span>
+        </nav>
+    </header>
+
+    <main class="portal-main explore-main">
+        <!-- The hero makes both guided browsing and open Wikipedia search available. -->
+        <header class="portal-hero explore-hero">
+            <p class="portal-kicker">Knowledge from living communities and open sources</p>
+            <h1>Explore India’s living heritage.</h1>
+            <p>Discover ancient cultures, regional food, craft traditions, architecture, performance, and knowledge systems. Article details and images are retrieved from Wikipedia.</p>
+            <form class="wiki-search" id="wikiSearchForm" role="search">
+                <label class="sr-only" for="wikiSearchInput">Search Wikipedia heritage articles</label>
+                <input id="wikiSearchInput" type="search" minlength="2" maxlength="120" placeholder="Search recipes, festivals, crafts, monuments…" required>
+                <button class="primary-action" type="submit">Search Wikipedia</button>
+            </form>
+            <p class="source-note"><span aria-hidden="true">◎</span> Live information from the Wikipedia and Wikimedia REST APIs. No API key required.</p>
+        </header>
+
+        <!-- Collection buttons load a carefully selected set of reliable starting points. -->
+        <nav class="wiki-collections" id="wikiCollections" aria-label="Heritage collections">
+            <span class="empty-state">Loading heritage collections…</span>
+        </nav>
+
+        <section class="wiki-results-section" aria-labelledby="wikiResultsTitle">
+            <div class="results-heading">
+                <div>
+                    <p class="portal-kicker" id="wikiResultsKicker">Wikipedia collection</p>
+                    <h2 id="wikiResultsTitle">Opening heritage stories…</h2>
+                    <p id="wikiResultsDescription"></p>
+                </div>
+                <button class="secondary-action" id="retryWiki" type="button" hidden>Try again</button>
+            </div>
+            <div class="wiki-grid" id="wikiResults" aria-live="polite">
+                <div class="empty-state">Contacting Wikipedia…</div>
+            </div>
+        </section>
+
+        <!-- Community work remains visible alongside externally sourced knowledge. -->
+        <section class="community-archive" aria-labelledby="communityTitle">
+            <p class="portal-kicker">Smriti community archive</p>
+            <h2 id="communityTitle">Guides shared by contributors</h2>
+            <p>These practical guides were reviewed and approved inside Smriti.</p>
+            <div class="card-grid" id="communityGuides" aria-live="polite">
+                <div class="empty-state">Loading community guides…</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/portal.js"></script>
+</body>
+</html>

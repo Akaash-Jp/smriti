@@ -6,7 +6,7 @@ import os
 import tempfile
 import unittest
 from types import SimpleNamespace
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import app as smriti
 from werkzeug.security import generate_password_hash
@@ -127,17 +127,48 @@ class ContributionWorkflowTest(unittest.TestCase):
         )
         self.assertEqual(login.status_code, 401)
 
-    def test_map_page_is_available(self):
-        """The imported map is served without replacing the existing homepage."""
+    def test_map_feature_is_removed(self):
+        """Old map addresses no longer expose the removed atlas."""
         browser = smriti.app.test_client()
         map_response = browser.get("/map")
-        home_response = browser.get("/")
+        map_file = browser.get("/static/map.html")
         try:
-            self.assertEqual(map_response.status_code, 200)
-            self.assertEqual(home_response.status_code, 200)
+            self.assertEqual(map_response.status_code, 404)
+            self.assertEqual(map_file.status_code, 404)
         finally:
             map_response.close()
-            home_response.close()
+            map_file.close()
+
+    def test_explore_collections_are_available_without_an_api_key(self):
+        """Explore collection names load locally before Wikipedia is contacted."""
+        response = smriti.app.test_client().get("/api/explore/collections")
+        self.assertEqual(response.status_code, 200)
+        self.assertGreaterEqual(len(response.get_json()["collections"]), 6)
+        self.assertIn("Wikipedia", response.get_json()["source"])
+
+    @patch("app.wikipedia_summary")
+    def test_explore_collection_returns_wikipedia_cards(self, fake_summary):
+        """The API turns curated article titles into source-linked cards."""
+        fake_summary.side_effect = lambda title: {
+            "title": title,
+            "description": "Heritage topic",
+            "extract": "A concise article summary.",
+            "image": "https://upload.wikimedia.org/example.jpg",
+            "source_url": "https://en.wikipedia.org/wiki/Example",
+            "source_name": "Wikipedia",
+        }
+        response = smriti.app.test_client().get("/api/explore/articles/ancient-india")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.get_json()["articles"]), 6)
+        self.assertEqual(fake_summary.call_count, 6)
+
+    @patch("app.wikipedia_search")
+    def test_explore_search_uses_wikimedia_rest_results(self, fake_search):
+        """A visitor can search beyond the prepared heritage collections."""
+        fake_search.return_value = [{"title": "Dosa", "extract": "A fermented dish."}]
+        response = smriti.app.test_client().get("/api/explore/search?q=dosa")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json()["articles"][0]["title"], "Dosa")
 
     def test_groq_transcription_response_reaches_the_page(self):
         """A Groq transcript is returned in the format expected by JavaScript."""

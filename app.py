@@ -5,6 +5,13 @@ import json
 import secrets
 import sqlite3
 import mimetypes
+import html
+import re
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from functools import wraps
 from urllib.parse import urlsplit
@@ -42,6 +49,46 @@ TOPICS = [
     ("architecture", "Architecture & Monuments"),
     ("languages", "Languages & Literature"),
 ]
+
+# Explore uses a small, intentional set of Indian heritage subjects from Wikipedia.
+# Article text and images are fetched live, so Smriti never presents copied facts as its own.
+WIKI_COLLECTIONS = {
+    "ancient-india": {
+        "name": "Ancient India",
+        "description": "Early cities, kingdoms, learning, and artistic traditions.",
+        "titles": ["Indus Valley Civilisation", "Vedic period", "Maurya Empire", "Sangam period", "Gupta Empire", "Ajanta Caves"],
+    },
+    "living-cultures": {
+        "name": "Living Cultures",
+        "description": "Dance, music, ritual, and celebration practised today.",
+        "titles": ["Bharatanatyam", "Kathakali", "Yakshagana", "Baul", "Theyyam", "Garba (dance)"],
+    },
+    "heritage-crafts": {
+        "name": "Heritage Crafts",
+        "description": "Textiles, painting, metalwork, toys, and regional making.",
+        "titles": ["Kanchipuram silk sari", "Channapatna toys", "Madhubani art", "Dhokra", "Blue Pottery of Jaipur", "Pattachitra"],
+    },
+    "traditional-food": {
+        "name": "Traditional Food",
+        "description": "Recipes, ingredients, and food histories from across India.",
+        "titles": ["Dosa (food)", "Biryani", "Dhokla", "Appam", "Rogan josh", "Modak"],
+    },
+    "architecture": {
+        "name": "Architecture",
+        "description": "Temples, cities, monuments, and building knowledge.",
+        "titles": ["Brihadisvara Temple", "Rani ki Vav", "Hampi", "Konark Sun Temple", "Sanchi", "Fatehpur Sikri"],
+    },
+    "knowledge-texts": {
+        "name": "Knowledge & Texts",
+        "description": "Literature, philosophy, medicine, stories, and learning systems.",
+        "titles": ["Vedas", "Arthashastra", "Sangam literature", "Ayurveda", "Yoga Sutras of Patanjali", "Panchatantra"],
+    },
+}
+
+# A short in-memory cache is respectful to Wikimedia and keeps repeated browsing fast.
+WIKI_CACHE_SECONDS = 60 * 30
+wiki_cache = {}
+WIKI_HEADERS = {"User-Agent": "SmritiHeritage/1.0 (educational local project)"}
 
 
 def utc_now():
@@ -149,12 +196,6 @@ ALLOWED_AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", "
 @app.route("/")
 def home():
     return send_from_directory("static", "index.html")
-
-
-# The map files come from the provided ZIP and stay separate from other pages.
-@app.get("/map")
-def map_page():
-    return send_from_directory("static", "map.html")
 
 
 # These simple page routes make every part of the contribution journey visible.
@@ -348,6 +389,95 @@ def list_topics():
     topics = [dict(row) for row in connection.execute("SELECT id, slug, name, description FROM topics ORDER BY id")]
     connection.close()
     return jsonify({"topics": topics})
+
+
+def fetch_wikimedia_json(url):
+    """Read one Wikimedia JSON response and reuse it briefly for later visitors."""
+    cached = wiki_cache.get(url)
+    if cached and time.time() - cached["saved_at"] < WIKI_CACHE_SECONDS:
+        return cached["data"]
+    request_to_wiki = urllib.request.Request(url, headers=WIKI_HEADERS)
+    with urllib.request.urlopen(request_to_wiki, timeout=10) as response:
+        data = json.loads(response.read().decode("utf-8"))
+    wiki_cache[url] = {"saved_at": time.time(), "data": data}
+    return data
+
+
+def wikipedia_summary(title):
+    """Turn a Wikipedia REST summary into the small card used by Explore."""
+    encoded_title = urllib.parse.quote(title.replace(" ", "_"), safe="")
+    data = fetch_wikimedia_json(f"https://en.wikipedia.org/api/rest_v1/page/summary/{encoded_title}")
+    thumbnail = (data.get("thumbnail") or {}).get("source", "")
+    return {
+        "title": data.get("title") or title,
+        "description": data.get("description") or "Wikipedia heritage article",
+        "extract": data.get("extract") or "Open the source article to learn more.",
+        "image": thumbnail if thumbnail.startswith("https://") else "",
+        "source_url": ((data.get("content_urls") or {}).get("desktop") or {}).get("page") or f"https://en.wikipedia.org/wiki/{encoded_title}",
+        "source_name": "Wikipedia",
+    }
+
+
+def wikipedia_search(query):
+    """Search current Wikipedia pages with the documented MediaWiki REST endpoint."""
+    encoded_query = urllib.parse.urlencode({"q": query, "limit": 12})
+    data = fetch_wikimedia_json(f"https://en.wikipedia.org/w/rest.php/v1/search/page?{encoded_query}")
+    results = []
+    for page in data.get("pages", []):
+        thumbnail = (page.get("thumbnail") or {}).get("url", "")
+        if thumbnail.startswith("//"):
+            thumbnail = f"https:{thumbnail}"
+        clean_excerpt = html.unescape(re.sub(r"<[^>]+>", "", page.get("excerpt") or ""))
+        key = str(page.get("key") or "").replace(" ", "_")
+        results.append({
+            "title": page.get("title") or key,
+            "description": page.get("description") or "Wikipedia heritage article",
+            "extract": clean_excerpt or "Open the source article to learn more.",
+            "image": thumbnail if thumbnail.startswith("https://") else "",
+            "source_url": f"https://en.wikipedia.org/wiki/{urllib.parse.quote(key, safe='()_-')}",
+            "source_name": "Wikipedia",
+        })
+    return results
+
+
+@app.get("/api/explore/collections")
+def explore_collections():
+    """List the editorial collection names without making an external request."""
+    collections = [
+        {"slug": slug, "name": item["name"], "description": item["description"]}
+        for slug, item in WIKI_COLLECTIONS.items()
+    ]
+    return jsonify({"collections": collections, "source": "Wikipedia and Wikimedia REST API"})
+
+
+@app.get("/api/explore/articles/<slug>")
+def explore_articles(slug):
+    """Fetch one curated collection in parallel so Explore loads quickly."""
+    collection = WIKI_COLLECTIONS.get(slug)
+    if not collection:
+        return jsonify({"error": "Heritage collection not found."}), 404
+    try:
+        with ThreadPoolExecutor(max_workers=6) as pool:
+            articles = list(pool.map(wikipedia_summary, collection["titles"]))
+        return jsonify({"collection": {"slug": slug, "name": collection["name"], "description": collection["description"]}, "articles": articles})
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
+        app.logger.exception("Wikipedia collection request failed")
+        return jsonify({"error": "Wikipedia could not be reached. Please try this collection again."}), 502
+
+
+@app.get("/api/explore/search")
+def explore_search():
+    """Search Wikipedia while keeping short or accidental queries off the network."""
+    query = str(request.args.get("q", "")).strip()
+    if len(query) < 2:
+        return jsonify({"error": "Enter at least two letters to search Wikipedia."}), 400
+    if len(query) > 120:
+        return jsonify({"error": "Please shorten the search to 120 characters."}), 400
+    try:
+        return jsonify({"query": query, "articles": wikipedia_search(query)})
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
+        app.logger.exception("Wikipedia search failed")
+        return jsonify({"error": "Wikipedia search is temporarily unavailable. Please try again."}), 502
 
 
 def guide_prompt(transcript):

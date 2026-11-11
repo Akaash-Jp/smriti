@@ -120,3 +120,23 @@ This file records the major project changes and decisions so future work stays c
 - Added Wikipedia search, live summaries, Wikimedia thumbnails, direct source links, caching, retry states, and source attribution.
 - Kept administrator-approved Smriti community guides visible below the external knowledge collections.
 - Limited each Wikipedia card summary to three lines with an accessible Read more and Read less toggle.
+
+## 11 November 2026 — Heritage-101 Map Restoration
+
+- Restored the interactive India heritage atlas from the supplied `smriti (3).zip` without replacing the current homepage, Explore, contribution, or administrator features.
+- Added `/map`, map navigation links across every page, all state and union-territory shapes, monument pins, search, filters, state zoom, and monument detail panels.
+- Renamed the visitor-facing website from Smriti to Heritage-101 while keeping existing environment-variable and database names compatible.
+
+## 11 November 2026 — Shared Header and Account Menu
+
+- Replaced the separate portal navigation bars with the same header structure and styling used on the homepage.
+- Moved My contributions, administrator-only Review contributions, and Sign out into one role-aware account dropdown.
+- Kept Review out of the menu for contributors and signed-out visitors while preserving the server-side administrator check.
+- Changed the landing-page Heritage-101 wordmark to the same Arial, uppercase, letter-spaced typography used by the hero eyebrow text.
+
+## 11 November 2026 — Draft Login Handoff Repair
+
+- Fixed administrator login ignoring the pending contribution return address and opening the review queue instead.
+- Preserved unsigned contribution data in temporary session storage with a local-storage fallback until Flask confirms the draft was saved.
+- Restored pending contributions on the homepage even if the exact resume query parameter is lost during authentication.
+- Added compatibility for pending drafts stored under the earlier Smriti browser-storage key.

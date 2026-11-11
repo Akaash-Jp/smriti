@@ -51,7 +51,7 @@ TOPICS = [
 ]
 
 # Explore uses a small, intentional set of Indian heritage subjects from Wikipedia.
-# Article text and images are fetched live, so Smriti never presents copied facts as its own.
+# Article text and images are fetched live, so Heritage-101 never presents copied facts as its own.
 WIKI_COLLECTIONS = {
     "ancient-india": {
         "name": "Ancient India",
@@ -88,7 +88,7 @@ WIKI_COLLECTIONS = {
 # A short in-memory cache is respectful to Wikimedia and keeps repeated browsing fast.
 WIKI_CACHE_SECONDS = 60 * 30
 wiki_cache = {}
-WIKI_HEADERS = {"User-Agent": "SmritiHeritage/1.0 (educational local project)"}
+WIKI_HEADERS = {"User-Agent": "Heritage101/1.0 (educational local project)"}
 
 
 def utc_now():
@@ -214,6 +214,12 @@ def admin_page():
     return send_from_directory("static", "admin.html")
 
 
+# The map is a self-contained interactive atlas supplied with the project.
+@app.get("/map")
+def map_page():
+    return send_from_directory("static", "map.html")
+
+
 @app.get("/topics")
 @app.get("/topics/<slug>")
 @app.get("/explore")
@@ -245,7 +251,7 @@ def protect_state_changes():
         return None
     source = urlsplit(origin)
     if source.netloc != request.host:
-        return jsonify({"error": "This request did not come from Smriti."}), 403
+        return jsonify({"error": "This request did not come from Heritage-101."}), 403
     return None
 
 

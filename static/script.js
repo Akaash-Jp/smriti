@@ -43,7 +43,59 @@ let currentGuide = null;
 let currentTranscriptReview = null;
 let currentContributionId = null;
 let signedInUser = null;
-const pendingDraftKey = "smritiPendingContribution";
+const pendingDraftKey = "heritage101PendingContribution";
+const legacyPendingDraftKey = "smritiPendingContribution";
+
+// Keep a pending save through sign-in, including browsers that open auth in another tab.
+function rememberPendingContribution(state) {
+    const savedState = JSON.stringify({ ...state, savedAt: Date.now() });
+    let stored = false;
+    try {
+        sessionStorage.setItem(pendingDraftKey, savedState);
+        stored = true;
+    } catch (_error) {
+        // Some privacy modes disable session storage, so local storage is the fallback.
+    }
+    try {
+        localStorage.setItem(pendingDraftKey, savedState);
+        stored = true;
+    } catch (_error) {
+        // The session copy above is enough when local storage is unavailable.
+    }
+    if (!stored) throw new Error("Your browser blocked temporary draft storage. Sign in first, then save again.");
+}
+
+// Read the newest available pending save and support drafts made before the rename.
+function readPendingContribution() {
+    function readStorage(storage, key) {
+        try {
+            return storage.getItem(key);
+        } catch (_error) {
+            return null;
+        }
+    }
+
+    const savedState = readStorage(sessionStorage, pendingDraftKey)
+        || readStorage(localStorage, pendingDraftKey)
+        || readStorage(sessionStorage, legacyPendingDraftKey)
+        || readStorage(localStorage, legacyPendingDraftKey);
+    if (!savedState) return null;
+
+    try {
+        return JSON.parse(savedState);
+    } catch (_error) {
+        clearPendingContribution();
+        return null;
+    }
+}
+
+// Remove the temporary browser copy only after Flask has saved the contribution.
+function clearPendingContribution() {
+    [pendingDraftKey, legacyPendingDraftKey].forEach((key) => {
+        try { sessionStorage.removeItem(key); } catch (_error) { /* Storage is optional. */ }
+        try { localStorage.removeItem(key); } catch (_error) { /* Storage is optional. */ }
+    });
+}
 
 // Read JSON safely even when Flask returns a size-limit or server error page.
 async function readApiResponse(response) {
@@ -51,7 +103,7 @@ async function readApiResponse(response) {
     if (!response.ok) {
         const fallback = response.status === 413
             ? "This recording is larger than 20 MB. Choose a smaller file."
-            : "Smriti could not complete this request. Please try again.";
+            : "Heritage-101 could not complete this request. Please try again.";
         throw new Error(data.error || fallback);
     }
     return data;
@@ -132,21 +184,23 @@ updateHeader();
 // --------------------------------------------------
 // 3. Open and close the navigation menu on small screens.
 // --------------------------------------------------
-function closeMenu() {
-    siteNav.classList.remove("open");
-    menuButton.setAttribute("aria-expanded", "false");
-    document.body.classList.remove("menu-open");
+if (!window.HeritageHeader) {
+    function closeMenu() {
+        siteNav.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("menu-open");
+    }
+
+    menuButton.addEventListener("click", () => {
+        const menuIsOpen = siteNav.classList.toggle("open");
+        menuButton.setAttribute("aria-expanded", String(menuIsOpen));
+        document.body.classList.toggle("menu-open", menuIsOpen);
+    });
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+    });
 }
-
-menuButton.addEventListener("click", () => {
-    const menuIsOpen = siteNav.classList.toggle("open");
-    menuButton.setAttribute("aria-expanded", String(menuIsOpen));
-    document.body.classList.toggle("menu-open", menuIsOpen);
-});
-
-navLinks.forEach((link) => {
-    link.addEventListener("click", closeMenu);
-});
 
 // --------------------------------------------------
 // 4. Show page blocks gently as they enter the screen.
@@ -352,7 +406,7 @@ async function startRecording() {
 
             selectedAudioFile = new File(
                 [audioBlob],
-                `smriti-recording-${Date.now()}.${extension}`,
+                `heritage-101-recording-${Date.now()}.${extension}`,
                 { type: audioType }
             );
 
@@ -634,7 +688,7 @@ async function saveGuide(submit = false) {
     try {
         if (!signedInUser) {
             // The save click is remembered through sign-in instead of losing the tutorial.
-            sessionStorage.setItem(pendingDraftKey, JSON.stringify({ payload, submit }));
+            rememberPendingContribution({ payload, submit });
             location.href = `/account?next=${encodeURIComponent("/?resume=pending#contribute")}`;
             return;
         }
@@ -647,7 +701,7 @@ async function saveGuide(submit = false) {
             const submitted = await submitResponse.json();
             if (!submitResponse.ok) throw new Error(submitted.error);
         }
-        sessionStorage.removeItem(pendingDraftKey);
+        clearPendingContribution();
         guideStatus.textContent = submit ? "Submitted for administrator review. Opening My Contributions…" : "Draft saved. Opening My Contributions…";
         setTimeout(() => { location.href = "/contributions"; }, 700);
     } catch (error) { guideStatus.textContent = error.message; }
@@ -676,14 +730,18 @@ checkRecorderAvailability();
 // --------------------------------------------------
 async function prepareContributionAccount() {
     try {
-        const response = await fetch("/api/auth/me");
-        const data = await response.json(); signedInUser = data.user;
-        const accountNav = document.getElementById("accountNav");
+        const response = window.HeritageHeader
+            ? null
+            : await fetch("/api/auth/me");
+        const data = response ? await response.json() : null;
+        signedInUser = window.HeritageHeader
+            ? await window.HeritageHeader.getUser()
+            : data.user;
         const accountNote = document.getElementById("accountNote");
-        if (signedInUser) { accountNav.textContent = "My archive →"; accountNav.href = "/contributions"; accountNote.textContent = `Signed in as ${signedInUser.email}`; }
-        const pending = sessionStorage.getItem(pendingDraftKey);
-        if (signedInUser && new URLSearchParams(location.search).get("resume") === "pending" && pending) {
-            const savedState = JSON.parse(pending); const payload = savedState.payload;
+        if (signedInUser) accountNote.textContent = `Signed in as ${signedInUser.email}`;
+        const savedState = readPendingContribution();
+        if (signedInUser && savedState?.payload) {
+            const payload = savedState.payload;
             currentGuide = payload.guide; currentTranscriptReview = currentGuide.transcript_review || null; transcriptText.value = payload.transcript; guideTitle.value = currentGuide.title || ""; guideIntroduction.value = currentGuide.introduction || ""; guideRegion.value = currentGuide.region || ""; guideMaterials.value = (currentGuide.materials || []).map(material => `${material.name || ""}${material.quantity ? ` — ${material.quantity}` : ""}`).join("\n"); guideTools.value = (currentGuide.tools || []).join("\n"); guideSignificance.value = currentGuide.cultural_significance || ""; guideAttribution.value = payload.attribution || ""; guideConsent.checked = Boolean(payload.consent); if (currentTranscriptReview) renderTranscriptReview(currentTranscriptReview);
             await loadTopics(); guideTopic.value = payload.topic_slug; renderGuideSteps(); resultPanel.classList.add("visible"); guideEditor.hidden = false; uploadPanel.classList.add("visible"); guideStatus.textContent = "Signed in. Saving your recovered draft…";
             await saveGuide(Boolean(savedState.submit)); return;

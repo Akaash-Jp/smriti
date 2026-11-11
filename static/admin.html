@@ -1,4 +1,20 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review contributions — Smriti</title><link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/portal.css"></head><body class="portal-body" data-page="admin">
-<!-- The server protects the data; this page also gives clear access feedback. -->
-<header class="portal-header"><a class="portal-brand" href="/"><span>✦</span> SMRITI</a><nav class="portal-nav"><a href="/">Home</a><a href="/explore">Explore</a><span class="portal-nav" data-account-link></span></nav></header>
-<main class="portal-main"><header class="portal-hero"><p class="portal-kicker">Administrator workspace</p><h1>Contribution review</h1><p>Check cultural context, clarity, safety, consent, and AI errors before publishing community knowledge.</p></header><section class="card-grid" id="reviewList" aria-live="polite"><div class="empty-state">Checking the review queue…</div></section></main><script src="/static/portal.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Review contributions — Heritage-101</title>
+    <link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/header.css"><link rel="stylesheet" href="/static/portal.css">
+</head>
+<body class="portal-body" data-page="admin">
+    <!-- Review is accessible from the account dropdown only for administrators. -->
+    <header class="site-header scrolled">
+        <a class="brand" href="/" aria-label="Heritage-101 home"><span class="brand-mark" aria-hidden="true">✦</span><span class="brand-name">HERITAGE-101</span><span class="brand-divider" aria-hidden="true"></span><span class="brand-tagline">The Living Heritage Network</span></a>
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav"><span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span><span class="sr-only">Open navigation</span></button>
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation"><a class="nav-link" href="/">Home</a><a class="nav-link" href="/explore">Explore</a><a class="nav-link" href="/map">Map</a><a class="nav-link" href="/#contribute">Contribute</a><div class="account-menu-slot" data-account-menu><a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a></div></nav>
+    </header>
+    <main class="portal-main">
+        <header class="portal-hero"><p class="portal-kicker">Administrator workspace</p><h1>Contribution review</h1><p>Check cultural context, clarity, safety, consent, and AI errors before publishing community knowledge.</p></header>
+        <section class="card-grid" id="reviewList" aria-live="polite"><div class="empty-state">Checking the review queue…</div></section>
+    </main>
+    <script src="/static/header.js"></script><script src="/static/portal.js"></script>
+</body>
+</html>

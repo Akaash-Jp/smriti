@@ -1,6 +1,6 @@
-# Smriti
+# Heritage-101
 
-Smriti is a simple heritage website for discovering, documenting, and learning about India's living traditions.
+Heritage-101 is a simple heritage website for discovering, documenting, and learning about India's living traditions.
 
 ## Project Structure
 
@@ -50,13 +50,14 @@ The visible workflow pages are:
 
 - `/account` — register or sign in.
 - `/contributions` — see drafts, review status, feedback, and published guides.
-- `/explore` — browse live Wikipedia heritage collections, search Wikipedia, and read approved Smriti community guides.
+- `/explore` — browse live Wikipedia heritage collections, search Wikipedia, and read approved Heritage-101 community guides.
+- `/map` — explore an interactive political atlas with monuments across all states and union territories.
 - `/admin` — review submitted guides as an administrator.
 - `/guides/1` — read a published community guide (replace `1` with its ID).
 
-Published contributions appear in the Smriti community section only after administrator approval.
+Published contributions appear in the Heritage-101 community section only after administrator approval.
 
-Explore uses the public Wikipedia and Wikimedia REST APIs, which do not require an API key. Smriti retrieves article summaries, thumbnails, descriptions, search results, and source links through its Flask backend and briefly caches responses.
+Explore uses the public Wikipedia and Wikimedia REST APIs, which do not require an API key. Heritage-101 retrieves article summaries, thumbnails, descriptions, search results, and source links through its Flask backend and briefly caches responses.
 
 Contributors can edit drafts and guides returned for changes. They can also permanently delete any contribution they own; deleting published work immediately removes it from public Explore pages.
 

@@ -1,8 +1,8 @@
-# Smriti Design Guide
+# Heritage-101 Design Guide
 
-This document explains how Smriti should look and feel as it grows.
+This document explains how Heritage-101 should look and feel as it grows.
 
-Smriti is an app that preserves traditions and helps people discover existing heritage. It should feel like a mixture of:
+Heritage-101 is an app that preserves traditions and helps people discover existing heritage. It should feel like a mixture of:
 
 - A digital archive
 - A documentary about real people and places
@@ -16,7 +16,7 @@ The website should never feel like a boring database or a generic dashboard.
 
 ## A Living Archive
 
-Smriti should show that heritage is still alive.
+Heritage-101 should show that heritage is still alive.
 
 Do not present traditions only as old objects in a museum. Show the people, places, skills, sounds, materials, and stories that keep traditions active today.
 
@@ -110,7 +110,7 @@ The homepage should be one smooth scrollable story.
 
 ### Section 1: Hero
 
-Purpose: Introduce Smriti quickly.
+Purpose: Introduce Heritage-101 quickly.
 
 Include:
 
@@ -120,7 +120,7 @@ Include:
 - `Explore traditions` button.
 - `Record a story` button.
 
-The hero should immediately explain that Smriti preserves real cultural knowledge.
+The hero should immediately explain that Heritage-101 preserves real cultural knowledge.
 
 ### Section 2: Featured living tradition
 
@@ -142,7 +142,7 @@ Tamil Nadu
 Learn how generations of weavers create silk by hand.
 ```
 
-### Section 3: What Smriti does
+### Section 3: What Heritage-101 does
 
 Use four simple cards:
 
@@ -473,6 +473,6 @@ Do not build everything at once. Finish and test each stage before starting the 
 - Test the page on a phone and a laptop.
 - Test microphone permission, recording, playback, upload, and transcription separately.
 
-The final Smriti experience should feel like:
+The final Heritage-101 experience should feel like:
 
 > A documentary, an archive, and a learning journey in one place.

@@ -5,19 +5,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Explore Indian cultures, recipes, crafts, architecture, and ancient knowledge through Wikipedia and community contributions.">
-    <title>Explore living heritage — Smriti</title>
+    <title>Explore living heritage — Heritage-101</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
     <link rel="stylesheet" href="/static/portal.css">
 </head>
 <body class="portal-body" data-page="topics">
-    <!-- The map is removed; Explore is now the main discovery destination. -->
-    <header class="portal-header">
-        <a class="portal-brand" href="/"><span>✦</span> SMRITI</a>
-        <nav class="portal-nav">
-            <a href="/">Home</a>
-            <a href="/explore" aria-current="page">Explore</a>
-            <a href="/#contribute">Contribute</a>
-            <span class="portal-nav" data-account-link></span>
+    <!-- Shared navigation connects Explore to the interactive heritage map. -->
+    <header class="site-header scrolled">
+        <a class="brand" href="/" aria-label="Heritage-101 home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">HERITAGE-101</span>
+            <span class="brand-divider" aria-hidden="true"></span>
+            <span class="brand-tagline">The Living Heritage Network</span>
+        </a>
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">
+            <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+            <span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" href="/explore" aria-current="page">Explore</a>
+            <a class="nav-link" href="/map">Map</a>
+            <a class="nav-link" href="/#contribute">Contribute</a>
+            <div class="account-menu-slot" data-account-menu>
+                <a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            </div>
         </nav>
     </header>
 
@@ -56,15 +69,16 @@
 
         <!-- Community work remains visible alongside externally sourced knowledge. -->
         <section class="community-archive" aria-labelledby="communityTitle">
-            <p class="portal-kicker">Smriti community archive</p>
+            <p class="portal-kicker">Heritage-101 community archive</p>
             <h2 id="communityTitle">Guides shared by contributors</h2>
-            <p>These practical guides were reviewed and approved inside Smriti.</p>
+            <p>These practical guides were reviewed and approved inside Heritage-101.</p>
             <div class="card-grid" id="communityGuides" aria-live="polite">
                 <div class="empty-state">Loading community guides…</div>
             </div>
         </section>
     </main>
 
+    <script src="/static/header.js"></script>
     <script src="/static/portal.js"></script>
 </body>
 </html>

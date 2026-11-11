@@ -18,15 +18,10 @@ function friendlyDate(value) {
     return value ? new Date(value).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "Not yet";
 }
 
-// The shared header changes its last link according to sign-in state.
+// The shared header owns the account dropdown and returns the current user here.
 async function updateHeader() {
-    const spot = document.querySelector("[data-account-link]");
-    if (!spot) return null;
+    if (window.HeritageHeader) return window.HeritageHeader.getUser();
     const { user } = await api("/api/auth/me");
-    spot.innerHTML = user
-        ? `<a href="/contributions">My contributions</a>${user.role === "admin" ? '<a href="/admin">Review</a>' : ''}<button class="link-button" data-logout>Sign out</button>`
-        : '<a href="/account">Sign in</a>';
-    spot.querySelector("[data-logout]")?.addEventListener("click", async () => { await api("/api/auth/logout", { method: "POST" }); location.href = "/"; });
     return user;
 }
 
@@ -42,7 +37,22 @@ async function startAccountPage() {
     switchButton.addEventListener("click", () => { mode = mode === "login" ? "register" : "login"; title.textContent = mode === "login" ? "Welcome back" : "Create your contributor account"; switchButton.textContent = mode === "login" ? "Need an account? Register" : "Already registered? Sign in"; });
     form.addEventListener("submit", async (event) => {
         event.preventDefault(); status.textContent = mode === "login" ? "Signing in…" : "Creating account…";
-        try { const result = await api(`/api/auth/${mode}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: form.email.value, password: form.password.value }) }); const next = new URLSearchParams(location.search).get("next"); location.href = result.user.role === "admin" ? "/admin" : (next && next.startsWith("/") && !next.startsWith("//") ? next : "/contributions"); }
+        try {
+            const result = await api(`/api/auth/${mode}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: form.email.value, password: form.password.value }),
+            });
+            const requestedNext = new URLSearchParams(location.search).get("next");
+            const safeNext = requestedNext
+                && requestedNext.startsWith("/")
+                && !requestedNext.startsWith("//")
+                ? requestedNext
+                : null;
+
+            // A pending contribution always returns to the editor, even for administrators.
+            location.href = safeNext || (result.user.role === "admin" ? "/admin" : "/contributions");
+        }
         catch (error) { status.textContent = error.message; }
     });
 }
@@ -127,7 +137,7 @@ async function loadCommunityArchive() {
     } catch (error) { area.innerHTML = `<div class="empty-state">${escapeHtml(error.message)}</div>`; }
 }
 
-// Explore combines curated starting points, live Wikipedia search, and Smriti guides.
+// Explore combines curated starting points, live Wikipedia search, and Heritage-101 guides.
 async function startTopicsPage() {
     await updateHeader();
     const collectionNav = document.querySelector("#wikiCollections");
@@ -149,7 +159,7 @@ async function startTopicsPage() {
             if (updateAddress) history.pushState({}, "", `/explore/${slug}`);
         } catch (error) {
             title.textContent = "Wikipedia is temporarily unavailable"; description.textContent = error.message;
-            results.innerHTML = '<div class="empty-state">The external source could not be reached. Your Smriti community guides are still available below.</div>';
+            results.innerHTML = '<div class="empty-state">The external source could not be reached. Your Heritage-101 community guides are still available below.</div>';
             retry.hidden = false;
         }
     };

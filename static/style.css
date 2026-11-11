@@ -712,7 +712,7 @@ label:focus-within {
     backdrop-filter: blur(18px);
 }
 
-/* The live recorder is the quickest way to give Smriti a voice sample. */
+/* The live recorder is the quickest way to give Heritage-101 a voice sample. */
 .voice-recorder {
     padding: 24px;
     background: linear-gradient(145deg, rgba(233, 174, 93, 0.09), rgba(22, 60, 48, 0.18));

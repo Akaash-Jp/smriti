@@ -1,4 +1,4 @@
-"""Small end-to-end checks for Smriti's contribution approval journey."""
+"""Small end-to-end checks for Heritage-101's contribution approval journey."""
 
 import json
 import io
@@ -127,17 +127,54 @@ class ContributionWorkflowTest(unittest.TestCase):
         )
         self.assertEqual(login.status_code, 401)
 
-    def test_map_feature_is_removed(self):
-        """Old map addresses no longer expose the removed atlas."""
+    def test_map_feature_is_available(self):
+        """The supplied interactive atlas is available from the Map route."""
         browser = smriti.app.test_client()
         map_response = browser.get("/map")
         map_file = browser.get("/static/map.html")
         try:
-            self.assertEqual(map_response.status_code, 404)
-            self.assertEqual(map_file.status_code, 404)
+            self.assertEqual(map_response.status_code, 200)
+            self.assertEqual(map_file.status_code, 200)
+            self.assertIn(b"Heritage-101", map_response.data)
+            self.assertIn(b"indiaMapSvg", map_response.data)
         finally:
             map_response.close()
             map_file.close()
+
+    def test_every_page_uses_the_role_aware_shared_header(self):
+        """All visible pages share one header and keep Review admin-only."""
+        browser = smriti.app.test_client()
+        for path in ("/", "/explore", "/map", "/account", "/contributions", "/admin", "/guides/1"):
+            page = browser.get(path)
+            try:
+                self.assertEqual(page.status_code, 200, path)
+                self.assertIn(b'class="site-header', page.data, path)
+                self.assertIn(b"data-account-menu", page.data, path)
+                self.assertIn(b"/static/header.js", page.data, path)
+            finally:
+                page.close()
+
+        header_script = browser.get("/static/header.js")
+        try:
+            self.assertIn(b'user.role === "admin"', header_script.data)
+            self.assertIn(b"My contributions", header_script.data)
+            self.assertIn(b"Review contributions", header_script.data)
+        finally:
+            header_script.close()
+
+    def test_unsigned_draft_handoff_survives_login(self):
+        """The browser keeps a pending contribution and honours its return URL."""
+        browser = smriti.app.test_client()
+        homepage_script = browser.get("/static/script.js")
+        account_script = browser.get("/static/portal.js")
+        try:
+            self.assertIn(b"rememberPendingContribution({ payload, submit })", homepage_script.data)
+            self.assertIn(b"readPendingContribution()", homepage_script.data)
+            self.assertIn(b"localStorage.setItem", homepage_script.data)
+            self.assertIn(b"location.href = safeNext ||", account_script.data)
+        finally:
+            homepage_script.close()
+            account_script.close()
 
     def test_explore_collections_are_available_without_an_api_key(self):
         """Explore collection names load locally before Wikipedia is contacted."""

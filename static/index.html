@@ -4,20 +4,21 @@
     <!-- Basic page settings keep the layout readable on phones and computers. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smriti is a living heritage network for discovering, documenting, and learning about India's traditions.">
-    <title>Smriti — The Living Heritage Network</title>
+    <meta name="description" content="Heritage-101 is a living heritage network for discovering, documenting, and learning about India's traditions.">
+    <title>Heritage-101 — The Living Heritage Network</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
 </head>
 
-<body>
+<body class="home-page">
     <!-- This link appears only when a keyboard user presses Tab. -->
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <!-- The header stays visible so visitors can move between page sections. -->
     <header class="site-header">
-        <a class="brand" href="#home" aria-label="Smriti home">
+        <a class="brand" href="#home" aria-label="Heritage-101 home">
             <span class="brand-mark" aria-hidden="true">✦</span>
-            <span class="brand-name">SMRITI</span>
+            <span class="brand-name">HERITAGE-101</span>
             <span class="brand-divider" aria-hidden="true"></span>
             <span class="brand-tagline">The Living Heritage Network</span>
         </a>
@@ -32,9 +33,11 @@
         <nav class="site-nav" id="siteNav" aria-label="Main navigation">
             <a class="nav-link active" href="#home">Home</a>
             <a class="nav-link" href="/explore">Explore</a>
+            <a class="nav-link" href="/map">Map</a>
             <a class="nav-link" href="#contribute">Contribute</a>
-            <a class="nav-link" href="/contributions">My contributions</a>
-            <a class="nav-link nav-cta" id="accountNav" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            <div class="account-menu-slot" data-account-menu>
+                <a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            </div>
         </nav>
     </header>
 
@@ -61,7 +64,7 @@
                     </div>
 
                     <!-- These are three honest steps, not invented platform statistics. -->
-                    <div class="journey-steps" aria-label="How Smriti works">
+                    <div class="journey-steps" aria-label="How Heritage-101 works">
                         <div class="journey-step">
                             <strong>01</strong>
                             <span>Discover</span>
@@ -102,7 +105,7 @@
         </section>
 
         <!-- This short bridge explains the four parts of the idea. -->
-        <section class="purpose-strip" id="purpose" aria-label="What you can do with Smriti">
+        <section class="purpose-strip" id="purpose" aria-label="What you can do with Heritage-101">
             <div class="purpose-grid page-width">
                 <article class="purpose-card reveal">
                     <span class="purpose-icon" aria-hidden="true">◉</span>
@@ -219,8 +222,8 @@
                     <p class="eyebrow">Add a voice to the archive</p>
                     <h2 id="contributeTitle">Every memory begins with someone speaking.</h2>
                     <p>
-                        Speak directly to Smriti or upload an existing interview with an artisan,
-                        elder, storyteller, or practitioner. Smriti will turn the recording into an English transcript.
+                        Speak directly to Heritage-101 or upload an existing interview with an artisan,
+                        elder, storyteller, or practitioner. Heritage-101 will turn the recording into an English transcript.
                     </p>
                     <p class="privacy-note"><span aria-hidden="true">●</span> Microphone access begins only after you press record. Groq Whisper Large V3 transcribes MP3, WAV, WEBM, OGG, M4A, MP4, MPEG, MPGA, or FLAC files up to 20 MB.</p>
                 </div>
@@ -315,18 +318,19 @@
             <div>
                 <a class="brand footer-brand" href="#home">
                     <span class="brand-mark" aria-hidden="true">✦</span>
-                    <span class="brand-name">SMRITI</span>
+                    <span class="brand-name">HERITAGE-101</span>
                 </a>
                 <p>Heritage lives when knowledge keeps moving.</p>
             </div>
             <div class="footer-links">
                 <a href="#home">Home</a>
-                <a href="#explore">Explore</a>
+                <a href="/explore">Explore</a>
+                <a href="/map">Map</a>
                 <a href="#contribute">Contribute</a>
             </div>
         </div>
         <div class="footer-bottom page-width">
-            <span>© <span id="currentYear"></span> Smriti</span>
+            <span>© <span id="currentYear"></span> Heritage-101</span>
             <span>
                 Photography from Unsplash and Wikimedia Commons.
                 Unsplash: Rhythm Kwatra, Aditya Sethia, Ishan Sharma, Arun Prakash, Prince Prajapati, and Vivekarasan M.
@@ -341,6 +345,7 @@
     <!-- This small message box is reused for friendly feedback. -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+    <script src="/static/header.js"></script>
     <script src="/static/script.js"></script>
 </body>
 </html>

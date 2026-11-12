@@ -3,27 +3,44 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cultural knowledge graph — Heritage-101</title>
+    <title>Cultural Knowledge Graph — Heritage-101</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/header.css">
     <link rel="stylesheet" href="/static/knowledge-graph.css">
 </head>
-<body class="portal-body">
-    <!-- The shared header keeps navigation and account controls consistent. -->
+<body class="graph-body">
+    <!-- Keep the same navigation and account menu as the rest of the site. -->
     <header class="site-header scrolled">
         <a class="brand" href="/"><span class="brand-mark">✦</span><span class="brand-name">HERITAGE-101</span><span class="brand-divider"></span><span class="brand-tagline">The Living Heritage Network</span></a>
         <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav"><span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span><span class="sr-only">Open navigation</span></button>
         <nav class="site-nav" id="siteNav" aria-label="Main navigation"><a class="nav-link" href="/">Home</a><a class="nav-link" href="/explore">Explore</a><a class="nav-link" href="/map">Map</a><a class="nav-link" href="/#contribute">Contribute</a><div class="account-menu-slot" data-account-menu></div></nav>
     </header>
-    <main class="graph-page">
-        <p class="graph-kicker">Explore living connections</p>
-        <h1>Discover the connections.</h1>
-        <p>Follow the links between traditions, places, music and craft. Select any item to learn more.</p>
-        <div class="graph-controls"><label for="graphSearch">Search the graph</label><input id="graphSearch" type="search" placeholder="Try Bharatanatyam or Tamil Nadu"><label for="graphFilter">Show category</label><select id="graphFilter"><option value="all">All categories</option><option>Place</option><option>Art form</option><option>Music</option><option>Instrument</option><option>Craft</option></select></div>
-        <p class="graph-note">A small, curated starting point; cultural relationships are complex and this is not a complete classification.</p>
-        <div class="graph-layout"><section aria-label="Cultural connections"><div id="graph" class="graph-network"></div><p id="graphEmpty" hidden>No matching items. Try another search or category.</p></section><aside id="graphDetails" class="graph-details" aria-live="polite"></aside></div>
-        <p><a href="/map">← Explore the heritage map</a></p>
+
+    <!-- The explorer places controls, the canvas, and details side by side. -->
+    <main class="graph-app">
+        <div class="graph-topline"><div><span class="graph-emblem" aria-hidden="true">✧</span><div><p class="graph-overline">HERITAGE-101 / EXPLORE</p><h1>Cultural Knowledge Graph <span>Explorer</span></h1></div></div><p id="graphCounts" aria-live="polite"></p></div>
+        <div class="graph-workspace">
+            <aside class="graph-sidebar" aria-label="Graph controls">
+                <section class="graph-panel"><h2>⌕ &nbsp; Search</h2><div class="graph-panel-body"><label class="sr-only" for="graphSearch">Search traditions and places</label><input id="graphSearch" type="search" placeholder="Search entities…"></div></section>
+                <section class="graph-panel"><h2>◇ &nbsp; Entity types</h2><div id="graphTypes" class="graph-type-grid graph-panel-body" aria-label="Filter entity types"></div></section>
+                <section class="graph-panel"><h2>↗ &nbsp; Relationships</h2><div class="graph-panel-body"><label for="graphRelation">Show connections</label><select id="graphRelation"><option value="all">All relationships</option></select></div></section>
+                <section class="graph-panel"><h2>☆ &nbsp; Importance</h2><div class="graph-panel-body"><label for="graphImportance">Minimum connections: <strong id="importanceValue">0</strong></label><input id="graphImportance" type="range" min="0" max="5" value="0"></div></section>
+                <section class="graph-panel"><h2>▦ &nbsp; Layout</h2><div class="graph-layout-buttons graph-panel-body" role="group" aria-label="Graph layout"><button class="active" data-layout="force" type="button">Organic</button><button data-layout="circle" type="button">Circle</button><button data-layout="grid" type="button">Grid</button></div></section>
+                <p class="graph-source-note">A curated view of cultural connections. Open an item to check its source on Wikipedia.</p>
+            </aside>
+
+            <!-- SVG provides zoom, pan and selection without a build tool. -->
+            <section class="graph-canvas-wrap" aria-label="Interactive cultural knowledge graph">
+                <svg id="graphCanvas" role="img" aria-label="Connected places, traditions, crafts and music" viewBox="0 0 1200 800"><g id="graphViewport"></g></svg>
+                <p id="graphEmpty" class="graph-empty" hidden>No matching items. Change the search or filters.</p>
+                <div class="graph-canvas-hint">Drag to move · Scroll to zoom · Select a node</div>
+                <div class="graph-zoom" role="group" aria-label="Graph zoom"><button id="graphZoomIn" type="button" aria-label="Zoom in">+</button><button id="graphZoomOut" type="button" aria-label="Zoom out">−</button><button id="graphReset" type="button" aria-label="Reset view">⌖</button></div>
+            </section>
+
+            <aside class="graph-info" aria-label="Selected item details"><section class="graph-panel graph-detail-panel"><h2>ⓘ &nbsp; Details</h2><div id="graphDetails" class="graph-panel-body" aria-live="polite"><p class="graph-placeholder">Select a node to explore its story and connections.</p></div></section><section class="graph-panel graph-legend"><h2>▤ &nbsp; Legend</h2><div id="graphLegend" class="graph-panel-body"></div></section></aside>
+        </div>
     </main>
-    <script src="/static/header.js"></script><script src="/static/knowledge-graph.js"></script>
+    <script src="/static/header.js"></script>
+    <script src="/static/knowledge-graph.js"></script>
 </body>
 </html>

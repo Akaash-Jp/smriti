@@ -30,6 +30,8 @@ app = Flask(__name__, static_folder="static")
 
 # A 20 MB limit prevents visitors from accidentally uploading very large files.
 app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
+# Local development can use a simple fallback. The deployed service receives a
+# strong value from Google Secret Manager through SMRITI_SECRET_KEY.
 app.secret_key = os.environ.get("SMRITI_SECRET_KEY", "dev-only-change-this-secret")
 # These cookie settings keep login data private and block common cross-site use.
 app.config["SESSION_COOKIE_HTTPONLY"] = True
@@ -53,15 +55,15 @@ TOPICS = [
 # Explore uses a small, intentional set of Indian heritage subjects from Wikipedia.
 # Article text and images are fetched live, so Heritage-101 never presents copied facts as its own.
 WIKI_COLLECTIONS = {
-    "ancient-india": {
-        "name": "Ancient India",
-        "description": "Early cities, kingdoms, learning, and artistic traditions.",
-        "titles": ["Indus Valley Civilisation", "Vedic period", "Maurya Empire", "Sangam period", "Gupta Empire", "Ajanta Caves"],
-    },
     "living-cultures": {
         "name": "Living Cultures",
         "description": "Dance, music, ritual, and celebration practised today.",
         "titles": ["Bharatanatyam", "Kathakali", "Yakshagana", "Baul", "Theyyam", "Garba (dance)"],
+    },
+    "ancient-india": {
+        "name": "Ancient India",
+        "description": "Early cities, kingdoms, learning, and artistic traditions.",
+        "titles": ["Indus Valley Civilisation", "Vedic period", "Maurya Empire", "Sangam period", "Gupta Empire", "Ajanta Caves"],
     },
     "heritage-crafts": {
         "name": "Heritage Crafts",
@@ -196,6 +198,13 @@ ALLOWED_AUDIO_EXTENSIONS = {".flac", ".mp3", ".mp4", ".mpeg", ".mpga", ".m4a", "
 @app.route("/")
 def home():
     return send_from_directory("static", "index.html")
+
+
+# Google Cloud Run can call this lightweight route to check that the service is
+# alive without loading a whole webpage or contacting an outside API.
+@app.get("/api/health")
+def health_check():
+    return jsonify({"status": "ok", "service": "Heritage-101"})
 
 
 # These simple page routes make every part of the contribution journey visible.
@@ -410,40 +419,73 @@ def fetch_wikimedia_json(url):
 
 
 def wikipedia_summary(title):
-    """Turn a Wikipedia REST summary into the small card used by Explore."""
+    """Get a card from REST, then use MediaWiki when REST is unavailable."""
     encoded_title = urllib.parse.quote(title.replace(" ", "_"), safe="")
-    data = fetch_wikimedia_json(f"https://en.wikipedia.org/api/rest_v1/page/summary/{encoded_title}")
-    thumbnail = (data.get("thumbnail") or {}).get("source", "")
-    return {
-        "title": data.get("title") or title,
-        "description": data.get("description") or "Wikipedia heritage article",
-        "extract": data.get("extract") or "Open the source article to learn more.",
-        "image": thumbnail if thumbnail.startswith("https://") else "",
-        "source_url": ((data.get("content_urls") or {}).get("desktop") or {}).get("page") or f"https://en.wikipedia.org/wiki/{encoded_title}",
-        "source_name": "Wikipedia",
-    }
+    try:
+        data = fetch_wikimedia_json(f"https://en.wikipedia.org/api/rest_v1/page/summary/{encoded_title}")
+        thumbnail = (data.get("thumbnail") or {}).get("source", "")
+        return {"title": data.get("title") or title, "description": data.get("description") or "Wikipedia heritage article", "extract": data.get("extract") or "Open the source article to learn more.", "image": thumbnail if thumbnail.startswith("https://") else "", "source_url": ((data.get("content_urls") or {}).get("desktop") or {}).get("page") or f"https://en.wikipedia.org/wiki/{encoded_title}", "source_name": "Wikipedia"}
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
+        # The established Action API is a separate Wikimedia service, so it keeps
+        # Explore usable when the newer REST summary service refuses a request.
+        query = urllib.parse.urlencode({"action": "query", "format": "json", "prop": "extracts|pageimages|description", "exintro": 1, "explaintext": 1, "piprop": "thumbnail", "pithumbsize": 800, "titles": title})
+        pages = fetch_wikimedia_json(f"https://en.wikipedia.org/w/api.php?{query}").get("query", {}).get("pages", {})
+        page = next(iter(pages.values()), {})
+        thumbnail = (page.get("thumbnail") or {}).get("source", "")
+        resolved_title = page.get("title") or title
+        return {"title": resolved_title, "description": page.get("description") or "Wikipedia heritage article", "extract": page.get("extract") or "Open the source article to learn more.", "image": thumbnail if thumbnail.startswith("https://") else "", "source_url": f"https://en.wikipedia.org/wiki/{urllib.parse.quote(resolved_title.replace(' ', '_'), safe='()_-')}", "source_name": "Wikipedia"}
 
 
 def wikipedia_search(query):
-    """Search current Wikipedia pages with the documented MediaWiki REST endpoint."""
-    encoded_query = urllib.parse.urlencode({"q": query, "limit": 12})
-    data = fetch_wikimedia_json(f"https://en.wikipedia.org/w/rest.php/v1/search/page?{encoded_query}")
+    """Search Wikipedia and request card-sized images instead of tiny thumbnails."""
+    encoded_query = urllib.parse.urlencode({
+        "action": "query",
+        "format": "json",
+        "generator": "search",
+        "gsrsearch": query,
+        "gsrlimit": 12,
+        "gsrnamespace": 0,
+        "prop": "extracts|pageimages|description|info",
+        "exintro": 1,
+        "explaintext": 1,
+        "exsentences": 3,
+        "piprop": "thumbnail",
+        "pithumbsize": 1000,
+        "inprop": "url",
+    })
+    data = fetch_wikimedia_json(f"https://en.wikipedia.org/w/api.php?{encoded_query}")
     results = []
-    for page in data.get("pages", []):
-        thumbnail = (page.get("thumbnail") or {}).get("url", "")
-        if thumbnail.startswith("//"):
-            thumbnail = f"https:{thumbnail}"
-        clean_excerpt = html.unescape(re.sub(r"<[^>]+>", "", page.get("excerpt") or ""))
-        key = str(page.get("key") or "").replace(" ", "_")
+    pages = list((data.get("query") or {}).get("pages", {}).values())
+    pages.sort(key=lambda page: page.get("index", 999))
+    for page in pages:
+        thumbnail = (page.get("thumbnail") or {}).get("source", "")
+        title = str(page.get("title") or "Wikipedia article")
+        key = title.replace(" ", "_")
         results.append({
-            "title": page.get("title") or key,
+            "title": title,
             "description": page.get("description") or "Wikipedia heritage article",
-            "extract": clean_excerpt or "Open the source article to learn more.",
+            "extract": page.get("extract") or "Open the source article to learn more.",
             "image": thumbnail if thumbnail.startswith("https://") else "",
-            "source_url": f"https://en.wikipedia.org/wiki/{urllib.parse.quote(key, safe='()_-')}",
+            "source_url": page.get("fullurl") or f"https://en.wikipedia.org/wiki/{urllib.parse.quote(key, safe='()_-')}",
             "source_name": "Wikipedia",
         })
     return results
+
+
+@app.get("/api/map-image")
+def map_image():
+    """Find one current Wikimedia photo for the selected monument, without a key."""
+    title = str(request.args.get("title", "")).strip()
+    if not title or len(title) > 160:
+        return jsonify({"error": "A valid monument name is required."}), 400
+    try:
+        search = urllib.parse.urlencode({"action": "query", "format": "json", "generator": "search", "gsrsearch": title, "gsrlimit": 1, "prop": "pageimages", "piprop": "thumbnail", "pithumbsize": 1200})
+        pages = fetch_wikimedia_json(f"https://en.wikipedia.org/w/api.php?{search}").get("query", {}).get("pages", {})
+        page = next(iter(pages.values()), {})
+        image = (page.get("thumbnail") or {}).get("source", "")
+        return jsonify({"image": image if image.startswith("https://") else ""})
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
+        return jsonify({"image": ""})
 
 
 @app.get("/api/explore/collections")
@@ -915,4 +957,8 @@ if __name__ == "__main__":
         connection.commit(); connection.close()
         print(f"Administrator created for {email}")
     else:
-        app.run(debug=True)
+        # Cloud Run supplies PORT. Listening on every network address lets its
+        # secure public gateway forward requests to this Flask application.
+        port = int(os.environ.get("PORT", "5000"))
+        debug_mode = os.environ.get("FLASK_DEBUG", "0") == "1"
+        app.run(host="0.0.0.0", port=port, debug=debug_mode)

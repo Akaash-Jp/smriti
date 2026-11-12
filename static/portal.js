@@ -150,7 +150,7 @@ async function startTopicsPage() {
 
     const loadCollection = async (slug, updateAddress = true) => {
         currentSlug = slug; retry.hidden = true; kicker.textContent = "Wikipedia collection";
-        results.innerHTML = '<div class="empty-state">Loading current information from Wikipedia…</div>';
+        results.innerHTML = '<div class="empty-state">Loading heritage articles…</div>';
         collectionNav.querySelectorAll("[data-wiki-collection]").forEach(button => button.classList.toggle("active", button.dataset.wikiCollection === slug));
         try {
             const data = await api(`/api/explore/articles/${encodeURIComponent(slug)}`);
@@ -158,8 +158,8 @@ async function startTopicsPage() {
             renderWikiCards(data.articles, results);
             if (updateAddress) history.pushState({}, "", `/explore/${slug}`);
         } catch (error) {
-            title.textContent = "Wikipedia is temporarily unavailable"; description.textContent = error.message;
-            results.innerHTML = '<div class="empty-state">The external source could not be reached. Your Heritage-101 community guides are still available below.</div>';
+            title.textContent = "Articles are temporarily unavailable"; description.textContent = error.message;
+            results.innerHTML = '<div class="empty-state">Wikipedia could not be reached through either source. Try again in a moment; your community guides are still available below.</div>';
             retry.hidden = false;
         }
     };

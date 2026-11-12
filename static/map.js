@@ -2917,13 +2917,7 @@ function applyMapViewBox() {
 }
 
 // --------------------------------------------------
-// 6. Render Zero-Flicker Miniature Monument Icons on the Map
-//    Why this never flickers:
-//    - An invisible <circle class="monument-hit-area" r="15">
-//      stays fixed in size and position to receive pointer events.
-//    - The visible miniature inside <g class="monument-visual">
-//      has pointer-events: none and scales smoothly without
-//      changing the hit box or detaching DOM nodes!
+// 6. Render simple, high-contrast monument pins on the map.
 // --------------------------------------------------
 function renderMonumentPins() {
     if (!monumentsLayer) return;
@@ -2974,42 +2968,22 @@ function renderMonumentPins() {
         hitArea.setAttribute("cy", String(monument.y));
         hitArea.setAttribute("r", "21");
 
-        // 2. Visual container for the miniature monument illustration
+        // The visual is deliberately small: names stay in the detail card,
+        // leaving the map readable even when every state is selected.
         const visualGroup = document.createElementNS(svgNs, "g");
-        visualGroup.setAttribute("class", "monument-visual");
+        visualGroup.setAttribute("class", "monument-visual monument-pin-visual");
         visualGroup.style.animationDelay = `${Math.min(index * 45, 320)}ms`;
 
-        const halo = document.createElementNS(svgNs, "circle");
-        halo.setAttribute("class", "miniature-halo");
-        halo.setAttribute("cx", String(monument.x));
-        halo.setAttribute("cy", String(monument.y));
-        halo.setAttribute("r", "20");
-
-        const pedestal = document.createElementNS(svgNs, "circle");
-        pedestal.setAttribute("class", "miniature-pedestal");
-        pedestal.setAttribute("cx", String(monument.x));
-        pedestal.setAttribute("cy", String(monument.y));
-        pedestal.setAttribute("r", "16");
-
-        const artGroup = document.createElementNS(svgNs, "g");
-        artGroup.setAttribute("class", "miniature-art");
-        artGroup.setAttribute("transform", `translate(${monument.x}, ${monument.y}) scale(1.38)`);
-        artGroup.innerHTML = createMiniatureMonumentSvg(monument);
-
-        visualGroup.appendChild(halo);
-        visualGroup.appendChild(pedestal);
-        visualGroup.appendChild(artGroup);
-
-        if (pinsToRender.length <= 12) {
-            const caption = document.createElementNS(svgNs, "text");
-            caption.setAttribute("class", "miniature-name-tag");
-            caption.setAttribute("x", String(monument.x));
-            caption.setAttribute("y", String(monument.y - 21));
-            caption.textContent = monument.name.length > 22
-                ? monument.name.slice(0, 20) + "…"
-                : monument.name;
-            visualGroup.appendChild(caption);
-        }
+        const pin = document.createElementNS(svgNs, "path");
+        pin.setAttribute("class", "map-pin");
+        pin.setAttribute("transform", `translate(${monument.x - 10}, ${monument.y - 23})`);
+        pin.setAttribute("d", "M10 0C4.5 0 0 4.5 0 10c0 7.5 10 13 10 13s10-5.5 10-13C20 4.5 15.5 0 10 0z");
+        const dot = document.createElementNS(svgNs, "circle");
+        dot.setAttribute("class", "map-pin-dot");
+        dot.setAttribute("cx", String(monument.x));
+        dot.setAttribute("cy", String(monument.y - 13));
+        dot.setAttribute("r", "3.1");
+        visualGroup.append(pin, dot);
 
         group.appendChild(visualGroup);
         group.appendChild(hitArea);
@@ -3193,6 +3167,11 @@ function renderMonumentDetailCard(monument, stateItem) {
         ? ASSET_IMAGES[monument.image]
         : monument.image;
     detailMonumentImage.alt = `${monument.name} in ${monument.city}, ${stateItem.name}`;
+    // Replace old bundled placeholders with a page-specific Wikimedia image.
+    fetch(`/api/map-image?title=${encodeURIComponent(monument.name)}`)
+        .then((response) => response.ok ? response.json() : {})
+        .then((data) => { if (data.image) detailMonumentImage.src = data.image; })
+        .catch(() => {});
     detailRecognitionTag.textContent = monument.recognition;
     detailCoordsTag.textContent = `${monument.lat.toFixed(2)}° N, ${monument.lng.toFixed(2)}° E`;
     detailCategoryLocation.textContent = `${monument.category} • ${monument.city}, ${stateItem.name}`;

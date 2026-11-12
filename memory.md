@@ -49,8 +49,8 @@ This file records the major project changes and decisions so future work stays c
 - Added a localhost recovery link for development and clearer messages for denied permission, missing microphones, busy microphones, and empty recordings.
 - Added one-second recording chunks and explicit browser error handling so recorded audio is collected more reliably.
 - Added a same-site microphone permission header in Flask.
-- Fixed a Gemini timing race found in the server log: newly recorded files are now polled until their state becomes `ACTIVE` before transcription begins.
-- Added explicit MIME types during Gemini upload (`audio/webm`, `audio/ogg`, `audio/mp4`, etc.) so browser recordings are treated as audio rather than generic files.
+- Fixed an earlier audio-processing timing problem found in the server log.
+- Added explicit MIME types (`audio/webm`, `audio/ogg`, `audio/mp4`, etc.) so browser recordings are treated as audio rather than generic files.
 - Replaced the browser's white native audio control with a dark custom playback bar that matches the recorder card.
 - Fixed the custom player duration showing `Infinity:NaN` for WebM recordings by using the live recording timer whenever browser metadata is unknown.
 
@@ -91,7 +91,7 @@ This file records the major project changes and decisions so future work stays c
 - Imported only `map.html`, `map.js`, and the isolated map CSS section from the supplied `smriti (3).zip` archive.
 - Preserved the newer homepage, Explore organization, authentication, contributions, and administrator workflow instead of replacing files with older ZIP versions.
 - Added `/map` and connected it to the navigation across the existing pages.
-- Replaced Gemini Flash audio transcription with Groq `whisper-large-v3-turbo` while keeping the same recorder and upload interface.
+- Moved audio transcription to Groq `whisper-large-v3-turbo` while keeping the same recorder and upload interface.
 - Replaced the broken guide-generation call with Groq structured output using `openai/gpt-oss-20b` and a strict heritage-guide JSON schema.
 - Upgraded the Groq Python library requirement to `groq>=1.7.0` because the previously installed 0.11 client was incompatible with the current HTTP library.
 - Added automated tests for the map route, Groq transcription response, and Groq guide response.

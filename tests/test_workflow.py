@@ -26,6 +26,17 @@ class ContributionWorkflowTest(unittest.TestCase):
         smriti.DATABASE_PATH = self.original_database
         self.temp_folder.cleanup()
 
+    def test_health_check_reports_service_is_ready(self):
+        """Cloud Run and visitors can verify that the deployed app is alive."""
+        with smriti.app.test_client() as client:
+            response = client.get("/api/health")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.get_json(),
+            {"status": "ok", "service": "Heritage-101"},
+        )
+
     def guide_payload(self):
         """Return a complete but short guide used by several test steps."""
         return {

@@ -1798,6 +1798,14 @@ label:focus-within {
     stroke-width: 2.2;
 }
 
+/* Clear landmark pins replace the old decorative icon-and-name treatment. */
+.monument-pin-visual { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6)); }
+.map-pin { fill: #f4b95f; stroke: #101a15; stroke-width: 1.4; }
+.map-pin-dot { fill: #143b2d; }
+.monument-marker:hover .map-pin,
+.monument-marker:focus-visible .map-pin,
+.monument-marker.active-pin .map-pin { fill: #fff3cd; stroke: #ffffff; stroke-width: 1.8; }
+
 .miniature-art {
     pointer-events: none;
 }

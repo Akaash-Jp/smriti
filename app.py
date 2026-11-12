@@ -229,6 +229,12 @@ def map_page():
     return send_from_directory("static", "map.html")
 
 
+# Serve the interactive, source-linked cultural connections page.
+@app.get("/knowledge-graph")
+def knowledge_graph_page():
+    return send_from_directory("static", "knowledge-graph.html")
+
+
 @app.get("/topics")
 @app.get("/topics/<slug>")
 @app.get("/explore")

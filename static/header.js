@@ -7,6 +7,19 @@
     const siteNav = document.getElementById("siteNav");
     const accountSlot = document.querySelector("[data-account-menu]");
 
+    // Add the graph to the common navigation on every page.
+    if (siteNav && !siteNav.querySelector('a[href="/knowledge-graph"]')) {
+        const graphLink = document.createElement("a");
+        graphLink.href = "/knowledge-graph";
+        graphLink.className = "nav-link";
+        graphLink.textContent = "Knowledge graph";
+        if (location.pathname === "/knowledge-graph") {
+            graphLink.classList.add("active");
+            graphLink.setAttribute("aria-current", "page");
+        }
+        siteNav.insertBefore(graphLink, accountSlot || null);
+    }
+
     // Close the phone navigation after a link is selected.
     function closeNavigation() {
         if (!menuButton || !siteNav) return;

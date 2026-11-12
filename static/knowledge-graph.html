@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cultural knowledge graph — Heritage-101</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/knowledge-graph.css">
+</head>
+<body class="portal-body">
+    <!-- The shared header keeps navigation and account controls consistent. -->
+    <header class="site-header scrolled">
+        <a class="brand" href="/"><span class="brand-mark">✦</span><span class="brand-name">HERITAGE-101</span><span class="brand-divider"></span><span class="brand-tagline">The Living Heritage Network</span></a>
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav"><span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span><span class="sr-only">Open navigation</span></button>
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation"><a class="nav-link" href="/">Home</a><a class="nav-link" href="/explore">Explore</a><a class="nav-link" href="/map">Map</a><a class="nav-link" href="/#contribute">Contribute</a><div class="account-menu-slot" data-account-menu></div></nav>
+    </header>
+    <main class="graph-page">
+        <p class="graph-kicker">Explore living connections</p>
+        <h1>Discover the connections.</h1>
+        <p>Follow the links between traditions, places, music and craft. Select any item to learn more.</p>
+        <div class="graph-controls"><label for="graphSearch">Search the graph</label><input id="graphSearch" type="search" placeholder="Try Bharatanatyam or Tamil Nadu"><label for="graphFilter">Show category</label><select id="graphFilter"><option value="all">All categories</option><option>Place</option><option>Art form</option><option>Music</option><option>Instrument</option><option>Craft</option></select></div>
+        <p class="graph-note">A small, curated starting point; cultural relationships are complex and this is not a complete classification.</p>
+        <div class="graph-layout"><section aria-label="Cultural connections"><div id="graph" class="graph-network"></div><p id="graphEmpty" hidden>No matching items. Try another search or category.</p></section><aside id="graphDetails" class="graph-details" aria-live="polite"></aside></div>
+        <p><a href="/map">← Explore the heritage map</a></p>
+    </main>
+    <script src="/static/header.js"></script><script src="/static/knowledge-graph.js"></script>
+</body>
+</html>

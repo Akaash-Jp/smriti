@@ -1,0 +1,18 @@
+/* Match the archive's dark palette while keeping labels easy to read. */
+body { background: #08110e; color: #f4ecdd; }
+.graph-page { max-width: 1200px; margin: 0 auto; padding: 140px 24px 60px; }
+.graph-page h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin: 12px 0; }
+.graph-page a { color: #edb45e; }
+.graph-kicker { color: #edb45e; text-transform: uppercase; letter-spacing: .16em; font-size: .8rem; }
+.graph-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 28px 0 12px; }
+.graph-controls input, .graph-controls select { background: #15241d; color: white; border: 1px solid #526354; border-radius: 6px; padding: 12px; }
+.graph-note { color: #b8c2b7; font-size: .9rem; }
+.graph-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin: 24px 0; }
+.graph-network, .graph-details { background: #101e18; border: 1px solid #3b4d40; border-radius: 14px; padding: 22px; }
+.graph-network { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 36px 24px; min-height: 350px; align-content: center; }
+.graph-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.graph-node { position: relative; background: #243b2c; color: #fff5e3; border: 1px solid #a8905a; border-radius: 40px; padding: 16px; cursor: pointer; font: inherit; }
+.graph-node[aria-pressed="true"] { background: #ac7733; color: #100d08; }
+.graph-node:focus-visible { outline: 3px solid white; }
+.graph-details h2 { margin-top: 8px; }.graph-details li { margin: 12px 0; }.graph-details button { color: #edb45e; background: none; border: 0; text-decoration: underline; cursor: pointer; font: inherit; text-align: left; }
+@media (max-width: 760px) { .graph-layout { grid-template-columns: 1fr; } .graph-page { padding-top: 110px; } }

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore India's architectural heritage through interactive 3D monuments.">
+    <title>Heritage 101 | Heritage of India 360</title>
+    <link rel="stylesheet" href="/static/heritage360.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
+</head>
+
+<body>
+    <!-- The header stays visible so visitors can move between page sections. -->
+    <header class="site-header scrolled">
+        <a class="brand" href="/" aria-label="Heritage-101 home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">HERITAGE-101</span>
+            <span class="brand-divider" aria-hidden="true"></span>
+            <span class="brand-tagline">The Living Heritage Network</span>
+        </a>
+
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="sr-only">Open navigation</span>
+        </button>
+
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/explore">Explore</a>
+            <a class="nav-link" href="/map">Map</a>
+            <a class="nav-link" href="/#contribute">Contribute</a>
+            <div class="account-menu-slot" data-account-menu>
+                <a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="gallery-hero">
+            <p class="eyebrow">A JOURNEY THROUGH TIME</p>
+            <h1>Heritage of India <span>360</span></h1>
+            <p class="intro">
+                Discover India's magnificent architectural wonders.
+                Explore their beauty, details and history through
+                interactive three-dimensional models.
+            </p>
+            <div class="ornament">✦ ───── ❖ ───── ✦</div>
+        </section>
+
+        <section class="gallery-section">
+            <div class="section-heading">
+                <h2>Explore the Monuments</h2>
+                <p>Select a monument to begin your virtual exploration.</p>
+            </div>
+
+            <div class="monument-grid" id="monumentGrid"></div>
+        </section>
+    </main>
+
+    <!-- Use the main site's footer layout and keep the model credit. -->
+    <footer class="site-footer">
+        <div class="footer-layout page-width">
+            <div>
+                <a class="brand footer-brand" href="/">
+                    <span class="brand-mark" aria-hidden="true">✦</span>
+                    <span class="brand-name">HERITAGE-101</span>
+                </a>
+                <p>Heritage lives when knowledge keeps moving.</p>
+            </div>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/explore">Explore</a>
+                <a href="/map">Map</a>
+                <a href="/#contribute">Contribute</a>
+            </nav>
+        </div>
+        <div class="footer-bottom page-width">
+            <span>© Heritage-101</span>
+            <span>3D models provided by Sketchfab.</span>
+        </div>
+    </footer>
+
+    <!-- 3D VIEWER POP-UP -->
+    <div class="modal" id="viewerModal" aria-hidden="true">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div>
+                    <p class="modal-label">VIRTUAL EXPLORATION</p>
+                    <h2 id="modalTitle">Monument Name</h2>
+                </div>
+                <button class="close-btn" id="closeModal"
+                        aria-label="Close viewer">&times;</button>
+            </div>
+
+            <div class="viewer-container" id="viewerContainer">
+                <iframe
+                    id="sketchfabViewer"
+                    title="Interactive 3D monument viewer"
+                    allow="autoplay; fullscreen; xr-spatial-tracking"
+                    allowfullscreen
+                    mozallowfullscreen="true"
+                    webkitallowfullscreen="true">
+                </iframe>
+                <div class="viewer-placeholder" id="viewerPlaceholder">
+                    <div class="placeholder-icon">🏛</div>
+                    <h3>3D Model Coming Soon</h3>
+                    <p>
+                        An interactive model for this monument
+                        has not yet been connected.
+                    </p>
+                </div>
+            </div>
+
+            <div class="viewer-instructions">
+                <a id="modelSearchLink" href="#" target="_blank" rel="noopener noreferrer">
+                    Find a model on Sketchfab ↗
+                </a>
+                <span>↔ Drag to rotate</span>
+                <span>＋ / − Zoom in and out</span>
+                <span>Scroll to zoom</span>
+            </div>
+
+            <div class="modal-description">
+                <h3>About the Monument</h3>
+                <p id="modalDescription"></p>
+                <p class="location" id="modalLocation"></p>
+            </div>
+
+            <div class="modal-footer">
+                <span>HERITAGE 101</span>
+                <span>Explore India's Timeless Beauty</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        /*
+          Sketchfab model IDs:
+          Use the model ID from a Sketchfab model URL.
+          Example:
+          sketchfab.com/3d-models/model-name-1eb09052f6cd421caeaa6cb3204cb15d
+          The model ID is the final 32-character string.
+        */
+
+        const monuments = [
+            {
+                name: "Taj Mahal",
+                location: "Agra, Uttar Pradesh",
+                image: "/static/assets/explore/Taj_Mahal.jpg",
+                modelId: "1eb09052f6cd421caeaa6cb3204cb15d",
+                description: "Built by Mughal Emperor Shah Jahan in memory of Mumtaz Mahal, the Taj Mahal is an extraordinary white marble mausoleum and a UNESCO World Heritage Site."
+            },
+            {
+                name: "Qutub Minar",
+                location: "Delhi",
+                image: "/static/assets/explore/Qutb_Minar.jpg",
+                modelId: "cf4f8f1bcdbd4cb49056c688f8739e77",
+                description: "The Qutub Minar is a magnificent victory tower in Delhi, celebrated for its Indo-Islamic architecture and intricate stone carvings."
+            },
+            {
+                name: "Red Fort",
+                location: "Delhi",
+                image: "/static/assets/explore/Red_Fort.jpg",
+                modelId: "f8128f84fe3d4439b2d77acda6d90207",
+                description: "Constructed under Emperor Shah Jahan, the Red Fort is a remarkable example of Mughal architecture and an important symbol of India's history."
+            },
+            {
+                name: "Hawa Mahal",
+                location: "Jaipur, Rajasthan",
+                image: "/static/assets/explore/Hawa_Mahal.jpg",
+                modelId: "c6bbf5822010490d995869ae625b1be0",
+                description: "Known as the Palace of Winds, Hawa Mahal is famous for its honeycomb facade and hundreds of small windows."
+            },
+            {
+                name: "Charminar",
+                location: "Hyderabad, Telangana",
+                image: "/static/assets/explore/Charminar.jpg",
+                modelId: "bb880d064036496ca14ebac08a243af0",
+                description: "The Charminar is an iconic Hyderabad landmark featuring four grand arches and elegant minarets."
+            },
+            {
+                name: "Konark Sun Temple",
+                location: "Konark, Odisha",
+                image: "/static/assets/explore/Konark_Sun_Temple.jpg",
+                modelId: "52c2f9e811fe421a8b5e968e05372db2",
+                description: "Designed as a colossal stone chariot dedicated to the Sun God, the Konark Sun Temple is renowned for its remarkable sculptural detail."
+            },
+            {
+                name: "Golden Temple",
+                location: "Amritsar, Punjab",
+                image: "/static/assets/explore/Golden_Temple.jpg",
+                modelId: "",
+                description: "Harmandir Sahib, popularly known as the Golden Temple, is a beautiful Sikh place of worship surrounded by the sacred Amrit Sarovar."
+            },
+            {
+                name: "Mysore Palace",
+                location: "Mysuru, Karnataka",
+                image: "/static/assets/explore/Mysore_Palace.jpg",
+                modelId: "0439ee6964c94a10bf9767088469bb94",
+                description: "Mysore Palace is a spectacular royal residence known for its Indo-Saracenic architecture, ornate interiors and grand domes."
+            },
+            {
+                name: "Sanchi Stupa",
+                location: "Sanchi, Madhya Pradesh",
+                image: "/static/assets/explore/Sanchi_Stupa.jpg",
+                modelId: "26664b49ca744378b6591b8a71bb8825",
+                description: "The Great Stupa at Sanchi is one of India's oldest surviving Buddhist monuments, celebrated for its ancient gateways and stone carvings."
+            }
+        ];
+
+        const grid = document.getElementById("monumentGrid");
+        const modal = document.getElementById("viewerModal");
+        const closeBtn = document.getElementById("closeModal");
+        const iframe = document.getElementById("sketchfabViewer");
+        const placeholder = document.getElementById("viewerPlaceholder");
+
+        // Create monument cards
+        monuments.forEach((monument, index) => {
+            const card = document.createElement("article");
+            card.className = "monument-card";
+
+            const image = document.createElement("img");
+            if (monument.image) image.src = monument.image;
+            else { image.hidden = true; card.classList.add("image-fallback"); }
+            image.alt = monument.name;
+            image.loading = "lazy";
+            image.onerror = () => {
+                image.style.display = "none";
+                card.classList.add("image-fallback");
+            };
+
+            const details = document.createElement("div");
+            details.className = "card-details";
+
+            const number = document.createElement("span");
+            number.className = "card-number";
+            number.textContent = String(index + 1).padStart(2, "0");
+
+            const name = document.createElement("h3");
+            name.textContent = monument.name;
+
+            const location = document.createElement("p");
+            location.textContent = monument.location;
+
+            const explore = document.createElement("span");
+            explore.className = "explore-link";
+            explore.textContent = monument.modelId ? "Explore in 3D ↗" : "Find a model ↗";
+
+            details.append(number, name, location, explore);
+            card.append(image, details);
+
+            card.addEventListener("click", () => openViewer(monument));
+            card.tabIndex = 0;
+            card.setAttribute("role", "button");
+            card.setAttribute("aria-label", `Explore ${monument.name} in 3D`);
+
+            card.addEventListener("keydown", event => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openViewer(monument);
+                }
+            });
+
+            grid.appendChild(card);
+        });
+
+        // Open 3D viewer
+        let returnFocus;
+        function openViewer(monument) {
+            returnFocus = document.activeElement;
+            document.getElementById("modalTitle").textContent = monument.name;
+            document.getElementById("modalDescription").textContent =
+                monument.description;
+            document.getElementById("modalLocation").textContent =
+                "📍 " + monument.location;
+
+            const searchLink = document.getElementById("modelSearchLink");
+            searchLink.href =
+                "https://sketchfab.com/search?q=" +
+                encodeURIComponent(monument.name) +
+                "&type=models";
+
+            if (monument.modelId) {
+                iframe.src =
+                    "https://sketchfab.com/models/" +
+                    monument.modelId +
+                    "/embed?autostart=0&preload=1&ui_infos=1";
+
+                iframe.style.display = "block";
+                placeholder.style.display = "none";
+            } else {
+                iframe.removeAttribute("src");
+                iframe.style.display = "none";
+                placeholder.style.display = "flex";
+            }
+
+            modal.classList.add("active");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("modal-open");
+            closeBtn.focus();
+        }
+
+        // Close viewer
+        function closeViewer() {
+            modal.classList.remove("active");
+            modal.setAttribute("aria-hidden", "true");
+            iframe.removeAttribute("src");
+            document.body.classList.remove("modal-open");
+            returnFocus?.focus();
+        }
+
+        closeBtn.addEventListener("click", closeViewer);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeViewer();
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && modal.classList.contains("active")) {
+                closeViewer();
+            }
+        });
+    </script>
+
+    <script src="/static/header.js"></script>
+</body>
+</html>

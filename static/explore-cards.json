@@ -1,0 +1,305 @@
+{
+  "living-cultures": [
+    {
+      "title": "Bharatanatyam",
+      "description": "Major form of Indian classical dance",
+      "extract": "Bharatanatyam is an Indian classical dance form that comes from Tamil Nadu, India. It is a classical dance form recognized by the Sangeet Natak Akademi, and expresses South Indian religious themes and spiritual ideas, particularly of Shaivism and in general of Hinduism. It is performed for Nataraja, the god of dance.",
+      "image": "/static/assets/explore/Bharatanatyam.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Bharatanatyam",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Kathakali",
+      "description": "Classical Indian dance",
+      "extract": "Kathakali is a traditional form of Indian Classical Dance, and one of the most complex forms of Indian theatre. It is native to the Malayalam-speaking state of Kerala and is almost entirely practiced by the Malayali people.\nIt is a play of verses. These verses are called Kathakali literature or Attakatha. Historically, it was primarily performed in royal courts and during festivals in temples. Hence it is known as suvarna artforms. This performance uses the navarasas from the Natya Shastra text, authored by sage Bharata. Makeup and costumes are unique and large. It represents one of Kerala's traditional theatre artforms. \nKathakali is closely related to a more ancient theatre artform of Kerala called Koodiyattam, which is the only surviving specimen of the ancient Sanskrit theatre, thought to have originated around the beginning of the common era, and is officially recognized by UNESCO as a Masterpiece of the Oral and Intangible Heritage of Humanity in 2001.",
+      "image": "/static/assets/explore/Kathakali.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Kathakali",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Yakshagana",
+      "description": "Theatre form in India",
+      "extract": "Yakshagana is a traditional stage performance and semi-classical Indian dance, drama, found in Tulunadu, that is Dakshina Kannada, Udupi, Kasaragod district and Uttara Kannada, Shimoga and western parts of Chikmagalur districts, in the state of Karnataka and in Kasaragod district in Kerala that combines dance, music, dialogue, costume, make-up, and stage techniques with a unique style and form. It is believed to have evolved from proto-classical music and Sanskrit theatre during the period of the Bhakti movement. This theatre style is mainly found in coastal regions of Karnataka in various forms. Towards the south from Dakshina Kannada to Kasaragod of Tulu Nadu region, the form of Yakshagana is called Thenku thittu and towards the north from Udupi up to Uttara Kannada it is called Badaga thittu. Both of these forms are equally played all over the region. Yakshagana is traditionally presented from dusk to dawn. Its stories are drawn from Ramayana, Mahabharata, Bhagavata and other epics from both Hindu and Jain and other ancient Indic traditions.",
+      "image": "/static/assets/explore/Yakshagana.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Yakshagana",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Baul",
+      "description": "Group of mystic, syncretic minstrels of Bengal",
+      "extract": "The Baul are a group of mystic minstrels of mixed elements of Sufism and Vaishnava Sahajiya from different parts of Bangladesh and the Indian states of West Bengal, Tripura and Assam's Barak Valley and Meghalaya. Bauls constitute both a syncretic religious sect of troubadours and a musical tradition. Bauls are a very heterogeneous group, with many sects, but their membership mainly consists of Sufi Bengali Muslims and Gaudiya Vaishnava Bengali Hindus. They can often be identified by their distinctive clothes and musical instruments. Lalon Shah is regarded as the most celebrated Baul saint in history.",
+      "image": "/static/assets/explore/Baul.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Baul",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Theyyam",
+      "description": "Ritual form of worship by Hindus from Kerala",
+      "extract": "Theyyam also known as Kaliyattam, is an Indian ritual practiced in the North Malabar Region of Kerala and some parts of neighbouring Karnataka.",
+      "image": "/static/assets/explore/Theyyam.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Theyyam",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Garba (dance)",
+      "description": "Indian folk dance",
+      "extract": "Garba  is an Indian folk dance. It is a form of circle and social dance originating in Gujarat, and played across the Indian diaspora at festivals and other events.",
+      "image": "/static/assets/explore/Garba_(dance).jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Garba_(dance)",
+      "source_name": "Wikipedia"
+    }
+  ],
+  "ancient-india": [
+    {
+      "title": "Indus Valley Civilisation",
+      "description": "Bronze Age civilisation in South Asia",
+      "extract": "The Indus Valley Civilisation (IVC), also known as the Indus Civilisation, was a Bronze Age civilisation in the northwestern regions of South Asia, lasting from 3300 BCE to 1300 BCE, and in its mature form from 2600 BCE to 1900 BCE. Together with ancient Egypt, Mesopotamia, and China, it was one of the four centres of the ancient world; it was geographically larger than ancient Egypt and Mesopotamia combined. It spanned much of Pakistan, northwestern India, and northeast Afghanistan. The civilisation flourished in the alluvial plain of the Indus River and along a system of perennial monsoon-fed rivers that once coursed in the vicinity of the Ghaggar-Hakra, a seasonal river in northwest India and eastern Pakistan.",
+      "image": "/static/assets/explore/Indus_Valley_Civilisation.png",
+      "source_url": "https://en.wikipedia.org/wiki/Indus_Valley_Civilisation",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Vedic period",
+      "description": "Ancient South Asian historical period",
+      "extract": "The Vedic period, or the Vedic age, is the period in the late Bronze Age and early Iron Age of the history of India when the Vedic literature, including the Vedas, was composed in the northern Indian subcontinent, between the end of the urban Indus Valley Civilisation and a second urbanisation, which began in the central Indo-Gangetic Plain c. 600 BCE. The Vedas are liturgical texts which formed the basis of the influential Brahmanical ideology, which developed in the Kuru kingdom, a tribal union of several Indo-Aryan tribes. The Vedas contain details of life during this period that have been interpreted to be historical and constitute the primary sources for understanding the period. These documents, alongside the corresponding archaeological record, allow for the evolution of the Indo-Aryan and Vedic culture to be traced and inferred.",
+      "image": "/static/assets/explore/Vedic_period.png",
+      "source_url": "https://en.wikipedia.org/wiki/Vedic_period",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Maurya Empire",
+      "description": "Ancient Indian empire (c. 321–185 BCE)",
+      "extract": "The Maurya Empire was a geographically extensive Iron Age historical power in South Asia with its power base in Magadha. Founded by Chandragupta Maurya around c. 320 BCE, it existed in loose-knit fashion until 185 BCE. The primary sources for the written records of the Mauryan times are partial records of the lost history of Megasthenes in Roman texts of several centuries later, and the Edicts of Ashoka. Archaeologically, the period of Mauryan rule in South Asia falls into the era of Northern Black Polished Ware (NBPW).",
+      "image": "/static/assets/explore/Maurya_Empire.png",
+      "source_url": "https://en.wikipedia.org/wiki/Maurya_Empire",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Sangam literature",
+      "description": "Historic period of Tamil literature",
+      "extract": "The Sangam literature, historically known as the Poetry of the Noble Ones, connotes the early classical Tamil literature and is the earliest known literature of South India. The Tamil tradition and legends link it to three legendary literary gatherings around Madurai and Kapāṭapuram: the first lasted over 4,440 years, the second over 3,700 years, and the third over 1,850 years. Scholars consider this Tamil tradition-based chronology as ahistorical and mythical. Most scholars suggest the historical Sangam literature era, also called the Sangam period, spanned from c. 300 BCE to 300 CE, while others variously place this early classical Tamil literature period a bit later and more narrowly but all before 300 CE. According to Kamil Zvelebil, a Tamil literature and history scholar, the most acceptable range for the Sangam literature is 100 BCE to 250 CE, based on the linguistic, prosodic and quasi-historic allusions within the texts and the colophons.",
+      "image": "/static/assets/explore/Sangam_literature.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Sangam_literature",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Gupta Empire",
+      "description": "Ancient Indian empire (c. 3rd century CE – 575 CE)",
+      "extract": "The Gupta Empire was an Indian empire during the classical period of the Indian subcontinent which existed from the mid 3rd century to mid 6th century CE. At its peak, the dynasty ruled over an empire that spanned much of the northern Indian subcontinent. This period has been considered as the Golden Age of India by some historians, although this characterisation has been disputed by others. The ruling dynasty of the empire was founded by Gupta.",
+      "image": "/static/assets/explore/Gupta_Empire.png",
+      "source_url": "https://en.wikipedia.org/wiki/Gupta_Empire",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Ajanta Caves",
+      "description": "Buddhist cave monuments in Maharashtra, India",
+      "extract": "The Ajanta Caves are 30 rock-cut Buddhist cave monuments dating from the second century BCE to about 480 CE in Aurangabad district of Maharashtra state in India. Ajanta Caves are a UNESCO World Heritage Site. Universally regarded as masterpieces of Buddhist religious art, the caves include paintings and rock-cut sculptures, described as among the finest surviving examples of ancient Indian art, particularly expressive paintings that present emotions through gesture, pose and form.",
+      "image": "/static/assets/explore/Ajanta_Caves.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Ajanta_Caves",
+      "source_name": "Wikipedia"
+    }
+  ],
+  "heritage-crafts": [
+    {
+      "title": "Kanchipuram silk sari",
+      "description": "Type of silk saree made in Kanchipuram, Tamil Nadu, India",
+      "extract": "The Kanchipuram silk sari, also called Kanjeevaram sari is a type of silk sari made in the Kanchipuram region in Tamil Nadu, India. These saris are worn as bridal & special occasion saris by most women in Tamil Nadu, Kerala, Karnataka & Andhra Pradesh. It has been recognized as a geographical indication by the Government of India in 2005–2006.",
+      "image": "/static/assets/explore/Kanchipuram_silk_sari.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Kanchipuram_silk_sari",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Channapatna toys",
+      "description": "Toys made in Channapatna, Karnataka, India",
+      "extract": "Channapatna toys are a particular form of wooden toys and dolls that are manufactured in the town of Channapatna in the Ramanagara district of Karnataka state, India. This traditional craft is protected as a geographical indication (GI) under the World Trade Organization, administered by the Government of Karnataka. As a result of the popularity of these toys, Channapatna is known as the Gombegala Ooru (toy-town) of Karnataka. Traditionally, the work involved lacquering the wood of the Wrightia tinctoria tree, colloquially called Aale mara (ivory-wood).",
+      "image": "/static/assets/explore/Channapatna_toys.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Channapatna_toys",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Madhubani art",
+      "description": "Indian/Nepalese style of painting",
+      "extract": "Madhubani art is a style of painting practiced in the Mithila region of India and Nepal. It is named after the Madhubani district of Bihar, India, which is where it originated and is the most active centre of production. Jitwarpur, Ranti and Rasidpur are the three most notable cities associated with the tradition and evolution of Madhubani art. The art was traditionally practiced by female members. Artists create these paintings using a variety of mediums, including their own fingers, or twigs, brushes, nib-pens, and matchsticks. The paint is created using natural dyes and pigments such as Ochre and lampblack are used for reddish brown and black respectively. The paintings are characterized by their eye-catching geometrical patterns. There is ritual content for particular occasions, such as birth or marriage, and festivals, such as Holi, Surya Shasti, Kali Puja, Upanayana, and Durga Puja.",
+      "image": "/static/assets/explore/Madhubani_art.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Madhubani_art",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Dhokra",
+      "description": "Metal casting technique from India",
+      "extract": "Dhokra is non–ferrous metal casting using the lost-wax casting technique. This sort of metal casting has been used in India for over 4,000 years and is still used. One of the earliest known lost wax artifacts is the dancing girl of Mohenjo-daro. The product of dhokra artisans are in great demand in domestic and foreign markets because of primitive simplicity, enchanting folk motifs and forceful form. Dhokra horses, elephants, peacocks, owls, religious images, measuring bowls, and lamp caskets etc., are highly appreciated. The lost wax technique for casting of copper based alloys has also been found in China, Egypt, Malaysia, Nigeria, Central America, and other places.",
+      "image": "/static/assets/explore/Dhokra.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Dhokra",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Blue pottery of Jaipur",
+      "description": "Traditional craft from Jaipur, India",
+      "extract": "Blue pottery is widely recognized as a traditional craft of Jaipur of Central Asian origin. The name 'blue pottery' comes from the cobalt blue dye used to colour the pottery. It is one of many Eurasian types of blue and white pottery, and related in the shapes and decoration to Islamic pottery.",
+      "image": "/static/assets/explore/Blue_pottery_of_Jaipur.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Blue_pottery_of_Jaipur",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Pattachitra",
+      "description": "Traditional art work of West Bengal and Odisha, India",
+      "extract": "Patachitra or Pattachitra is a general term for traditional, cloth-based scroll painting, based in the eastern Indian states of Odisha, and West Bengal as well as parts of Bangladesh. Patachitra art form is known for its intricate details as well as mythological narratives and folktales inscribed in it. Pattachitra is one of the ancient artworks of Odisha, originally created for ritual use and as souvenirs for pilgrims to Puri, as well as other temples in Odisha. Patachitras are a component of an ancient Bengali narrative art, originally serving as a visual device during the performance of a song.",
+      "image": "/static/assets/explore/Pattachitra.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Pattachitra",
+      "source_name": "Wikipedia"
+    }
+  ],
+  "traditional-food": [
+    {
+      "title": "Dosa (food)",
+      "description": "Thin batter bread originating from South India",
+      "extract": "A dosa or thosai is a thin, savoury batter bread in South Indian cuisine made from a fermented batter of ground black gram and rice. Dosas are served hot, often with chutney and sambar.",
+      "image": "/static/assets/explore/Dosa_(food).jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Dosa_(food)",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Biryani",
+      "description": "Rice-based dish from South Asia",
+      "extract": "Biryani is a mixed rice dish traditionally made with spiced meat, seafood, or vegetables. It was present in Mughal-era India, though whether it was created there is debated. It is thought to derive from a Persian rice dish, either pilau or birinj biryan. The dish makes use of slow-cooking as in Persian pilau, combined with Persian-style yoghurt-marinated meat and a spicy Indian style of cooking; it was likely developed in the Mughal court kitchens. It is also possible that biryani was brought to South India before the Mughal era, or that pilau was brought to India and biryani was developed from it before being adopted by the Mughals.",
+      "image": "/static/assets/explore/Biryani.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Biryani",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Dhokla",
+      "description": "Indian vegetarian dish",
+      "extract": "Dhokla or dokla is a savoury sponge dish that originated in the Indian state of Gujarat. It is made with a fermented batter that is steamed to a cake-like consistency. The batter consists of a mixture of rice with Bengal gram,, a variety of chickpea, but has several variants with the gram replaced by pigeon peas, or urad beans. In 2018, it was reported that Ahmedabad reportedly had daily consumption of 10,000 kgs of Dhokla.",
+      "image": "/static/assets/explore/Dhokla.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Dhokla",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Appam",
+      "description": "Fermented rice pancake from South India and Sri Lanka",
+      "extract": "An appam or aappam is a type of thin pancake in South Indian cuisine. It is made with fermented rice batter and coconut milk, traditionally cooked in an appachatti, a deep pan similar in shape to a wok. It is a popular dish in the Indian state of Kerala as well as Sri Lanka. In Sri Lanka, they are typically known as hoppers. Appams are most frequently served for breakfast or dinner, often with a side dish such as a vegetable or egg curry.",
+      "image": "/static/assets/explore/Appam.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Appam",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Rogan josh",
+      "description": "Indian curried meat dish",
+      "extract": "Rogan josh ; English: /ˌroʊɡən ˈdʒɒʃ/), also spelled roghan josh or roghan ghosht, is an aromatic curried meat dish originating in the Kashmir Valley of Jammu and Kashmir, India. It is one of the main dishes in the wazwan, the traditional multi-course Kashmiri feast. Rogan josh is made with red meat—traditionally mutton or goat, coloured and flavoured primarily by alkanet flower and Kashmiri red chillies. In the West, tomatoes are often used instead.",
+      "image": "/static/assets/explore/Rogan_josh.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Rogan_josh",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Modak",
+      "description": "South and Southeast Asian sweet dumpling dish",
+      "extract": "Modak (Marathi: मोदक), modakam (Sanskrit: मोदकम्), kolukattai or modaka, also referred to as jilledukayalu in Telugu (జిల్లేడుకాయలు) is an Indian sweet dish popular in many Indian states and cultures. According to Hindu and Buddhist beliefs, it is one of the favourite dishes of Ganesha and the Buddha and is therefore used in prayers. The sweet filling inside a modak consists of freshly grated coconut and jaggery, while the outer soft shell is made from rice flour or wheat flour mixed with khowa or maida flour.",
+      "image": "/static/assets/explore/Modak.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Modak",
+      "source_name": "Wikipedia"
+    }
+  ],
+  "architecture": [
+    {
+      "title": "Brihadisvara Temple",
+      "description": "11th-century temple and UNESCO World Heritage Site",
+      "extract": "Brihadisvara Temple, called Rajarajesvaram by its builder, and known locally as Thanjai Periya Kovil and Peruvudaiyar Kovil, is a Shaivite Hindu temple built in a Chola architectural style located on the south bank of the Cauvery river in Thanjavur, Tamil Nadu, India. It is one of the largest Hindu temples and an exemplar of Tamil architecture. It is also called Dakshina Meru. Built by Chola emperor Rajaraja I between 1003 and 1010 CE, the temple is a part of the UNESCO World Heritage Site known as the \"Great Living Chola Temples\", along with the Chola-era Gangaikonda Cholapuram temple and Airavatesvara temple, which are about 70 kilometres (43 mi) and 40 kilometres (25 mi) to its northeast respectively.",
+      "image": "/static/assets/explore/Brihadisvara_Temple.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Brihadisvara_Temple",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Rani ki Vav",
+      "description": "UNESCO World Heritage Site in Patan, India",
+      "extract": "Rani ki Vav is a stepwell situated in the town of Patan in Gujarat, India. It is located on the banks of the Saraswati River. Its construction is attributed to Udayamati, the Wife of the 11th-century Chaulukya king Bhima I. Silted over, it was rediscovered in the 1940s and restored in the 1980s by the Archaeological Survey of India. It has been listed as a UNESCO World Heritage Sites in India since 2014. The stepwell is designed as an underground shrine or inverted temple symbolizing the sanctity of water, with sculptures depicting numerous Hindu deities. It is divided into seven stair levels, each with sculptural panels. These panels contain more than 500 principal sculptures and over a thousand minor ones, combining religious, secular, and symbolic imagery.",
+      "image": "/static/assets/explore/Rani_ki_Vav.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Rani_ki_Vav",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Hampi",
+      "description": "Ancient and medieval monuments, a UNESCO World Heritage Site in Karnataka, India",
+      "extract": "Hampi or Hampe, also referred to as the Group of Monuments at Hampi, is a UNESCO World Heritage Site located in the town of Hampi in Vijayanagara district, east-central Karnataka, India. Hampi predates the Vijayanagara Empire; it is mentioned in the Ramayana and the Puranas of Hinduism as Pampa Devi Tirtha Kshetra. Hampi continues as a religious centre, with the Virupaksha Temple, an active Adi Shankara-linked monastery and various monuments belonging to the old city.",
+      "image": "/static/assets/explore/Hampi.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Hampi",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Konark Sun Temple",
+      "description": "13th-century UNESCO world heritage site in Odisha, India",
+      "extract": "Konark Sun Temple is a 13th-century CE Hindu Sun temple at Konark about 35 kilometres (22 mi) northeast from Puri city on the coastline in Puri district, Odisha, India. The temple is attributed to king Narasingha Deva I of the Eastern Ganga dynasty about 1250 CE. Dedicated to the Hindu Sun-god Surya, it reflects the pinnacle of Kalingan architecture and artistic excellence, what remains of the temple complex has the appearance of a 30-metre (100 ft) high chariot with immense wheels and horses, all carved from stone. Once over 61 metres (200 ft) high, much of the temple is now in ruins, in particular the large shikara tower over the sanctuary; at one time this rose much higher than the mandapa that remains. The structures and elements that have survived are famed for their intricate artwork, iconography, and themes, including erotic kama and mithuna scenes. Also called the Surya Devalaya, it is a classic illustration of the Odisha style of Architecture or Kalinga architecture.",
+      "image": "/static/assets/explore/Konark_Sun_Temple.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Konark_Sun_Temple",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Sanchi Stupa",
+      "description": "Buddhist complex in Madhya Pradesh, India",
+      "extract": "Sanchi Stupa is a Buddhist complex, famous for its Great Stupa, on a hilltop at Sanchi Town in Raisen District of the State of Madhya Pradesh, India. It is located about 23 kilometres from Raisen town, the district headquarters and 46 kilometres (29 mi) northeast of Bhopal, capital of Madhya Pradesh.",
+      "image": "/static/assets/explore/Sanchi_Stupa.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Sanchi_Stupa",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Fatehpur Sikri",
+      "description": "Town in Uttar Pradesh, India",
+      "extract": "Fatehpur Sikri is a town in the Agra District of Uttar Pradesh, India. Situated 35.7 kilometres (22.2 mi) from the district headquarters of Agra, Fatehpur Sikri itself was founded as the capital of the Mughal Empire in 1571 by Emperor Akbar, serving this role from 1571 to 1585, when Akbar abandoned it due to a campaign in Punjab and was later completely abandoned in 1610.",
+      "image": "/static/assets/explore/Fatehpur_Sikri.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Fatehpur_Sikri",
+      "source_name": "Wikipedia"
+    }
+  ],
+  "knowledge-texts": [
+    {
+      "title": "Vedas",
+      "description": "Oldest scriptures of Hinduism",
+      "extract": "The Vedas, sometimes collectively called the Veda, are a large body of religious texts originating in ancient India. Composed in Vedic Sanskrit, the texts constitute the oldest layer of Sanskrit literature and the oldest scriptures of Hinduism.",
+      "image": "/static/assets/explore/Vedas.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Vedas",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Arthashastra",
+      "description": "Ancient Indian treatise",
+      "extract": "Kautilya's Arthashastra is an Ancient Indian Sanskrit treatise on statecraft, politics, economic policy and military strategy. The text is likely the work of several authors over centuries, starting as a compilation of Arthashastras, texts which according to Olivelle date from the 2nd c. BCE to the 1st c. CE. These earlier treatises were compiled and amended in a new treatise, according to McClish and Olivelle in the 1st century CE by either an anonymous author or Kautilya, though earlier and later dates have also been proposed. While often regarded as created by a single author, McClish and Olivelle argue that this compilation, possibly titled Daņdanīti, served as the basis for a major expansion and redaction in the 2nd or 3rd century CE by either Kautilya or an anonymous author, when several books, dialogical comments, and the disharmonious chapter-division were added, and a stronger Brahmanical ideology was brought in. The text thus became a proper arthashastra, and was retitled to Kautilya's Arthashastra.",
+      "image": "/static/assets/explore/Arthashastra.png",
+      "source_url": "https://en.wikipedia.org/wiki/Arthashastra",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Sangam literature",
+      "description": "Historic period of Tamil literature",
+      "extract": "The Sangam literature, historically known as the Poetry of the Noble Ones, connotes the early classical Tamil literature and is the earliest known literature of South India. The Tamil tradition and legends link it to three legendary literary gatherings around Madurai and Kapāṭapuram: the first lasted over 4,440 years, the second over 3,700 years, and the third over 1,850 years. Scholars consider this Tamil tradition-based chronology as ahistorical and mythical. Most scholars suggest the historical Sangam literature era, also called the Sangam period, spanned from c. 300 BCE to 300 CE, while others variously place this early classical Tamil literature period a bit later and more narrowly but all before 300 CE. According to Kamil Zvelebil, a Tamil literature and history scholar, the most acceptable range for the Sangam literature is 100 BCE to 250 CE, based on the linguistic, prosodic and quasi-historic allusions within the texts and the colophons.",
+      "image": "/static/assets/explore/Sangam_literature.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Sangam_literature",
+      "source_name": "Wikipedia"
+    },
+    {
+      "title": "Ayurveda",
+      "description": "Pseudoscientific alternative medicine originating from India",
+      "extract": "Ayurveda is an alternative medicine system with historical roots in the Indian subcontinent. It is heavily practised throughout India and Nepal, where as much as 80% of the population report using Ayurveda. Ayurveda has been adapted for Western consumption, notably by Baba Hari Dass in the 1970s and Maharishi Ayurveda in the 1980s. The theory and practice of Ayurveda are pseudoscientific, and many Ayurvedic preparations, particularly in the rasashastra tradition, contain toxic levels of lead, mercury, and arsenic. There is no evidence that cancer can be treated or cured through Ayurveda.",
+      "image": "/static/assets/explore/Ayurveda.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Ayurveda",
+      "source_name": "Wikipedia",
+      "image_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Dhanvantari-at-Ayurveda-expo.jpg/330px-Dhanvantari-at-Ayurveda-expo.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    },
+    {
+      "title": "Yoga Sutras of Patanjali",
+      "description": "Early Yoga text in Sanskrit from ancient India by Patanjali",
+      "extract": "The Yoga Sutras of Patañjali is a compilation \"from a variety of sources\" of Sanskrit sutras (aphorisms) on the practice of yoga – 195 sutras and 196 sutras. The Yoga Sutras were compiled in India in the early centuries CE by the sage Patanjali, who collected and organized knowledge about yoga from Samkhya, Buddhism, and older Yoga traditions, and possibly another compiler who may have added the fourth chapter. He may also be the author of the Yogabhashya, a commentary on the Yoga Sutras, traditionally attributed to the legendary Vedic sage Vyasa, but possibly forming a joint work of Patanjali called the Pātañjalayogaśāstra.",
+      "image": "/static/assets/explore/Yoga_Sutras_of_Patanjali.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Yoga_Sutras_of_Patanjali",
+      "source_name": "Wikipedia",
+      "image_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Yogasutra_with_Patanjali%27s_bhasya%2C_Sanskrit%2C_Devanagari_script%2C_random_sample_pages_f1v_f2r_f3v.jpg/330px-Yogasutra_with_Patanjali%27s_bhasya%2C_Sanskrit%2C_Devanagari_script%2C_random_sample_pages_f1v_f2r_f3v.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    },
+    {
+      "title": "Panchatantra",
+      "description": "Ancient Sanskrit text of fables from India",
+      "extract": "The Panchatantra is an ancient Indian collection of interrelated animal fables in Sanskrit verse and prose, arranged within a frame story. The text's author is unknown, but it has been attributed to Vishnu Sharma in some recensions and Vasubhaga in others, both of which may be fictitious pen names. It is likely a Hindu text, and based on older oral traditions with \"animal fables that are as old as we are able to imagine\".",
+      "image": "/static/assets/explore/Panchatantra.jpg",
+      "source_url": "https://en.wikipedia.org/wiki/Panchatantra",
+      "source_name": "Wikipedia",
+      "image_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Panchatantra_page.jpg/330px-Panchatantra_page.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail"
+    }
+  ]
+}

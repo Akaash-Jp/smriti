@@ -194,21 +194,16 @@ class ContributionWorkflowTest(unittest.TestCase):
         self.assertGreaterEqual(len(response.get_json()["collections"]), 6)
         self.assertIn("Wikipedia", response.get_json()["source"])
 
-    @patch("app.wikipedia_summary")
-    def test_explore_collection_returns_wikipedia_cards(self, fake_summary):
-        """The API turns curated article titles into source-linked cards."""
-        fake_summary.side_effect = lambda title: {
-            "title": title,
-            "description": "Heritage topic",
-            "extract": "A concise article summary.",
-            "image": "https://upload.wikimedia.org/example.jpg",
-            "source_url": "https://en.wikipedia.org/wiki/Example",
-            "source_name": "Wikipedia",
-        }
+    @patch("app.fetch_wikimedia_json", side_effect=AssertionError("Offline collection contacted Wikimedia"))
+    def test_explore_collection_returns_wikipedia_cards(self, fake_wiki):
+        """Curated cards and their photos are served locally."""
         response = smriti.app.test_client().get("/api/explore/articles/ancient-india")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.get_json()["articles"]), 6)
-        self.assertEqual(fake_summary.call_count, 6)
+        fake_wiki.assert_not_called()
+        for card in response.get_json()["articles"]:
+            if card["image"]:
+                self.assertTrue(card["image"].startswith("/static/assets/explore/"))
 
     @patch("app.wikipedia_search")
     def test_explore_search_uses_wikimedia_rest_results(self, fake_search):

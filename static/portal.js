@@ -93,9 +93,15 @@ const legacyExploreLinks = {
     folklore: "knowledge-texts", techniques: "knowledge-texts", architecture: "architecture", languages: "knowledge-texts",
 };
 
-// Only secure Wikimedia image addresses are allowed into an article card.
+// Curated collections use bundled files. Live search uses Wikimedia HTTPS.
 function safeWikiImage(value) {
-    try { const url = new URL(value); return url.protocol === "https:" && url.hostname.endsWith("wikimedia.org") ? url.href : ""; }
+    if (typeof value !== "string") return "";
+    if (/^\/static\/assets\/explore\/[a-z0-9_%.()'-]+\.(jpg|png|webp)$/i.test(value)) return value;
+    try {
+        const url = new URL(value);
+        const isWikimedia = url.hostname === "wikimedia.org" || url.hostname.endsWith(".wikimedia.org");
+        return url.protocol === "https:" && isWikimedia ? url.href : "";
+    }
     catch (_error) { return ""; }
 }
 
@@ -159,7 +165,7 @@ async function startTopicsPage() {
             if (updateAddress) history.pushState({}, "", `/explore/${slug}`);
         } catch (error) {
             title.textContent = "Articles are temporarily unavailable"; description.textContent = error.message;
-            results.innerHTML = '<div class="empty-state">Wikipedia could not be reached through either source. Try again in a moment; your community guides are still available below.</div>';
+            results.innerHTML = '<div class="empty-state">This collection could not be loaded. Try again in a moment.</div>';
             retry.hidden = false;
         }
     };

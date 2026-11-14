@@ -1,5 +1,0 @@
-Flask
-flask-cors
-python-dotenv
-groq>=1.7.0
-gunicorn>=23.0

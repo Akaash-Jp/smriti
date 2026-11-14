@@ -1,0 +1,544 @@
+/* =====================================
+   HERITAGE 101 - HERITAGE OF INDIA 360
+   ===================================== */
+
+:root {
+    --brick-red: #10b981;
+    --beige: #0a130f;
+    --saddle-brown: #a7f3d0;
+    --sandy-brown: #f4a460;
+    --bisque: #14271e;
+    --blanched-almond: #e7f5ee;
+    --brown: #a7f3d0;
+    --dark-orange: #34d399;
+    --dark-goldenrod: #6ee7b7;
+    --goldenrod: #10b981;
+    --indian-red: #cd5c5c;
+    --khaki: #f0e68c;
+    --light-salmon: #ffa07a;
+    --maroon: #d1fae5;
+    --peachpuff: #163026;
+    --sienna: #b0c9bd;
+    --tan: #2c5444;
+    --seagreen: #2e8b57;
+    --olive: #6ee7b7;
+    --navy: #000080;
+    --indigo: #4b0082;
+}
+
+/* GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Trebuchet MS", sans-serif;
+    background-color: var(--beige);
+    color: var(--brown);
+    line-height: 1.6;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+/* HEADER */
+
+.topbar {
+    height: 75px;
+    background-color: var(--maroon);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.brand {
+    color: var(--blanched-almond);
+    font-family: Georgia, serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.brand span {
+    color: var(--goldenrod);
+}
+
+.topbar-caption {
+    color: var(--peachpuff);
+    font-family: Garamond, serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* HERO SECTION */
+
+.gallery-hero {
+    text-align: center;
+    padding: 145px 20px 65px;
+    background:
+        radial-gradient(ellipse at 50% 100%, rgba(16, 185, 129, 0.18), transparent 68%),
+        linear-gradient(160deg, #050507, #0b1915);
+    color: var(--blanched-almond);
+}
+
+.eyebrow {
+    color: var(--goldenrod);
+    letter-spacing: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.gallery-hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(34px, 5vw, 58px);
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.gallery-hero h1 span {
+    color: var(--goldenrod);
+}
+
+.intro {
+    max-width: 650px;
+    margin: 20px auto;
+    font-family: Garamond, serif;
+    font-size: 21px;
+    color: var(--bisque);
+}
+
+.ornament {
+    margin-top: 25px;
+    color: var(--goldenrod);
+    letter-spacing: 4px;
+}
+
+/* GALLERY */
+
+.gallery-section {
+    max-width: 1250px;
+    margin: auto;
+    padding: 65px 35px 90px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-heading h2 {
+    font-family: Georgia, serif;
+    color: var(--brick-red);
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.section-heading p {
+    font-family: Garamond, serif;
+    font-size: 19px;
+    color: var(--sienna);
+}
+
+/* THREE COLUMN GRID */
+
+.monument-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 35px;
+}
+
+/* MONUMENT CARDS */
+
+.monument-card {
+    background-color: #101e17;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--tan);
+    box-shadow: 0 5px 15px rgba(75, 35, 15, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.monument-card:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 14px 25px rgba(75, 35, 15, 0.2);
+}
+
+.monument-card:focus-visible {
+    outline: 3px solid var(--dark-orange);
+    outline-offset: 4px;
+}
+
+.monument-card img {
+    width: 100%;
+    height: 225px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.monument-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-details {
+    padding: 22px;
+    background-color: #101e17;
+}
+
+.card-number {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--dark-goldenrod);
+    letter-spacing: 2px;
+}
+
+.card-details h3 {
+    font-family: Georgia, serif;
+    font-size: 23px;
+    color: var(--maroon);
+    margin: 7px 0 3px;
+}
+
+.card-details p {
+    font-family: Garamond, serif;
+    color: var(--sienna);
+    font-size: 17px;
+}
+
+.explore-link {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 17px;
+    background-color: var(--brick-red);
+    color: #041710;
+    border-radius: 25px;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.monument-card:hover .explore-link {
+    background-color: var(--saddle-brown);
+}
+
+/* IMAGE FALLBACK */
+
+.image-fallback img {
+    display: none;
+}
+
+.image-fallback {
+    background: var(--peachpuff);
+}
+
+.image-fallback .card-details {
+    min-height: 180px;
+}
+
+/* MODAL POP-UP */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(25, 12, 8, 0.88);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 1050px;
+    max-height: 95vh;
+    overflow-y: auto;
+    background-color: var(--beige);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+    animation: appear 0.3s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MODAL HEADER */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-label {
+    color: var(--dark-goldenrod);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.modal-header h2 {
+    color: var(--maroon);
+    font-family: Georgia, serif;
+    font-size: 30px;
+}
+
+.close-btn {
+    background: var(--brick-red);
+    color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 28px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.close-btn:hover {
+    background: var(--maroon);
+}
+
+/* 3D VIEWER */
+
+.viewer-container {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    background: #0b1711;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.viewer-container iframe {
+    display: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.viewer-placeholder {
+    display: none;
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--blanched-almond);
+    background: linear-gradient(135deg, #17392b, #09130e);
+}
+
+.placeholder-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+.viewer-placeholder h3 {
+    font-family: Georgia, serif;
+    font-size: 27px;
+    color: var(--goldenrod);
+}
+
+.viewer-placeholder p {
+    margin: 10px 0 20px;
+    max-width: 400px;
+}
+
+.viewer-placeholder a {
+    color: var(--peachpuff);
+    text-decoration: underline;
+}
+
+/* VIEWER INSTRUCTIONS */
+
+.viewer-instructions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 17px;
+    margin-top: 12px;
+    background: var(--bisque);
+    border-radius: 8px;
+    color: var(--sienna);
+    font-size: 13px;
+}
+
+/* Keep navigation readable and allow links to wrap on narrow screens. */
+.gallery-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.gallery-nav a {
+    color: var(--beige);
+}
+
+.gallery-nav a[aria-current],
+.viewer-instructions a {
+    color: var(--dark-goldenrod);
+    font-weight: bold;
+}
+
+.gallery-nav a[aria-current] {
+    color: #6ee7b7;
+}
+
+/* MONUMENT DESCRIPTION */
+
+.modal-description {
+    margin-top: 25px;
+    padding: 20px;
+    border-left: 4px solid var(--goldenrod);
+    background: #14271e;
+    border-radius: 5px;
+}
+
+.modal-description h3 {
+    font-family: Georgia, serif;
+    color: var(--maroon);
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.modal-description p {
+    font-family: Garamond, serif;
+    font-size: 18px;
+    color: var(--saddle-brown);
+}
+
+.modal-description .location {
+    margin-top: 12px;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 14px;
+    color: var(--olive);
+    font-weight: bold;
+}
+
+/* MODAL FOOTER */
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 15px;
+    border-top: 1px solid var(--tan);
+    font-size: 11px;
+    color: var(--sienna);
+    letter-spacing: 1px;
+}
+
+/* PAGE FOOTER */
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 850px) {
+    .monument-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .viewer-container {
+        height: 420px;
+    }
+}
+
+@media (max-width: 550px) {
+    .topbar {
+        height: 65px;
+        padding: 0 5%;
+    }
+
+    .brand {
+        font-size: 21px;
+    }
+
+    .topbar-caption {
+        font-size: 11px;
+        letter-spacing: 0;
+    }
+
+    .gallery-hero {
+        padding: 55px 18px;
+    }
+
+    .intro {
+        font-size: 18px;
+    }
+
+    .gallery-section {
+        padding: 45px 18px 60px;
+    }
+
+    .section-heading h2 {
+        font-size: 28px;
+    }
+
+    .monument-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .monument-card img {
+        height: 230px;
+    }
+
+    .modal {
+        padding: 8px;
+    }
+
+    .modal-content {
+        padding: 17px;
+        max-height: 96vh;
+    }
+
+    .modal-header h2 {
+        font-size: 23px;
+    }
+
+    .viewer-container {
+        height: 350px;
+    }
+
+    .viewer-instructions {
+        gap: 10px;
+        font-size: 11px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}

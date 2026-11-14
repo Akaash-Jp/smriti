@@ -8,8 +8,8 @@
     --ink-card: #171c18;
     --cream: #f7f0e3;
     --cream-muted: #c8c0b2;
-    --gold: #e9ae5d;
-    --gold-light: #ffd892;
+    --gold: #10b981;
+    --gold-light: #a7f3d0;
     --green: #163c30;
     --green-light: #295e4b;
     --line: rgba(242, 223, 189, 0.18);
@@ -142,7 +142,7 @@ label:focus-within {
     width: 38px;
     height: 38px;
     color: var(--gold);
-    border: 1px solid rgba(233, 174, 93, 0.45);
+    border: 1px solid rgba(16, 185, 129, 0.45);
     border-radius: 50%;
     font-size: 20px;
 }
@@ -338,12 +338,12 @@ label:focus-within {
 .button-secondary {
     color: var(--cream);
     background: rgba(8, 12, 10, 0.44);
-    border-color: rgba(233, 174, 93, 0.65);
+    border-color: rgba(16, 185, 129, 0.65);
     backdrop-filter: blur(8px);
 }
 
 .button-secondary:hover {
-    background: rgba(233, 174, 93, 0.12);
+    background: rgba(16, 185, 129, 0.12);
     border-color: var(--gold);
 }
 
@@ -375,7 +375,7 @@ label:focus-within {
     position: relative;
     min-height: 380px;
     overflow: hidden;
-    border: 1px solid rgba(233, 174, 93, 0.68);
+    border: 1px solid rgba(16, 185, 129, 0.68);
     border-radius: 22px;
     box-shadow: var(--shadow);
     background: var(--ink-card);
@@ -497,8 +497,8 @@ label:focus-within {
 
 .purpose-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(233, 174, 93, 0.55);
-    background: rgba(233, 174, 93, 0.055);
+    border-color: rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.055);
 }
 
 .purpose-icon {
@@ -540,9 +540,9 @@ label:focus-within {
     left: -85px;
     width: 210px;
     height: 210px;
-    border: 1px solid rgba(233, 174, 93, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.16);
     border-radius: 50%;
-    box-shadow: 0 0 0 32px rgba(233, 174, 93, 0.025), 0 0 0 64px rgba(233, 174, 93, 0.018);
+    box-shadow: 0 0 0 32px rgba(16, 185, 129, 0.025), 0 0 0 64px rgba(16, 185, 129, 0.018);
 }
 
 .section-heading {
@@ -584,7 +584,7 @@ label:focus-within {
 
 .heritage-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(233, 174, 93, 0.55);
+    border-color: rgba(16, 185, 129, 0.55);
     box-shadow: var(--shadow);
 }
 
@@ -640,7 +640,7 @@ label:focus-within {
     place-items: center;
     color: var(--gold-light);
     background: var(--green);
-    border: 1px solid rgba(233, 174, 93, 0.26);
+    border: 1px solid rgba(16, 185, 129, 0.26);
     border-radius: 50%;
     cursor: pointer;
     transition: color 160ms ease, background 160ms ease, transform 160ms ease;
@@ -698,7 +698,7 @@ label:focus-within {
 .upload-panel {
     padding: clamp(24px, 4vw, 42px);
     background: rgba(14, 19, 16, 0.9);
-    border: 1px solid rgba(233, 174, 93, 0.36);
+    border: 1px solid rgba(16, 185, 129, 0.36);
     border-radius: 24px;
     box-shadow: var(--shadow);
     backdrop-filter: blur(18px);
@@ -707,8 +707,8 @@ label:focus-within {
 /* The live recorder is the quickest way to give Heritage-101 a voice sample. */
 .voice-recorder {
     padding: 24px;
-    background: linear-gradient(145deg, rgba(233, 174, 93, 0.09), rgba(22, 60, 48, 0.18));
-    border: 1px solid rgba(233, 174, 93, 0.32);
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.09), rgba(22, 60, 48, 0.18));
+    border: 1px solid rgba(16, 185, 129, 0.32);
     border-radius: 16px;
 }
 
@@ -753,7 +753,7 @@ label:focus-within {
 .voice-visual span {
     width: 4px;
     height: 8px;
-    background: rgba(233, 174, 93, 0.42);
+    background: rgba(16, 185, 129, 0.42);
     border-radius: 999px;
 }
 
@@ -855,7 +855,7 @@ label:focus-within {
     align-items: center;
     gap: 12px;
     background: rgba(5, 8, 6, 0.78);
-    border: 1px solid rgba(233, 174, 93, 0.32);
+    border: 1px solid rgba(16, 185, 129, 0.32);
     border-radius: 14px;
 }
 
@@ -931,7 +931,7 @@ label:focus-within {
     align-items: center;
     justify-content: center;
     color: var(--cream-muted);
-    border: 1px dashed rgba(233, 174, 93, 0.5);
+    border: 1px dashed rgba(16, 185, 129, 0.5);
     border-radius: 16px;
     cursor: pointer;
     text-align: center;
@@ -940,7 +940,7 @@ label:focus-within {
 
 .file-drop:hover,
 .file-drop.drag-over {
-    background: rgba(233, 174, 93, 0.07);
+    background: rgba(16, 185, 129, 0.07);
     border-color: var(--gold);
 }
 
@@ -1382,7 +1382,7 @@ label:focus-within {
     background:
         radial-gradient(circle at 50% 42%, rgba(22, 60, 48, 0.36), rgba(9, 12, 11, 0.98) 70%),
         var(--ink);
-    border-bottom: 1px solid rgba(233, 174, 93, 0.28);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.28);
 }
 
 .map-upper-inner {
@@ -1403,7 +1403,7 @@ label:focus-within {
     gap: 14px;
     padding: 12px 18px;
     background: rgba(17, 24, 20, 0.88);
-    border: 1px solid rgba(233, 174, 93, 0.32);
+    border: 1px solid rgba(16, 185, 129, 0.32);
     border-radius: 18px;
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
     backdrop-filter: blur(14px);
@@ -1431,7 +1431,7 @@ label:focus-within {
 .map-subtitle-pill {
     padding: 4px 11px;
     background: rgba(22, 60, 48, 0.65);
-    border: 1px solid rgba(233, 174, 93, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.35);
     border-radius: 999px;
     color: var(--gold-light);
     font-size: 11.5px;
@@ -1498,7 +1498,7 @@ label:focus-within {
 
 .filter-chip:hover {
     color: var(--cream);
-    border-color: rgba(233, 174, 93, 0.55);
+    border-color: rgba(16, 185, 129, 0.55);
 }
 
 .filter-chip.active {
@@ -1519,11 +1519,11 @@ label:focus-within {
     justify-content: space-between;
     background:
         radial-gradient(circle at 48% 48%, rgba(28, 78, 61, 0.32) 0%, rgba(13, 22, 18, 0.94) 58%, #070a09 100%);
-    border: 1px solid rgba(233, 174, 93, 0.42);
+    border: 1px solid rgba(16, 185, 129, 0.42);
     border-radius: 24px;
     box-shadow:
         0 28px 80px rgba(0, 0, 0, 0.65),
-        inset 0 0 0 1px rgba(255, 216, 146, 0.12),
+        inset 0 0 0 1px rgba(167, 243, 208, 0.12),
         inset 0 0 60px rgba(0, 0, 0, 0.75);
     overflow: hidden;
 }
@@ -1535,7 +1535,7 @@ label:focus-within {
     position: absolute;
     width: 38px;
     height: 38px;
-    border-color: rgba(233, 174, 93, 0.48);
+    border-color: rgba(16, 185, 129, 0.48);
     border-style: solid;
     pointer-events: none;
     z-index: 5;
@@ -1571,7 +1571,7 @@ label:focus-within {
     gap: 8px;
     padding: 6px 14px;
     background: rgba(9, 13, 11, 0.84);
-    border: 1px solid rgba(233, 174, 93, 0.4);
+    border: 1px solid rgba(16, 185, 129, 0.4);
     border-radius: 999px;
     color: var(--cream);
     font-size: 12.5px;
@@ -1593,7 +1593,7 @@ label:focus-within {
     padding: 6px 14px;
     color: var(--cream);
     background: rgba(9, 13, 11, 0.84);
-    border: 1px solid rgba(233, 174, 93, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.35);
     border-radius: 999px;
     cursor: pointer;
     font-size: 12px;
@@ -1629,14 +1629,14 @@ label:focus-within {
 
 /* Cartographic graticule lines, Tropic of Cancer, and sea labels */
 .map-graticule-line {
-    stroke: rgba(233, 174, 93, 0.08);
+    stroke: rgba(16, 185, 129, 0.08);
     stroke-width: 0.8;
     fill: none;
     pointer-events: none;
 }
 
 .map-tropic-line {
-    stroke: rgba(233, 174, 93, 0.24);
+    stroke: rgba(16, 185, 129, 0.24);
     stroke-width: 1;
     stroke-dasharray: 6 5;
     fill: none;
@@ -1652,7 +1652,7 @@ label:focus-within {
 }
 
 .map-sea-label {
-    fill: rgba(233, 174, 93, 0.22);
+    fill: rgba(16, 185, 129, 0.22);
     font-family: Georgia, "Times New Roman", serif;
     font-size: 13px;
     font-style: italic;
@@ -1776,8 +1776,8 @@ label:focus-within {
 }
 
 .miniature-halo {
-    fill: rgba(233, 174, 93, 0.16);
-    stroke: rgba(255, 216, 146, 0.55);
+    fill: rgba(16, 185, 129, 0.16);
+    stroke: rgba(167, 243, 208, 0.55);
     stroke-width: 1;
     pointer-events: none;
 }
@@ -1800,7 +1800,7 @@ label:focus-within {
 
 /* Clear landmark pins replace the old decorative icon-and-name treatment. */
 .monument-pin-visual { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6)); }
-.map-pin { fill: #f4b95f; stroke: #101a15; stroke-width: 1.4; }
+.map-pin { fill: #34d399; stroke: #101a15; stroke-width: 1.4; }
 .map-pin-dot { fill: #143b2d; }
 .monument-marker:hover .map-pin,
 .monument-marker:focus-visible .map-pin,
@@ -1832,7 +1832,7 @@ label:focus-within {
     bottom: 16px;
     padding: 10px 16px;
     background: rgba(9, 13, 11, 0.92);
-    border: 1px solid rgba(233, 174, 93, 0.48);
+    border: 1px solid rgba(16, 185, 129, 0.48);
     border-radius: 14px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(12px);
@@ -1887,7 +1887,7 @@ label:focus-within {
     padding: 3px 9px;
     background: var(--green);
     color: var(--gold-light);
-    border: 1px solid rgba(233, 174, 93, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 999px;
     font-size: 10px;
     font-weight: 700;
@@ -2027,7 +2027,7 @@ label:focus-within {
     gap: 7px;
     color: var(--gold-light);
     background: rgba(22, 60, 48, 0.45);
-    border: 1px solid rgba(233, 174, 93, 0.38);
+    border: 1px solid rgba(16, 185, 129, 0.38);
     border-radius: 999px;
     cursor: pointer;
     font-size: 12px;
@@ -2042,13 +2042,13 @@ label:focus-within {
 }
 
 /* ==================================================
-   LOWER HALF: Scrollable "More Info" & Audio Guide Section
+   LOWER HALF: Scrollable monument information section
    ================================================== */
 .map-lower-details {
     padding: 72px 0 96px;
     background:
         radial-gradient(circle at 14% 20%, rgba(22, 60, 48, 0.24), transparent 32%),
-        radial-gradient(circle at 88% 80%, rgba(233, 174, 93, 0.08), transparent 30%),
+        radial-gradient(circle at 88% 80%, rgba(16, 185, 129, 0.08), transparent 30%),
         var(--ink-soft);
 }
 
@@ -2083,7 +2083,7 @@ label:focus-within {
     gap: 8px;
     color: var(--cream);
     background: rgba(9, 12, 11, 0.75);
-    border: 1px solid rgba(233, 174, 93, 0.45);
+    border: 1px solid rgba(16, 185, 129, 0.45);
     border-radius: 999px;
     cursor: pointer;
     font-size: 13px;
@@ -2091,7 +2091,7 @@ label:focus-within {
 }
 
 .back-to-map-btn:hover {
-    background: rgba(233, 174, 93, 0.14);
+    background: rgba(16, 185, 129, 0.14);
     border-color: var(--gold);
 }
 
@@ -2113,7 +2113,7 @@ label:focus-within {
 
 .monument-detail-card.pulse-highlight {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(233, 174, 93, 0.25), var(--shadow);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25), var(--shadow);
     transition: border-color 300ms ease, box-shadow 300ms ease;
 }
 
@@ -2136,7 +2136,7 @@ label:focus-within {
     padding: 5px 12px;
     background: var(--green);
     color: var(--gold-light);
-    border: 1px solid rgba(233, 174, 93, 0.35);
+    border: 1px solid rgba(16, 185, 129, 0.35);
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
@@ -2192,7 +2192,7 @@ label:focus-within {
 
 .monument-pin-badge {
     padding: 4px 10px;
-    background: rgba(233, 174, 93, 0.14);
+    background: rgba(16, 185, 129, 0.14);
     color: var(--gold-light);
     border-radius: 999px;
     font-size: 11px;
@@ -2212,6 +2212,11 @@ label:focus-within {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* Keep the badges visible without reserving a full photo while loading. */
+.monument-photo-frame:has(img[hidden]) {
+    height: 72px;
 }
 
 .monument-photo-overlay {
@@ -2311,8 +2316,8 @@ label:focus-within {
 .knowledge-chain-box {
     padding: 16px;
     margin-bottom: 20px;
-    background: linear-gradient(145deg, rgba(22, 60, 48, 0.28), rgba(233, 174, 93, 0.07));
-    border: 1px solid rgba(233, 174, 93, 0.3);
+    background: linear-gradient(145deg, rgba(22, 60, 48, 0.28), rgba(16, 185, 129, 0.07));
+    border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 16px;
 }
 
@@ -2356,28 +2361,8 @@ label:focus-within {
     border-top: 1px solid var(--line);
 }
 
-.audio-guide-btn {
-    min-height: 44px;
-    padding: 10px 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    color: var(--ink);
-    background: var(--gold);
-    border: 0;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 13.5px;
-    font-weight: 700;
-    transition: background 160ms ease, transform 160ms ease;
-}
-
-.audio-guide-btn:hover {
-    background: var(--gold-light);
-    transform: translateY(-1px);
-}
-
 .source-doc-link {
+    margin-left: auto;
     color: var(--gold-light);
     font-size: 13px;
     text-decoration: underline;

@@ -8,8 +8,8 @@
     --ink-card: #171c18;
     --cream: #f7f0e3;
     --cream-muted: #c8c0b2;
-    --gold: #e9ae5d;
-    --gold-light: #ffd892;
+    --gold: #10b981;
+    --gold-light: #a7f3d0;
     --green: #163c30;
     --green-light: #295e4b;
     --line: rgba(242, 223, 189, 0.18);
@@ -142,7 +142,7 @@ label:focus-within {
     width: 38px;
     height: 38px;
     color: var(--gold);
-    border: 1px solid rgba(233, 174, 93, 0.45);
+    border: 1px solid rgba(16, 185, 129, 0.45);
     border-radius: 50%;
     font-size: 20px;
 }
@@ -338,12 +338,12 @@ label:focus-within {
 .button-secondary {
     color: var(--cream);
     background: rgba(8, 12, 10, 0.44);
-    border-color: rgba(233, 174, 93, 0.65);
+    border-color: rgba(16, 185, 129, 0.65);
     backdrop-filter: blur(8px);
 }
 
 .button-secondary:hover {
-    background: rgba(233, 174, 93, 0.12);
+    background: rgba(16, 185, 129, 0.12);
     border-color: var(--gold);
 }
 
@@ -375,7 +375,7 @@ label:focus-within {
     position: relative;
     min-height: 380px;
     overflow: hidden;
-    border: 1px solid rgba(233, 174, 93, 0.68);
+    border: 1px solid rgba(16, 185, 129, 0.68);
     border-radius: 22px;
     box-shadow: var(--shadow);
     background: var(--ink-card);
@@ -497,8 +497,8 @@ label:focus-within {
 
 .purpose-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(233, 174, 93, 0.55);
-    background: rgba(233, 174, 93, 0.055);
+    border-color: rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.055);
 }
 
 .purpose-icon {
@@ -540,9 +540,9 @@ label:focus-within {
     left: -85px;
     width: 210px;
     height: 210px;
-    border: 1px solid rgba(233, 174, 93, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.16);
     border-radius: 50%;
-    box-shadow: 0 0 0 32px rgba(233, 174, 93, 0.025), 0 0 0 64px rgba(233, 174, 93, 0.018);
+    box-shadow: 0 0 0 32px rgba(16, 185, 129, 0.025), 0 0 0 64px rgba(16, 185, 129, 0.018);
 }
 
 .section-heading {
@@ -585,7 +585,7 @@ label:focus-within {
 
 .heritage-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(233, 174, 93, 0.55);
+    border-color: rgba(16, 185, 129, 0.55);
     box-shadow: var(--shadow);
 }
 
@@ -641,7 +641,7 @@ label:focus-within {
     place-items: center;
     color: var(--gold-light);
     background: var(--green);
-    border: 1px solid rgba(233, 174, 93, 0.26);
+    border: 1px solid rgba(16, 185, 129, 0.26);
     border-radius: 50%;
     cursor: pointer;
     transition: color 160ms ease, background 160ms ease, transform 160ms ease;
@@ -679,14 +679,25 @@ label:focus-within {
 
 .contribute-layout {
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    align-items: center;
-    gap: clamp(52px, 8vw, 110px);
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(24px, 4vw, 56px);
+}
+
+/* Keep the headline above the recording panel so it reads across the page. */
+.contribute-layout .contribute-copy {
+    width: 100%;
+    text-align: center;
+}
+
+.contribute-layout .contribute-copy h2 {
+    max-width: none;
+    font-size: clamp(30px, 3.5vw, 60px);
 }
 
 .contribute-copy > p:not(.eyebrow):not(.privacy-note) {
     max-width: 580px;
-    margin: 24px 0 0;
+    margin: 24px auto 0;
     color: #d3ccc1;
     font-size: 17px;
 }
@@ -704,19 +715,20 @@ label:focus-within {
 }
 
 .upload-panel {
+    width: min(100%, max(70vw, 620px));
     padding: clamp(24px, 4vw, 42px);
-    background: rgba(14, 19, 16, 0.9);
-    border: 1px solid rgba(233, 174, 93, 0.36);
+    background: rgba(14, 19, 16, 0.78);
+    border: 1px solid rgba(16, 185, 129, 0.36);
     border-radius: 24px;
     box-shadow: var(--shadow);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(5px);
 }
 
 /* The live recorder is the quickest way to give Heritage-101 a voice sample. */
 .voice-recorder {
     padding: 24px;
-    background: linear-gradient(145deg, rgba(233, 174, 93, 0.09), rgba(22, 60, 48, 0.18));
-    border: 1px solid rgba(233, 174, 93, 0.32);
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.09), rgba(22, 60, 48, 0.18));
+    border: 1px solid rgba(16, 185, 129, 0.32);
     border-radius: 16px;
 }
 
@@ -761,7 +773,7 @@ label:focus-within {
 .voice-visual span {
     width: 4px;
     height: 8px;
-    background: rgba(233, 174, 93, 0.42);
+    background: rgba(16, 185, 129, 0.42);
     border-radius: 999px;
 }
 
@@ -863,7 +875,7 @@ label:focus-within {
     align-items: center;
     gap: 12px;
     background: rgba(5, 8, 6, 0.78);
-    border: 1px solid rgba(233, 174, 93, 0.32);
+    border: 1px solid rgba(16, 185, 129, 0.32);
     border-radius: 14px;
 }
 
@@ -939,7 +951,7 @@ label:focus-within {
     align-items: center;
     justify-content: center;
     color: var(--cream-muted);
-    border: 1px dashed rgba(233, 174, 93, 0.5);
+    border: 1px dashed rgba(16, 185, 129, 0.5);
     border-radius: 16px;
     cursor: pointer;
     text-align: center;
@@ -948,7 +960,7 @@ label:focus-within {
 
 .file-drop:hover,
 .file-drop.drag-over {
-    background: rgba(233, 174, 93, 0.07);
+    background: rgba(16, 185, 129, 0.07);
     border-color: var(--gold);
 }
 
@@ -1042,7 +1054,7 @@ label:focus-within {
 .ai-note { color: var(--cream-muted); font-size: 12px; }
 
 /* The middle AI explains its cleanup and additions before tutorial generation. */
-.transcript-review { margin-top: 14px; padding: 16px; background: rgba(233, 174, 93, 0.07); border: 1px solid rgba(233, 174, 93, 0.28); border-radius: 12px; }
+.transcript-review { margin-top: 14px; padding: 16px; background: rgba(16, 185, 129, 0.07); border: 1px solid rgba(16, 185, 129, 0.28); border-radius: 12px; }
 .review-heading { display: flex; align-items: flex-start; gap: 10px; }
 .review-heading > span { color: var(--gold); font-size: 20px; }
 .review-heading strong, .transcript-review > div > strong { color: var(--cream); }

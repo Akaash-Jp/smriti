@@ -8,6 +8,7 @@
     <title>Heritage-101 — The Living Heritage Network</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/resonance.css">
 </head>
 
 <body class="home-page">
@@ -45,6 +46,9 @@
         <!-- Hero: the first screen introduces the purpose and leads into Explore. -->
         <section class="hero" id="home" aria-labelledby="heroTitle">
             <div class="hero-shade"></div>
+            <!-- Layered light arcs move gently behind the page content. -->
+            <div class="resonance-art" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div id="resonance-webgl" aria-hidden="true"></div>
             <div class="hero-content page-width">
                 <div class="hero-copy reveal">
                     <p class="eyebrow">Stories carried across generations</p>
@@ -140,7 +144,7 @@
 
             <div class="heritage-grid page-width">
                 <article class="heritage-card reveal">
-                    <img src="/static/assets/traditional-medicine-professional.jpg" alt="Dried roots, herbs, and spices displayed in metal bowls at a traditional market">
+                    <img src="/static/assets/explore/Ayurveda.jpg" alt="Dhanvantari sculpture at an Ayurveda exhibition">
                     <div class="card-body">
                         <span class="card-number">01</span>
                         <div>
@@ -152,7 +156,7 @@
                 </article>
 
                 <article class="heritage-card reveal delay-one">
-                    <img src="/static/assets/monuments-professional.jpg" alt="Ornate sandstone arches and carved windows at Mehrangarh Fort in Jodhpur">
+                    <img src="/static/assets/explore/Hawa_Mahal.jpg" alt="Hawa Mahal in Jaipur">
                     <div class="card-body">
                         <span class="card-number">02</span>
                         <div>
@@ -164,7 +168,7 @@
                 </article>
 
                 <article class="heritage-card reveal delay-two">
-                    <img src="/static/assets/ancient-texts-professional.jpg" alt="A bound Odia palm-leaf manuscript resting beside its traditional writing stylus">
+                    <img src="/static/assets/explore/Arthashastra.png" alt="Cover of Kautilya’s Arthashastra">
                     <div class="card-body">
                         <span class="card-number">03</span>
                         <div>
@@ -176,7 +180,7 @@
                 </article>
 
                 <article class="heritage-card reveal">
-                    <img src="/static/assets/culture-professional.jpg" alt="A Bharatanatyam dancer performing in a purple and orange costume">
+                    <img src="/static/assets/explore/Kathakali.jpg" alt="Kathakali performers in costume">
                     <div class="card-body">
                         <span class="card-number">04</span>
                         <div>
@@ -188,7 +192,7 @@
                 </article>
 
                 <article class="heritage-card reveal delay-one">
-                    <img src="/static/assets/lifestyle-professional.jpg" alt="A traditional clay cooking pot heating over a wood fire in an Indian home">
+                    <img src="/static/assets/explore/Appam.jpg" alt="Traditional appam">
                     <div class="card-body">
                         <span class="card-number">05</span>
                         <div>
@@ -200,7 +204,7 @@
                 </article>
 
                 <article class="heritage-card reveal delay-two">
-                    <img src="/static/assets/civilisations-professional.jpg" alt="A richly carved historic temple structure at Hampi in Karnataka">
+                    <img src="/static/assets/explore/Indus_Valley_Civilisation.png" alt="Map of the Indus Valley Civilisation">
                     <div class="card-body">
                         <span class="card-number">06</span>
                         <div>
@@ -346,6 +350,8 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script src="/static/header.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="/static/resonance.js"></script>
     <script src="/static/script.js"></script>
 </body>
 </html>

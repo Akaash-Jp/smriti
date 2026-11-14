@@ -11,7 +11,6 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from functools import wraps
 from urllib.parse import urlsplit
@@ -227,6 +226,12 @@ def admin_page():
 @app.get("/map")
 def map_page():
     return send_from_directory("static", "map.html")
+
+
+# The gallery loads interactive monument models on demand.
+@app.get("/3d")
+def heritage_360():
+    return send_from_directory("static", "heritage360.html")
 
 
 # Serve the interactive, source-linked cultural connections page.
@@ -506,17 +511,13 @@ def explore_collections():
 
 @app.get("/api/explore/articles/<slug>")
 def explore_articles(slug):
-    """Fetch one curated collection in parallel so Explore loads quickly."""
+    """Serve the bundled cards so browsing requires no Wikimedia request."""
     collection = WIKI_COLLECTIONS.get(slug)
     if not collection:
         return jsonify({"error": "Heritage collection not found."}), 404
-    try:
-        with ThreadPoolExecutor(max_workers=6) as pool:
-            articles = list(pool.map(wikipedia_summary, collection["titles"]))
-        return jsonify({"collection": {"slug": slug, "name": collection["name"], "description": collection["description"]}, "articles": articles})
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError):
-        app.logger.exception("Wikipedia collection request failed")
-        return jsonify({"error": "Wikipedia could not be reached. Please try this collection again."}), 502
+    with open(os.path.join(app.static_folder, "explore-cards.json"), encoding="utf-8") as snapshot:
+        articles = json.load(snapshot)[slug]
+    return jsonify({"collection": {"slug": slug, "name": collection["name"], "description": collection["description"]}, "articles": articles})
 
 
 @app.get("/api/explore/search")

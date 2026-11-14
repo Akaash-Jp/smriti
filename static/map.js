@@ -2586,13 +2586,13 @@ function createMiniatureMonumentSvg(monument) {
     if (mType === "dome") {
         // Mughal / Indo-Islamic Dome with flanking minarets (e.g., Taj Mahal, Charminar, Humayun's Tomb)
         return `
-            <path d="M-9,7 L9,7 L9,5 L-9,5 Z" fill="#ffd892"/>
+            <path d="M-9,7 L9,7 L9,5 L-9,5 Z" fill="#a7f3d0"/>
             <rect x="-8.5" y="-4" width="2" height="9" fill="#f7f0e3"/>
-            <circle cx="-7.5" cy="-5" r="1.2" fill="#e9ae5d"/>
+            <circle cx="-7.5" cy="-5" r="1.2" fill="#10b981"/>
             <rect x="6.5" y="-4" width="2" height="9" fill="#f7f0e3"/>
-            <circle cx="7.5" cy="-5" r="1.2" fill="#e9ae5d"/>
-            <path d="M-5.5,5 L-5.5,-0.5 C-5.5,-5.5 0,-8.5 0,-9.5 C0,-8.5 5.5,-5.5 5.5,-0.5 L5.5,5 Z" fill="#ffd892" stroke="#090c0b" stroke-width="0.6"/>
-            <line x1="0" y1="-9.5" x2="0" y2="-11.5" stroke="#ffd892" stroke-width="1.1"/>
+            <circle cx="7.5" cy="-5" r="1.2" fill="#10b981"/>
+            <path d="M-5.5,5 L-5.5,-0.5 C-5.5,-5.5 0,-8.5 0,-9.5 C0,-8.5 5.5,-5.5 5.5,-0.5 L5.5,5 Z" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.6"/>
+            <line x1="0" y1="-9.5" x2="0" y2="-11.5" stroke="#a7f3d0" stroke-width="1.1"/>
             <path d="M-2.2,5 L-2.2,1 C-2.2,-1 2.2,-1 2.2,1 L2.2,5 Z" fill="#090c0b"/>
         `;
     }
@@ -2600,24 +2600,24 @@ function createMiniatureMonumentSvg(monument) {
     if (mType === "shikhara") {
         // Curvilinear Nagara Spire & Sun Chariot Wheel (e.g., Konark, Khajuraho, Lingaraja, Modhera)
         return `
-            <path d="M-8,7 L8,7 L7,4.5 L-7,4.5 Z" fill="#e9ae5d"/>
-            <path d="M-5,4.5 C-4.8,-2 -2.2,-7.5 0,-9.5 C2.2,-7.5 4.8,-2 5,4.5 Z" fill="#ffd892" stroke="#090c0b" stroke-width="0.6"/>
-            <ellipse cx="0" cy="-9.5" rx="2.4" ry="0.9" fill="#e9ae5d"/>
+            <path d="M-8,7 L8,7 L7,4.5 L-7,4.5 Z" fill="#10b981"/>
+            <path d="M-5,4.5 C-4.8,-2 -2.2,-7.5 0,-9.5 C2.2,-7.5 4.8,-2 5,4.5 Z" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.6"/>
+            <ellipse cx="0" cy="-9.5" rx="2.4" ry="0.9" fill="#10b981"/>
             <polygon points="0,-11.5 3.5,-10.2 0,-9.2" fill="#e45f52"/>
             <line x1="-2.5" y1="-2" x2="2.5" y2="-2" stroke="#090c0b" stroke-width="0.7"/>
             <line x1="-3.5" y1="1" x2="3.5" y2="1" stroke="#090c0b" stroke-width="0.7"/>
-            <circle cx="0" cy="4.2" r="2.1" fill="#090c0b" stroke="#ffd892" stroke-width="0.9"/>
+            <circle cx="0" cy="4.2" r="2.1" fill="#090c0b" stroke="#a7f3d0" stroke-width="0.9"/>
         `;
     }
 
     if (mType === "fort") {
         // Crenellated Hill Fort Bastions & Gateway (e.g., Amer Fort, Mehrangarh, Red Fort, Bekal)
         return `
-            <path d="M-9,7 L9,7 L8.5,-3 L6,-3 L6,-5 L4,-5 L4,-3 L-4,-3 L-4,-5 L-6,-5 L-6,-3 L-8.5,-3 Z" fill="#e9ae5d" stroke="#090c0b" stroke-width="0.6"/>
-            <rect x="-8.5" y="-6.5" width="3.8" height="3.5" fill="#ffd892"/>
-            <rect x="4.7" y="-6.5" width="3.8" height="3.5" fill="#ffd892"/>
-            <path d="M-7.8,-6.5 L-6.6,-8.5 L-5.4,-6.5 Z" fill="#e9ae5d"/>
-            <path d="M5.4,-6.5 L6.6,-8.5 L7.8,-6.5 Z" fill="#e9ae5d"/>
+            <path d="M-9,7 L9,7 L8.5,-3 L6,-3 L6,-5 L4,-5 L4,-3 L-4,-3 L-4,-5 L-6,-5 L-6,-3 L-8.5,-3 Z" fill="#10b981" stroke="#090c0b" stroke-width="0.6"/>
+            <rect x="-8.5" y="-6.5" width="3.8" height="3.5" fill="#a7f3d0"/>
+            <rect x="4.7" y="-6.5" width="3.8" height="3.5" fill="#a7f3d0"/>
+            <path d="M-7.8,-6.5 L-6.6,-8.5 L-5.4,-6.5 Z" fill="#10b981"/>
+            <path d="M5.4,-6.5 L6.6,-8.5 L7.8,-6.5 Z" fill="#10b981"/>
             <path d="M-2.6,7 L-2.6,1.2 C-2.6,-1.2 2.6,-1.2 2.6,1.2 L2.6,7 Z" fill="#090c0b"/>
         `;
     }
@@ -2625,10 +2625,10 @@ function createMiniatureMonumentSvg(monument) {
     if (mType === "palace") {
         // Multi-domed Royal Palace / Hawa Mahal Honeycomb Facade
         return `
-            <rect x="-8.5" y="-1.5" width="17" height="8.5" rx="1" fill="#ffd892" stroke="#090c0b" stroke-width="0.6"/>
-            <path d="M-7.5,-1.5 C-7.5,-5 -4,-5 -4,-1.5 Z" fill="#e9ae5d"/>
-            <path d="M-2.8,-1.5 C-2.8,-7.5 2.8,-7.5 2.8,-1.5 Z" fill="#ffd892" stroke="#090c0b" stroke-width="0.5"/>
-            <path d="M4,-1.5 C4,-5 7.5,-5 7.5,-1.5 Z" fill="#e9ae5d"/>
+            <rect x="-8.5" y="-1.5" width="17" height="8.5" rx="1" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.6"/>
+            <path d="M-7.5,-1.5 C-7.5,-5 -4,-5 -4,-1.5 Z" fill="#10b981"/>
+            <path d="M-2.8,-1.5 C-2.8,-7.5 2.8,-7.5 2.8,-1.5 Z" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.5"/>
+            <path d="M4,-1.5 C4,-5 7.5,-5 7.5,-1.5 Z" fill="#10b981"/>
             <circle cx="-4.8" cy="1.5" r="1.1" fill="#090c0b"/>
             <circle cx="0" cy="1.2" r="1.3" fill="#090c0b"/>
             <circle cx="4.8" cy="1.5" r="1.1" fill="#090c0b"/>
@@ -2639,45 +2639,45 @@ function createMiniatureMonumentSvg(monument) {
     if (mType === "stupa") {
         // Buddhist Stupa Dome with Harmika & Chhatra Spire (e.g., Sanchi, Mahabodhi, Nalanda, Tawang)
         return `
-            <rect x="-8.5" y="4.5" width="17" height="2.5" fill="#e9ae5d"/>
-            <path d="M-7,4.5 C-7,-3.5 7,-3.5 7,4.5 Z" fill="#ffd892" stroke="#090c0b" stroke-width="0.6"/>
-            <rect x="-2.2" y="-5" width="4.4" height="2.2" fill="#e9ae5d" stroke="#090c0b" stroke-width="0.5"/>
-            <line x1="0" y1="-5" x2="0" y2="-10" stroke="#ffd892" stroke-width="1.2"/>
-            <line x1="-3" y1="-7.5" x2="3" y2="-7.5" stroke="#ffd892" stroke-width="1.1"/>
-            <line x1="-2" y1="-9.5" x2="2" y2="-9.5" stroke="#ffd892" stroke-width="1"/>
+            <rect x="-8.5" y="4.5" width="17" height="2.5" fill="#10b981"/>
+            <path d="M-7,4.5 C-7,-3.5 7,-3.5 7,4.5 Z" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.6"/>
+            <rect x="-2.2" y="-5" width="4.4" height="2.2" fill="#10b981" stroke="#090c0b" stroke-width="0.5"/>
+            <line x1="0" y1="-5" x2="0" y2="-10" stroke="#a7f3d0" stroke-width="1.2"/>
+            <line x1="-3" y1="-7.5" x2="3" y2="-7.5" stroke="#a7f3d0" stroke-width="1.1"/>
+            <line x1="-2" y1="-9.5" x2="2" y2="-9.5" stroke="#a7f3d0" stroke-width="1"/>
         `;
     }
 
     if (mType === "cave") {
         // Rock-Cut Cave Facade & Chaitya Horseshoe Arch (e.g., Ajanta, Ellora, Mahabalipuram)
         return `
-            <path d="M-9,7 L-7.5,-5 L-3,-8.5 L3.5,-8.5 L8,-4.5 L9,7 Z" fill="#e9ae5d" stroke="#090c0b" stroke-width="0.6"/>
-            <path d="M-4.5,7 L-4.5,0 C-4.5,-5 4.5,-5 4.5,0 L4.5,7 Z" fill="#090c0b" stroke="#ffd892" stroke-width="0.9"/>
-            <line x1="-2.2" y1="0" x2="-2.2" y2="7" stroke="#ffd892" stroke-width="1.1"/>
-            <line x1="2.2" y1="0" x2="2.2" y2="7" stroke="#ffd892" stroke-width="1.1"/>
-            <circle cx="0" cy="-1.6" r="1.4" fill="#ffd892"/>
+            <path d="M-9,7 L-7.5,-5 L-3,-8.5 L3.5,-8.5 L8,-4.5 L9,7 Z" fill="#10b981" stroke="#090c0b" stroke-width="0.6"/>
+            <path d="M-4.5,7 L-4.5,0 C-4.5,-5 4.5,-5 4.5,0 L4.5,7 Z" fill="#090c0b" stroke="#a7f3d0" stroke-width="0.9"/>
+            <line x1="-2.2" y1="0" x2="-2.2" y2="7" stroke="#a7f3d0" stroke-width="1.1"/>
+            <line x1="2.2" y1="0" x2="2.2" y2="7" stroke="#a7f3d0" stroke-width="1.1"/>
+            <circle cx="0" cy="-1.6" r="1.4" fill="#a7f3d0"/>
         `;
     }
 
     if (mType === "stepwell") {
         // Terraced Stepwell Colonnade (e.g., Rani ki Vav, Dholavira, Capitol Complex)
         return `
-            <path d="M-8.5,-5 L8.5,-5 L8.5,7 L-8.5,7 Z" fill="#e9ae5d" stroke="#090c0b" stroke-width="0.6"/>
-            <path d="M-6.2,-2.2 L6.2,-2.2 L6.2,7 L-6.2,7 Z" fill="#ffd892" stroke="#090c0b" stroke-width="0.5"/>
+            <path d="M-8.5,-5 L8.5,-5 L8.5,7 L-8.5,7 Z" fill="#10b981" stroke="#090c0b" stroke-width="0.6"/>
+            <path d="M-6.2,-2.2 L6.2,-2.2 L6.2,7 L-6.2,7 Z" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.5"/>
             <path d="M-3.8,0.8 L3.8,0.8 L3.8,7 L-3.8,7 Z" fill="#163c30" stroke="#090c0b" stroke-width="0.5"/>
             <path d="M-1.8,3.4 L1.8,3.4 L1.8,7 L-1.8,7 Z" fill="#090c0b"/>
-            <circle cx="0" cy="-7" r="1.4" fill="#ffd892"/>
+            <circle cx="0" cy="-7" r="1.4" fill="#a7f3d0"/>
         `;
     }
 
     // Default: Stepped Dravidian Gopuram Temple Tower (e.g., Brihadisvara, Meenakshi)
     return `
-        <polygon points="-7.5,7 7.5,7 4.2,-7.5 -4.2,-7.5" fill="#ffd892" stroke="#090c0b" stroke-width="0.6"/>
+        <polygon points="-7.5,7 7.5,7 4.2,-7.5 -4.2,-7.5" fill="#a7f3d0" stroke="#090c0b" stroke-width="0.6"/>
         <line x1="-6.4" y1="3.5" x2="6.4" y2="3.5" stroke="#090c0b" stroke-width="0.8"/>
         <line x1="-5.5" y1="0" x2="5.5" y2="0" stroke="#090c0b" stroke-width="0.8"/>
         <line x1="-4.8" y1="-3.5" x2="4.8" y2="-3.5" stroke="#090c0b" stroke-width="0.8"/>
-        <path d="M-3.5,-7.5 C-3.5,-10 3.5,-10 3.5,-7.5 Z" fill="#e9ae5d"/>
-        <circle cx="0" cy="-10.2" r="1" fill="#ffd892"/>
+        <path d="M-3.5,-7.5 C-3.5,-10 3.5,-10 3.5,-7.5 Z" fill="#10b981"/>
+        <circle cx="0" cy="-10.2" r="1" fill="#a7f3d0"/>
         <rect x="-1.8" y="3.8" width="3.6" height="3.2" fill="#090c0b"/>
     `;
 }
@@ -2738,8 +2738,6 @@ const detailMaterialsText = document.getElementById("detailMaterialsText");
 const detailTraditionText = document.getElementById("detailTraditionText");
 const detailStoryText = document.getElementById("detailStoryText");
 const knowledgeNodes = document.getElementById("knowledgeNodes");
-const audioGuideBtn = document.getElementById("audioGuideBtn");
-const audioGuideBtnText = document.getElementById("audioGuideBtnText");
 const detailSourceLink = document.getElementById("detailSourceLink");
 
 // --------------------------------------------------
@@ -3160,17 +3158,27 @@ function renderStateOverviewCard(stateItem) {
     });
 }
 
+let monumentPhotoRequest = 0;
+
 function renderMonumentDetailCard(monument, stateItem) {
     if (!monument || !stateItem) return;
 
-    detailMonumentImage.src = (typeof ASSET_IMAGES !== "undefined" && ASSET_IMAGES[monument.image])
-        ? ASSET_IMAGES[monument.image]
-        : monument.image;
+    const photoRequest = ++monumentPhotoRequest;
+    detailMonumentImage.hidden = true;
+    detailMonumentImage.removeAttribute("src");
     detailMonumentImage.alt = `${monument.name} in ${monument.city}, ${stateItem.name}`;
-    // Replace old bundled placeholders with a page-specific Wikimedia image.
+    // Decode the photo before showing it and ignore results for older selections.
     fetch(`/api/map-image?title=${encodeURIComponent(monument.name)}`)
         .then((response) => response.ok ? response.json() : {})
-        .then((data) => { if (data.image) detailMonumentImage.src = data.image; })
+        .then(async (data) => {
+            if (!data.image || photoRequest !== monumentPhotoRequest) return;
+            const photo = new Image();
+            photo.src = data.image;
+            await photo.decode();
+            if (photoRequest !== monumentPhotoRequest) return;
+            detailMonumentImage.src = photo.src;
+            detailMonumentImage.hidden = false;
+        })
         .catch(() => {});
     detailRecognitionTag.textContent = monument.recognition;
     detailCoordsTag.textContent = `${monument.lat.toFixed(2)}° N, ${monument.lng.toFixed(2)}° E`;
@@ -3199,50 +3207,10 @@ function renderMonumentDetailCard(monument, stateItem) {
 
     detailSourceLink.href = monument.sourceUrl;
     detailSourceLink.textContent = `Source: ${monument.sourceLabel} ↗`;
-
-    if ("speechSynthesis" in window && window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-        audioGuideBtnText.textContent = "Listen to audio guide";
-    }
 }
 
 // --------------------------------------------------
-// 9. Spoken Audio Guide in the More Info Section
-// --------------------------------------------------
-if (audioGuideBtn) {
-    audioGuideBtn.addEventListener("click", () => {
-        const stateItem = stateById.get(selectedStateId);
-        const monument = stateItem?.monuments.find((m) => m.id === selectedMonumentId) || stateItem?.monuments[0];
-        if (!monument || !stateItem) return;
-
-        if (!("speechSynthesis" in window)) {
-            showToast("Audio narration is not supported in this browser.");
-            return;
-        }
-
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.cancel();
-            audioGuideBtnText.textContent = "Listen to audio guide";
-            return;
-        }
-
-        const narrationText = `${monument.name}, in ${monument.city}, ${stateItem.name}. ${monument.period}. ${monument.summary} Materials used: ${monument.materials}. Living tradition: ${monument.tradition}. ${monument.story}`;
-        const utterance = new SpeechSynthesisUtterance(narrationText);
-        utterance.rate = 0.96;
-        utterance.onend = () => {
-            audioGuideBtnText.textContent = "Listen to audio guide";
-        };
-        utterance.onerror = () => {
-            audioGuideBtnText.textContent = "Listen to audio guide";
-        };
-
-        audioGuideBtnText.textContent = "Stop audio guide";
-        window.speechSynthesis.speak(utterance);
-    });
-}
-
-// --------------------------------------------------
-// 10. Search Bar, Category Filters, and Map Controls
+// 9. Search Bar, Category Filters, and Map Controls
 // --------------------------------------------------
 if (mapSearchInput) {
     mapSearchInput.addEventListener("input", (event) => {

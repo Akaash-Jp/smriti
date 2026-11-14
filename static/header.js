@@ -5,6 +5,18 @@
 (function startSharedHeader() {
     const menuButton = document.getElementById("menuButton");
     const siteNav = document.getElementById("siteNav");
+    // Add the gallery to the shared navigation before wiring mobile links.
+    if (siteNav) {
+        const galleryLink = document.createElement("a");
+        galleryLink.className = "nav-link";
+        galleryLink.href = "/3d";
+        galleryLink.textContent = "3D View";
+        if (location.pathname === "/3d") {
+            galleryLink.classList.add("active");
+            galleryLink.setAttribute("aria-current", "page");
+        }
+        siteNav.insertBefore(galleryLink, siteNav.querySelector("[data-account-menu]"));
+    }
     const accountSlot = document.querySelector("[data-account-menu]");
 
     // Add the graph to the common navigation on every page.

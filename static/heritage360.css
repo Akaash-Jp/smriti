@@ -111,12 +111,13 @@ body.modal-open {
     color: var(--goldenrod);
 }
 
-.intro {
+/* Use light text against the dark emerald hero. */
+.gallery-hero .gallery-intro {
     max-width: 650px;
     margin: 20px auto;
     font-family: Garamond, serif;
     font-size: 21px;
-    color: var(--bisque);
+    color: #d1e7dd;
 }
 
 .ornament {

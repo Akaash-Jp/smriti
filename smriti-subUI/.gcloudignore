@@ -1,0 +1,28 @@
+# Never upload local secrets, login data, or the local database.
+.env
+.env.*
+!.env.example
+smriti.db
+smriti.db-journal
+
+# Development-only folders do not belong in the deployed website.
+.git/
+.github/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/
+tmp/
+output/
+docs/
+
+# Keep duplicate source images out; the website uses static/assets instead.
+Images/
+
+# Local notes and instructions are not needed by the running service.
+AGENTS.md
+memory.md
+design.md
+README.md

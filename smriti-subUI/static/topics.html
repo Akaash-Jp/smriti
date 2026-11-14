@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Explore stays lightweight while live knowledge comes from Wikimedia. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Explore Indian cultures, recipes, crafts, architecture, and ancient knowledge through Wikipedia and community contributions.">
+    <title>Explore living heritage — Heritage-101</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/portal.css">
+</head>
+<body class="portal-body" data-page="topics">
+    <!-- Shared navigation connects Explore to the interactive heritage map. -->
+    <header class="site-header scrolled">
+        <a class="brand" href="/" aria-label="Heritage-101 home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">HERITAGE-101</span>
+            <span class="brand-divider" aria-hidden="true"></span>
+            <span class="brand-tagline">The Living Heritage Network</span>
+        </a>
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">
+            <span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span>
+            <span class="sr-only">Open navigation</span>
+        </button>
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" href="/explore" aria-current="page">Explore</a>
+            <a class="nav-link" href="/map">Map</a>
+            <a class="nav-link" href="/#contribute">Contribute</a>
+            <div class="account-menu-slot" data-account-menu>
+                <a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="portal-main explore-main">
+        <!-- The hero makes both guided browsing and open Wikipedia search available. -->
+        <header class="portal-hero explore-hero">
+            <p class="portal-kicker">Knowledge from living communities and open sources</p>
+            <h1>Explore India’s living heritage.</h1>
+            <p>Discover ancient cultures, regional food, craft traditions, architecture, performance, and knowledge systems. Article details and images are retrieved from Wikipedia.</p>
+            <form class="wiki-search" id="wikiSearchForm" role="search">
+                <label class="sr-only" for="wikiSearchInput">Search Wikipedia heritage articles</label>
+                <input id="wikiSearchInput" type="search" minlength="2" maxlength="120" placeholder="Search recipes, festivals, crafts, monuments…" required>
+                <button class="primary-action" type="submit">Search Wikipedia</button>
+            </form>
+            <p class="source-note"><span aria-hidden="true">◎</span> Live information from the Wikipedia and Wikimedia REST APIs. No API key required.</p>
+        </header>
+
+        <!-- Collection buttons load a carefully selected set of reliable starting points. -->
+        <nav class="wiki-collections" id="wikiCollections" aria-label="Heritage collections">
+            <span class="empty-state">Loading heritage collections…</span>
+        </nav>
+
+        <section class="wiki-results-section" aria-labelledby="wikiResultsTitle">
+            <div class="results-heading">
+                <div>
+                    <p class="portal-kicker" id="wikiResultsKicker">Wikipedia collection</p>
+                    <h2 id="wikiResultsTitle">Opening heritage stories…</h2>
+                    <p id="wikiResultsDescription"></p>
+                </div>
+                <button class="secondary-action" id="retryWiki" type="button" hidden>Try again</button>
+            </div>
+            <div class="wiki-grid" id="wikiResults" aria-live="polite">
+                <div class="empty-state">Contacting Wikipedia…</div>
+            </div>
+        </section>
+
+        <!-- Community work remains visible alongside externally sourced knowledge. -->
+        <section class="community-archive" aria-labelledby="communityTitle">
+            <p class="portal-kicker">Heritage-101 community archive</p>
+            <h2 id="communityTitle">Guides shared by contributors</h2>
+            <p>These practical guides were reviewed and approved inside Heritage-101.</p>
+            <div class="card-grid" id="communityGuides" aria-live="polite">
+                <div class="empty-state">Loading community guides…</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/header.js"></script>
+    <script src="/static/portal.js"></script>
+</body>
+</html>

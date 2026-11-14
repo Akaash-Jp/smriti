@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page settings keep the layout readable on phones and computers. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Heritage-101 is a living heritage network for discovering, documenting, and learning about India's traditions.">
+    <title>Heritage-101 — The Living Heritage Network</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/resonance.css">
+</head>
+
+<body class="home-page">
+    <!-- This link appears only when a keyboard user presses Tab. -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- The header stays visible so visitors can move between page sections. -->
+    <header class="site-header">
+        <a class="brand" href="#home" aria-label="Heritage-101 home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">HERITAGE-101</span>
+            <span class="brand-divider" aria-hidden="true"></span>
+            <span class="brand-tagline">The Living Heritage Network</span>
+        </a>
+
+        <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="sr-only">Open navigation</span>
+        </button>
+
+        <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+            <a class="nav-link active" href="#home">Home</a>
+            <a class="nav-link" href="/explore">Explore</a>
+            <a class="nav-link" href="/map">Map</a>
+            <a class="nav-link" href="#contribute">Contribute</a>
+            <div class="account-menu-slot" data-account-menu>
+                <a class="nav-link nav-cta" href="/account">Sign in <span aria-hidden="true">→</span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <!-- Hero: the first screen introduces the purpose and leads into Explore. -->
+        <section class="hero" id="home" aria-labelledby="heroTitle">
+            <div class="hero-shade"></div>
+            <!-- Layered light arcs move gently behind the page content. -->
+            <div class="resonance-art" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div id="resonance-webgl" aria-hidden="true"></div>
+            <div class="hero-content page-width">
+                <div class="hero-copy reveal">
+                    <p class="eyebrow">Stories carried across generations</p>
+                    <h1 id="heroTitle">Preserve. Learn. <em>Continue.</em></h1>
+                    <p class="hero-intro">
+                        Discover India's living traditions, listen to the people who practise them,
+                        and help keep their knowledge moving forward.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#explore">
+                            <span aria-hidden="true">⌁</span> Explore traditions
+                        </a>
+                        <a class="button button-secondary" href="#contribute">
+                            <span aria-hidden="true">↑</span> Contribute a record
+                        </a>
+                    </div>
+
+                    <!-- These are three honest steps, not invented platform statistics. -->
+                    <div class="journey-steps" aria-label="How Heritage-101 works">
+                        <div class="journey-step">
+                            <strong>01</strong>
+                            <span>Discover</span>
+                        </div>
+                        <div class="journey-step">
+                            <strong>02</strong>
+                            <span>Document</span>
+                        </div>
+                        <div class="journey-step">
+                            <strong>03</strong>
+                            <span>Share</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A visual story card echoes the silk-weaving video in the reference. -->
+                <article class="story-preview reveal delay-one" aria-label="Featured story: Kanchipuram silk weaving">
+                    <img src="/static/assets/silk-weaving-professional.jpg" alt="Red and white silk threads stretched across a Kanchipuram handloom">
+                    <div class="story-overlay"></div>
+                    <button class="play-button" id="playPreview" type="button" aria-label="Preview the Kanchipuram silk-weaving story">
+                        <span aria-hidden="true">▶</span>
+                    </button>
+                    <div class="story-caption">
+                        <div>
+                            <p>Featured living tradition</p>
+                            <h2>Kanchipuram Silk Weaving</h2>
+                            <span>Tamil Nadu</span>
+                        </div>
+                        <span class="story-length">04:26</span>
+                    </div>
+                </article>
+            </div>
+
+            <a class="scroll-cue" href="#purpose" aria-label="Scroll to learn more">
+                <span>Scroll to explore</span>
+                <span aria-hidden="true">↓</span>
+            </a>
+        </section>
+
+        <!-- This short bridge explains the four parts of the idea. -->
+        <section class="purpose-strip" id="purpose" aria-label="What you can do with Heritage-101">
+            <div class="purpose-grid page-width">
+                <article class="purpose-card reveal">
+                    <span class="purpose-icon" aria-hidden="true">◉</span>
+                    <h2>Capture</h2>
+                    <p>Record artisans, storytellers, and practitioners in their own voices.</p>
+                </article>
+                <article class="purpose-card reveal delay-one">
+                    <span class="purpose-icon" aria-hidden="true">✦</span>
+                    <h2>Understand</h2>
+                    <p>Turn recordings into clear notes that are easier to study and share.</p>
+                </article>
+                <article class="purpose-card reveal delay-two">
+                    <span class="purpose-icon" aria-hidden="true">⌘</span>
+                    <h2>Explore</h2>
+                    <p>Find links between traditions, places, materials, and communities.</p>
+                </article>
+                <article class="purpose-card reveal delay-three">
+                    <span class="purpose-icon" aria-hidden="true">◇</span>
+                    <h2>Learn</h2>
+                    <p>Follow approachable stories and keep meaningful knowledge in use.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Explore follows directly after the landing area, as one scrollable page. -->
+        <section class="explore-section" id="explore" aria-labelledby="exploreTitle">
+            <div class="section-heading page-width reveal">
+                <p class="eyebrow">A country of many memories</p>
+                <h2 id="exploreTitle">Explore our heritage</h2>
+                <p>Dive into the practices, places, and ideas that have shaped life across India.</p>
+            </div>
+
+            <div class="heritage-grid page-width">
+                <article class="heritage-card reveal">
+                    <img src="/static/assets/traditional-medicine-professional.jpg" alt="Dried roots, herbs, and spices displayed in metal bowls at a traditional market">
+                    <div class="card-body">
+                        <span class="card-number">01</span>
+                        <div>
+                            <h3>Traditional Medicine</h3>
+                            <p>Ayurveda, Siddha, Unani, and community knowledge.</p>
+                        </div>
+                        <a class="round-link" href="/explore/knowledge-texts" aria-label="Explore Traditional Medicine">→</a>
+                    </div>
+                </article>
+
+                <article class="heritage-card reveal delay-one">
+                    <img src="/static/assets/monuments-professional.jpg" alt="Ornate sandstone arches and carved windows at Mehrangarh Fort in Jodhpur">
+                    <div class="card-body">
+                        <span class="card-number">02</span>
+                        <div>
+                            <h3>Monuments</h3>
+                            <p>Temples, forts, palaces, and architectural wonders.</p>
+                        </div>
+                        <a class="round-link" href="/explore/architecture" aria-label="Explore Monuments">→</a>
+                    </div>
+                </article>
+
+                <article class="heritage-card reveal delay-two">
+                    <img src="/static/assets/ancient-texts-professional.jpg" alt="A bound Odia palm-leaf manuscript resting beside its traditional writing stylus">
+                    <div class="card-body">
+                        <span class="card-number">03</span>
+                        <div>
+                            <h3>Ancient Texts</h3>
+                            <p>Manuscripts, inscriptions, philosophies, and oral knowledge.</p>
+                        </div>
+                        <a class="round-link" href="/explore/knowledge-texts" aria-label="Explore Ancient Texts">→</a>
+                    </div>
+                </article>
+
+                <article class="heritage-card reveal">
+                    <img src="/static/assets/culture-professional.jpg" alt="A Bharatanatyam dancer performing in a purple and orange costume">
+                    <div class="card-body">
+                        <span class="card-number">04</span>
+                        <div>
+                            <h3>Culture</h3>
+                            <p>Festivals, music, dance, theatre, craft, and ritual.</p>
+                        </div>
+                        <a class="round-link" href="/explore/living-cultures" aria-label="Explore Culture">→</a>
+                    </div>
+                </article>
+
+                <article class="heritage-card reveal delay-one">
+                    <img src="/static/assets/lifestyle-professional.jpg" alt="A traditional clay cooking pot heating over a wood fire in an Indian home">
+                    <div class="card-body">
+                        <span class="card-number">05</span>
+                        <div>
+                            <h3>Lifestyle</h3>
+                            <p>Food, clothing, village life, occupations, and everyday practice.</p>
+                        </div>
+                        <a class="round-link" href="/explore/traditional-food" aria-label="Explore Lifestyle">→</a>
+                    </div>
+                </article>
+
+                <article class="heritage-card reveal delay-two">
+                    <img src="/static/assets/civilisations-professional.jpg" alt="A richly carved historic temple structure at Hampi in Karnataka">
+                    <div class="card-body">
+                        <span class="card-number">06</span>
+                        <div>
+                            <h3>Civilisations</h3>
+                            <p>People, ideas, dynasties, trade routes, and shared histories.</p>
+                        </div>
+                        <a class="round-link" href="/explore/ancient-india" aria-label="Explore Civilisations">→</a>
+                    </div>
+                </article>
+            </div>
+
+            <p class="explore-message page-width" id="exploreMessage" aria-live="polite"></p>
+        </section>
+
+        <!-- The original transcription feature remains available in a clearer contribution area. -->
+        <section class="contribute-section" id="contribute" aria-labelledby="contributeTitle">
+            <div class="contribute-layout page-width">
+                <div class="contribute-copy reveal">
+                    <p class="eyebrow">Add a voice to the archive</p>
+                    <h2 id="contributeTitle">Every memory begins with someone speaking.</h2>
+                    <p>
+                        Speak directly to Heritage-101 or upload an existing interview with an artisan,
+                        elder, storyteller, or practitioner. Heritage-101 will turn the recording into an English transcript.
+                    </p>
+                    <p class="privacy-note"><span aria-hidden="true">●</span> Microphone access begins only after you press record. Groq Whisper Large V3 transcribes MP3, WAV, WEBM, OGG, M4A, MP4, MPEG, MPGA, or FLAC files up to 20 MB.</p>
+                </div>
+
+                <div class="upload-panel reveal delay-one">
+                    <!-- The recorder lets visitors speak without preparing a file first. -->
+                    <section class="voice-recorder" aria-labelledby="recorderTitle">
+                        <div class="recorder-heading">
+                            <div>
+                                <p class="recorder-label">Record on this device</p>
+                                <h3 id="recorderTitle">Tell the story now</h3>
+                            </div>
+                            <span class="recording-time" id="recordingTime">00:00</span>
+                        </div>
+
+                        <div class="voice-visual" id="voiceVisual" aria-hidden="true">
+                            <span></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+
+                        <div class="recorder-actions">
+                            <button class="record-button" id="recordButton" type="button">
+                                <span class="record-dot" aria-hidden="true"></span>
+                                Start recording
+                            </button>
+                            <button class="stop-button" id="stopButton" type="button" disabled>
+                                <span class="stop-square" aria-hidden="true"></span>
+                                Stop
+                            </button>
+                        </div>
+
+                        <p class="recorder-note" id="recorderNote" aria-live="polite">Checking microphone support…</p>
+                        <a class="secure-recorder-link" id="secureRecorderLink" href="#contribute" hidden>Open the microphone-safe local address</a>
+                        <div class="recording-preview" id="recordingPreview" hidden>
+                            <button class="preview-play" id="previewPlay" type="button" aria-label="Play recording">▶</button>
+                            <div class="preview-track">
+                                <div class="preview-track-fill" id="previewTrackFill"></div>
+                            </div>
+                            <span class="preview-duration" id="previewDuration">00:00</span>
+                            <audio id="recordingAudio" preload="metadata"></audio>
+                        </div>
+                    </section>
+
+                    <div class="choice-divider"><span>or upload a recording</span></div>
+
+                    <label class="file-drop" for="audio">
+                        <span class="upload-icon" aria-hidden="true">↑</span>
+                        <strong id="fileLabel">Choose an audio recording</strong>
+                        <span>or drag a file here</span>
+                    </label>
+                    <input class="file-input" type="file" id="audio" accept=".flac,.mp3,.mp4,.mpeg,.mpga,.m4a,.ogg,.wav,.webm">
+                    <button class="button button-primary upload-button" id="uploadBtn" type="button">Create English transcript</button>
+                    <p class="status-text" id="status" aria-live="polite"></p>
+
+                    <section class="transcript-result" id="resultPanel" aria-labelledby="transcriptTitle">
+                        <h3 id="transcriptTitle">Transcript</h3>
+                        <textarea id="transcript" rows="7" placeholder="Your transcript will appear here."></textarea>
+                        <!-- The review panel discloses what the second AI changed or added. -->
+                        <section class="transcript-review" id="transcriptReview" hidden>
+                            <div class="review-heading"><span aria-hidden="true">✦</span><div><strong>Practical transcript review</strong><p id="reviewSummary"></p></div></div>
+                            <div id="reviewAdditions"></div>
+                            <div id="reviewQuestions"></div>
+                        </section>
+                        <button class="button button-secondary guide-button" id="generateGuideBtn" type="button">Review transcript &amp; generate tutorial</button>
+                        <p class="ai-note">AI-generated content may contain errors. Review and correct the guide before submitting.</p>
+                        <div class="guide-editor" id="guideEditor" hidden>
+                            <!-- This polished preview matches the final guide while the fields below stay editable. -->
+                            <section class="tutorial-preview" id="tutorialPreview" aria-label="Step-by-step tutorial preview"></section>
+                            <h4 class="editor-heading">Review and edit the tutorial</h4>
+                            <p class="account-note" id="accountNote">Sign in before saving so this guide belongs to you.</p>
+                            <label>Guide title<input id="guideTitle" type="text"></label>
+                            <label>Introduction<textarea id="guideIntroduction" rows="3"></textarea></label>
+                            <div class="guide-fields"><label>Topic<select id="guideTopic"></select></label><label>Region<input id="guideRegion" type="text"></label></div>
+                            <div class="guide-fields"><label>Materials (one per line)<textarea id="guideMaterials" rows="4" placeholder="Silk thread — 2 bundles"></textarea></label><label>Tools (one per line)<textarea id="guideTools" rows="4" placeholder="Handloom"></textarea></label></div>
+                            <label>Cultural significance<textarea id="guideSignificance" rows="3"></textarea></label>
+                            <h4>Steps</h4><div id="guideSteps"></div>
+                            <button class="button button-secondary" id="addStepBtn" type="button">Add step</button>
+                            <div class="guide-fields"><label>Attribution name<input id="guideAttribution" type="text"></label><label><input id="guideConsent" type="checkbox"> I have permission to publish this contribution</label></div>
+                            <button class="button button-primary" id="saveGuideBtn" type="button">Save draft</button>
+                            <button class="button button-primary" id="submitGuideBtn" type="button">Submit for review</button>
+                            <p class="status-text" id="guideStatus" aria-live="polite"></p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- The footer provides a final navigation point and required image credit. -->
+    <footer class="site-footer">
+        <div class="footer-layout page-width">
+            <div>
+                <a class="brand footer-brand" href="#home">
+                    <span class="brand-mark" aria-hidden="true">✦</span>
+                    <span class="brand-name">HERITAGE-101</span>
+                </a>
+                <p>Heritage lives when knowledge keeps moving.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="/explore">Explore</a>
+                <a href="/map">Map</a>
+                <a href="#contribute">Contribute</a>
+            </div>
+        </div>
+        <div class="footer-bottom page-width">
+            <span>© <span id="currentYear"></span> Heritage-101</span>
+            <span>
+                Photography from Unsplash and Wikimedia Commons.
+                Unsplash: Rhythm Kwatra, Aditya Sethia, Ishan Sharma, Arun Prakash, Prince Prajapati, and Vivekarasan M.
+                <a href="https://commons.wikimedia.org/wiki/File:Silk_Sari_Weaving_at_Kanchipuram,_Tamil_Nadu.jpg" target="_blank" rel="noreferrer">Silk weaving by McKay Savage</a>
+                (<a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noreferrer">CC BY 2.0</a>).
+                <a href="https://commons.wikimedia.org/wiki/File:Palm_Leaf_Manuscript_in_Odia_and_Lekhani.jpg" target="_blank" rel="noreferrer">Palm-leaf manuscript by Prateek Pattanaik</a>
+                (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>).
+            </span>
+        </div>
+    </footer>
+
+    <!-- This small message box is reused for friendly feedback. -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="/static/header.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="/static/resonance.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>

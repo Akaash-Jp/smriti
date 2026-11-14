@@ -1,0 +1,34 @@
+/* The reference uses a dark stage, restrained typography and luminous arcs. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+.home-page { font-family: Inter, sans-serif; background: #050507; }
+.home-page .site-header { background: #050507; border-color: #27272a; }
+.home-page .brand-name, .home-page .nav-link { color: #f7f7f8; }
+.home-page .brand-mark, .home-page .eyebrow { color: #10b981; }
+.home-page .nav-cta { background: #10b981; color: #050507; }
+.home-page .hero { min-height: 760px; background: #050507; overflow: hidden; position: relative; }
+.home-page .hero-shade { background: radial-gradient(ellipse at 67% 58%, #063b36 0%, transparent 42%), linear-gradient(90deg,#050507 5%,transparent 80%); }
+.home-page .hero-content { position: relative; z-index: 2; min-height: 700px; display: flex; align-items: center; }
+.home-page .hero-copy { max-width: 590px; }
+.home-page .hero h1 { font: 500 clamp(48px,5vw,72px)/1.04 Inter,sans-serif; letter-spacing: -0.05em; color: white; }
+.home-page .hero h1 em { font-style: normal; color: #d6fff4; }
+.home-page .hero-intro { color: #a1a1aa; max-width: 480px; font: 400 16px/1.7 Inter,sans-serif; }
+.home-page .eyebrow { display: inline-block; font: 600 11px/1.2 'JetBrains Mono',monospace; background: #0a2924; border: 1px solid #135649; border-radius: 999px; padding: 9px 13px; letter-spacing: .08em; }
+.home-page .hero .button-primary { background: #f4f4f5; color: #101012; border-color: #f4f4f5; }
+.home-page .hero .button-secondary { background: #18181b; color: white; border-color: #303036; }
+.home-page .story-preview { display: none; }
+.home-page .journey-steps { border-color: #27272a; }
+.home-page .journey-step strong { color: #fff; font-family: Inter,sans-serif; }
+.home-page .journey-step span { color: #a1a1aa; }
+/* A moving train of luminous rings passes behind the text and panel. */
+/* The WebGL canvas fills the hero without blocking links or controls. */
+#resonance-webgl { position: absolute; z-index: 1; inset: 0; pointer-events: none; overflow: hidden; }
+#resonance-webgl canvas { display: block; }
+.resonance-art[hidden] { display: none; }
+.resonance-art { position:absolute; z-index:1; inset:0; overflow:hidden; pointer-events:none; mask-image:linear-gradient(90deg,transparent,#000 15%,#000 90%,transparent); }
+.resonance-art i { position:absolute; width:390px; height:390px; left:48%; top:50%; margin:-195px 0 0 -195px; border-radius:50%; border:2px solid transparent; border-left-color:rgba(35,255,214,.9); border-right-color:rgba(24,219,218,.8); box-shadow:inset 14px 0 26px -20px #00ffd0, 13px 0 35px -22px #00e5c1, -13px 0 35px -22px #00e5c1; filter:drop-shadow(0 0 9px #04a995); transform:translateX(-320px) rotate(15deg); opacity:0; animation:ring-travel 6.4s linear infinite; }
+.resonance-art i:nth-child(2) { animation-delay:-1.6s; }
+.resonance-art i:nth-child(3) { animation-delay:-3.2s; }
+.resonance-art i:nth-child(4) { animation-delay:-4.8s; }
+@keyframes ring-travel { 0% { transform:translateX(-470px) rotate(15deg); opacity:0; } 16% { opacity:.75; } 75% { opacity:.8; } 100% { transform:translateX(540px) rotate(15deg); opacity:0; } }
+@media(max-width:850px) { .home-page .hero-content { align-items:flex-start; padding-top:120px; min-height:850px; }.resonance-art { top:250px; }.resonance-art i { width:300px; height:300px; margin:-150px 0 0 -150px; }.home-page .hero-copy { max-width:100%; } }
+@media(prefers-reduced-motion:reduce) { .resonance-art i { animation:none; } }
